@@ -9,8 +9,10 @@ namespace _2SemesterEksamensProjekt.Repository
 {
     public class ProjectRepository : BaseRepository
     {
+        /*
         public List<Project> GetAllProjects()
         {
+            /*
             return ExecuteSafe(conn =>
             {
                 var projects = new List<Project>();
@@ -30,6 +32,8 @@ namespace _2SemesterEksamensProjekt.Repository
                 }
                 return projects;
             }) ?? new List<Project>();
+            
         }
+        */
     }
 }

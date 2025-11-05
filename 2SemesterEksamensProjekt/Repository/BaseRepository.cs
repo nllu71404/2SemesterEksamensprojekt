@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Data.SqlClient;
 
 namespace _2SemesterEksamensProjekt.Repository
 {
     public abstract class BaseRepository
     {
-        // protected readonly string _connectionString = string til vores database
+        protected readonly string _connectionString;
 
         //Opretter en ny sqlConnection
         protected SqlConnection GetConnection() => new SqlConnection(_connectionString);

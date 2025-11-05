@@ -24,5 +24,10 @@ namespace _2SemesterEksamensProjekt.Views.Pages
         {
             InitializeComponent();
         }
+
+        private void AdministrateCompanyButton_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService?.Navigate(new CompanyPage());
+        }
     }
 }

@@ -32,7 +32,7 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
 
-                        <Button Grid.Row="0" Grid.Column="0" Style="{StaticResource DashboardButton}" Margin="10,10,10,10" Content="Administrér virksomheder" />
+                        <Button Grid.Row="0" Grid.Column="0" Style="{StaticResource DashboardButton}" Margin="10,10,10,10" Content="Administrér virksomheder" Click="AdministrateCompanyButton_Click" />
                         <Button Grid.Row="0" Grid.Column="1" Style="{StaticResource DashboardButton}" Margin="10" Content="Start timer" />
                         <Button Grid.Row="1" Grid.Column="0" Style="{StaticResource DashboardButton}" Margin="10" Content="Administrér projekter" />
                         <Button Grid.Row="1" Grid.Column="1" Style="{StaticResource DashboardButton}" Margin="10" Content="Vis timeroversigt" />

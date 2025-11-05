@@ -22,36 +22,23 @@ namespace _2SemesterEksamensProjekt.Views.Pages
     /// </summary>
     public partial class CompanyPage : Page
     {
-        private CompanyPageViewModel companyViewModel;
-        public CompanyRepository _companyRepository;
+        public CompanyPageViewModel companyViewModel;
+        //public CompanyRepository _companyRepository;
 
         public CompanyPage()
         {
             InitializeComponent();
 
-            companyViewModel = new CompanyPageViewModel(_companyRepository);
+            var companyRepository = new CompanyRepository(); //Så repository ikke sender null
+            companyViewModel = new CompanyPageViewModel(companyRepository);
             DataContext = companyViewModel;
         }
 
-        // Knapper
-        /*
-        MainMenuButtom_Click
-        AddCompany_Click
-        DeleteCompany_Click
-        EditCompany_Click
-
-        ItemSource
-        - {Binding Companies}
-
-        BeskedBox
-        - {Binding SelectedMessageCompany}
-        - {Binding MessageCompany}
-         */
-
-        private void MainMenuButtom_Click(object sender, RoutedEventArgs e)
+        private void MainMenuButton_Click(object sender, RoutedEventArgs e)
         {
             //Naviger til hovedmenuen
-            companyViewModel.OpenMainMenuPage();
+            //NavigationService er indbygget i systemet til at skifte mellem pages
+            NavigationService?.Navigate(new MainMenuPage());
         }
 
         private void SaveNewCompany_Click(object sender, RoutedEventArgs e)
@@ -61,8 +48,7 @@ namespace _2SemesterEksamensProjekt.Views.Pages
             //Beskedtekst til bekræftigelse besked
             //- { Binding SelectedMessageProject}
             //- { Binding MessageProject}
-
-            companyViewModel.AddCompany();
+            companyViewModel.SaveNewCompany();
         }
 
         private void DeleteCompany_Click(Object sender, RoutedEventArgs e)
@@ -90,7 +76,7 @@ namespace _2SemesterEksamensProjekt.Views.Pages
 
             if (companyViewModel.SelectedCompany != null)
             {
-                companyViewModel.LoadFromSelected();
+                companyViewModel.EditSelectedCompany();
             }
         }
     }

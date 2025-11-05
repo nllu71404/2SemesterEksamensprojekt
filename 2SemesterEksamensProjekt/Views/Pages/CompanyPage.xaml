@@ -7,42 +7,25 @@
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="CompanyPage">
-
     <Grid Margin="20">
         <Grid.RowDefinitions>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!-- Top Bar -->
-        <Grid Grid.Row="0" Margin="0,0,0,10">
-            <Border Background="White" 
-                    CornerRadius="8"
-                    Padding="15,10"
-                    HorizontalAlignment="Left"
-                    Width="180"
-                    Height="40">
-                <TextBlock Text="Administrer virksomhed"
-                           FontSize="13"
-                           Foreground="#6B7FDE"
-                           VerticalAlignment="Center"/>
-            </Border>
+        <!-- Top: Header + Menu knap -->
+        <Grid Grid.Row="0" Margin="0,0,0,20">
+            <TextBlock Text="Administrer virksomhed"
+                       Style="{StaticResource DashboardTitleText}"
+                       FontSize="16"
+                       HorizontalAlignment="Left"/>
 
-            <Button Background="#4A4A5E"
-                    Padding="20,8"
-                    HorizontalAlignment="Right"
-                    Width="80"
+            <Button Content="Menu"
+                    Style="{StaticResource DashboardButton}"
+                    Width="100"
                     Height="40"
-                    BorderThickness="0"
-                    Cursor="Hand"
-                    Click="MainMenuPageButton_Click">
-                <TextBlock Text="Menu"
-                           FontSize="12"
-                           Foreground="White"
-                           FontWeight="SemiBold"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"/>
-            </Button>
+                    HorizontalAlignment="Right"
+                    Click="MainMenuButton_Click"/>
         </Grid>
 
         <!-- Main Content -->
@@ -56,154 +39,80 @@
             <StackPanel Grid.Column="0" Margin="0,0,15,0">
 
                 <!-- Virksomhedsnavn Box -->
-                <Border Background="White"
-                        CornerRadius="8"
+                <Border Style="{StaticResource CardStyle}"
                         Padding="15"
                         Height="100"
                         Margin="0,0,0,15">
-                    <StackPanel VerticalAlignment="Center">
+                    <StackPanel>
                         <TextBlock Text="Virksomhedsnavn"
                                    FontSize="13"
-                                   Foreground="#6B7FDE"
+                                   Foreground="{StaticResource AccentBrush}"
                                    Margin="0,0,0,10"/>
-                        <TextBox x:Name="VirksomhedsnavnTextBox"
+                        <TextBox Text="{Binding CompanyName}"
                                  Height="32"
-                                 FontSize="12"
                                  Padding="8"
-                                 VerticalContentAlignment="Center"
                                  Background="#F5F5F5"
-                                 BorderThickness="0">
-                            <TextBox.Resources>
-                                <Style TargetType="Border">
-                                    <Setter Property="CornerRadius" Value="4"/>
-                                </Style>
-                            </TextBox.Resources>
-                            <TextBox.Text>Indtast navn</TextBox.Text>
-                            <TextBox.Foreground>
-                                <SolidColorBrush Color="Gray"/>
-                            </TextBox.Foreground>
-                        </TextBox>
+                                 BorderThickness="0"/>
                     </StackPanel>
                 </Border>
 
-                <!-- Buttons Box -->
-                <Border Background="White"
-                        CornerRadius="8"
+                <!-- Buttons -->
+                <Border Style="{StaticResource CardStyle}"
                         Padding="15"
-                        Height="235">
-                    <StackPanel VerticalAlignment="Center">
+                        Height="180">
+                    <StackPanel>
                         <Button Content="Opret virksomhed"
-                                Height="42"
-                                Background="#6B7FDE"
-                                Foreground="White"
-                                FontSize="12"
-                                FontWeight="SemiBold"
-                                BorderThickness="0"
-                                Cursor="Hand"
+                                Style="{StaticResource DashboardButton}"
                                 Margin="0,0,0,10"
-                                Click="SaveNewCompany_Click">
-                            <Button.Resources>
-                                <Style TargetType="Border">
-                                    <Setter Property="CornerRadius" Value="6"/>
-                                </Style>
-                            </Button.Resources>
-                        </Button>
+                                Click="SaveNewCompany_Click"/>
 
                         <Button Content="Slet virksomhed"
-                                Height="42"
-                                Background="#6B7FDE"
-                                Foreground="White"
-                                FontSize="12"
-                                FontWeight="SemiBold"
-                                BorderThickness="0"
-                                Cursor="Hand"
+                                Style="{StaticResource DashboardButton}"
                                 Margin="0,0,0,10"
-                                Click="DeleteCompany_Click">
-                            <Button.Resources>
-                                <Style TargetType="Border">
-                                    <Setter Property="CornerRadius" Value="6"/>
-                                </Style>
-                            </Button.Resources>
-                        </Button>
+                                Click="DeleteCompany_Click"/>
 
                         <Button Content="Rediger virksomhed"
-                                Height="42"
-                                Background="#6B7FDE"
-                                Foreground="White"
-                                FontSize="12"
-                                FontWeight="SemiBold"
-                                BorderThickness="0"
-                                Cursor="Hand"
-                                Click="EditCompany_Click">
-                            <Button.Resources>
-                                <Style TargetType="Border">
-                                    <Setter Property="CornerRadius" Value="6"/>
-                                </Style>
-                            </Button.Resources>
-                        </Button>
+                                Style="{StaticResource DashboardButton}"
+                                Click="EditCompany_Click"/>
                     </StackPanel>
                 </Border>
-
             </StackPanel>
 
-            <!-- Right Panel - Virksomhedsliste -->
-            <Border Grid.Column="1"
-                    Background="White"
-                    CornerRadius="8"
+            <!-- Right Panel - Liste -->
+            <Border Style="{StaticResource CardStyle}"
+                    Grid.Column="1"
                     Padding="20">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
-                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
                     <!-- Header -->
-                    <Border Grid.Row="0"
-                            BorderBrush="#6B7FDE"
-                            BorderThickness="0,0,0,2"
-                            Padding="0,0,0,10"
-                            Margin="0,0,0,15">
-                        <TextBlock Text="Virksomhedsliste"
-                                   FontSize="20"
-                                   FontWeight="Bold"
-                                   Foreground="#2D2D3A"/>
-                    </Border>
+                    <TextBlock Grid.Row="0"
+                               Text="Virksomhedsliste"
+                               Style="{StaticResource DashboardTitleText}"
+                               FontSize="20"
+                               HorizontalAlignment="Left"
+                               Margin="0,0,0,20"/>
 
-                    <!-- List Items -->
-                    <ItemsControl Grid.Row="1" ItemsSource="{Binding Companies}">
+                    <!-- Liste -->
+                    <ItemsControl Grid.Row="1"
+                                  ItemsSource="{Binding Companies}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Border BorderBrush="#6B7FDE"
+                                <Border BorderBrush="{StaticResource AccentBrush}"
                                         BorderThickness="3,0,0,0"
                                         Padding="15,10"
-                                        Margin="0,0,0,3">
-                                    <TextBlock Text="{Binding}"
-                                               FontSize="13"
-                                               Foreground="#2D2D3A"/>
+                                        Margin="0,0,0,5">
+                                    <TextBlock Text="{Binding CompanyName}"
+                                               FontSize="13"/>
                                 </Border>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
-
-                    <!-- Bottom Message -->
-                    <Border Grid.Row="2"
-                            Background="#F4D03F"
-                            CornerRadius="6"
-                            Padding="15"
-                            Margin="0,15,0,0"
-                            Height="45"
-                            Visibility="{Binding SelectedMessageCompany}">
-                        <TextBlock Text="{Binding MessageCompany}"
-                                   FontSize="13"
-                                   Foreground="#2D2D3A"
-                                   HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   FontWeight="SemiBold"/>
-                    </Border>
                 </Grid>
             </Border>
-
         </Grid>
     </Grid>
 </Page>

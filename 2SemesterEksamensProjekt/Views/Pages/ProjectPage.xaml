@@ -34,7 +34,7 @@
                     Height="40"
                     BorderThickness="0"
                     Cursor="Hand"
-                    Click="MenuButton_Click">
+                    Click="MainMenuButtom_Click">
                 <TextBlock Text="Menu"
                            FontSize="12"
                            Foreground="White"
