@@ -1,0 +1,46 @@
+﻿<Page x:Class="_2SemesterEksamensProjekt.Views.Pages.MainMenuPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:_2SemesterEksamensProjekt.Views.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="MainMenuPage">
+
+    <Grid>
+        <Grid HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="900" Margin="20">
+            <Border Style="{StaticResource CardStyle}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="24"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="Hovedmenu" Style="{StaticResource DashboardTitleText}"/>
+                    <Rectangle Grid.Row="1" Height="3" Fill="{StaticResource AccentBrush}" Margin="0,6,0,0"/>
+
+                    <Grid Grid.Row="2" Margin="0,16,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Button Grid.Row="0" Grid.Column="0" Style="{StaticResource DashboardButton}" Margin="10,10,10,10" Content="Administrér virksomheder" />
+                        <Button Grid.Row="0" Grid.Column="1" Style="{StaticResource DashboardButton}" Margin="10" Content="Start timer" />
+                        <Button Grid.Row="1" Grid.Column="0" Style="{StaticResource DashboardButton}" Margin="10" Content="Administrér projekter" />
+                        <Button Grid.Row="1" Grid.Column="1" Style="{StaticResource DashboardButton}" Margin="10" Content="Vis timeroversigt" />
+                        <Button Grid.Row="2" Grid.Column="0" Style="{StaticResource DashboardButton}" Margin="10" Content="Administrér emner" />
+                        <Button Grid.Row="2" Grid.Column="1" Style="{StaticResource DashboardButton}" Margin="10" Content="Vis månedlig oversigt" />
+                    </Grid>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</Page>
