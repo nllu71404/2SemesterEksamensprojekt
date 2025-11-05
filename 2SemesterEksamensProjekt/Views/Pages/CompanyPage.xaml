@@ -1,0 +1,209 @@
+﻿<Page x:Class="_2SemesterEksamensProjekt.Views.Pages.CompanyPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:_2SemesterEksamensProjekt.Views.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="CompanyPage">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Top Bar -->
+        <Grid Grid.Row="0" Margin="0,0,0,10">
+            <Border Background="White" 
+                    CornerRadius="8"
+                    Padding="15,10"
+                    HorizontalAlignment="Left"
+                    Width="180"
+                    Height="40">
+                <TextBlock Text="Administrer virksomhed"
+                           FontSize="13"
+                           Foreground="#6B7FDE"
+                           VerticalAlignment="Center"/>
+            </Border>
+
+            <Button Background="#4A4A5E"
+                    Padding="20,8"
+                    HorizontalAlignment="Right"
+                    Width="80"
+                    Height="40"
+                    BorderThickness="0"
+                    Cursor="Hand"
+                    Click="MainMenuPageButton_Click">
+                <TextBlock Text="Menu"
+                           FontSize="12"
+                           Foreground="White"
+                           FontWeight="SemiBold"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"/>
+            </Button>
+        </Grid>
+
+        <!-- Main Content -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="240"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Left Panel -->
+            <StackPanel Grid.Column="0" Margin="0,0,15,0">
+
+                <!-- Virksomhedsnavn Box -->
+                <Border Background="White"
+                        CornerRadius="8"
+                        Padding="15"
+                        Height="100"
+                        Margin="0,0,0,15">
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Text="Virksomhedsnavn"
+                                   FontSize="13"
+                                   Foreground="#6B7FDE"
+                                   Margin="0,0,0,10"/>
+                        <TextBox x:Name="VirksomhedsnavnTextBox"
+                                 Height="32"
+                                 FontSize="12"
+                                 Padding="8"
+                                 VerticalContentAlignment="Center"
+                                 Background="#F5F5F5"
+                                 BorderThickness="0">
+                            <TextBox.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="4"/>
+                                </Style>
+                            </TextBox.Resources>
+                            <TextBox.Text>Indtast navn</TextBox.Text>
+                            <TextBox.Foreground>
+                                <SolidColorBrush Color="Gray"/>
+                            </TextBox.Foreground>
+                        </TextBox>
+                    </StackPanel>
+                </Border>
+
+                <!-- Buttons Box -->
+                <Border Background="White"
+                        CornerRadius="8"
+                        Padding="15"
+                        Height="235">
+                    <StackPanel VerticalAlignment="Center">
+                        <Button Content="Opret virksomhed"
+                                Height="42"
+                                Background="#6B7FDE"
+                                Foreground="White"
+                                FontSize="12"
+                                FontWeight="SemiBold"
+                                BorderThickness="0"
+                                Cursor="Hand"
+                                Margin="0,0,0,10"
+                                Click="SaveNewCompany_Click">
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="6"/>
+                                </Style>
+                            </Button.Resources>
+                        </Button>
+
+                        <Button Content="Slet virksomhed"
+                                Height="42"
+                                Background="#6B7FDE"
+                                Foreground="White"
+                                FontSize="12"
+                                FontWeight="SemiBold"
+                                BorderThickness="0"
+                                Cursor="Hand"
+                                Margin="0,0,0,10"
+                                Click="DeleteCompany_Click">
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="6"/>
+                                </Style>
+                            </Button.Resources>
+                        </Button>
+
+                        <Button Content="Rediger virksomhed"
+                                Height="42"
+                                Background="#6B7FDE"
+                                Foreground="White"
+                                FontSize="12"
+                                FontWeight="SemiBold"
+                                BorderThickness="0"
+                                Cursor="Hand"
+                                Click="EditCompany_Click">
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="6"/>
+                                </Style>
+                            </Button.Resources>
+                        </Button>
+                    </StackPanel>
+                </Border>
+
+            </StackPanel>
+
+            <!-- Right Panel - Virksomhedsliste -->
+            <Border Grid.Column="1"
+                    Background="White"
+                    CornerRadius="8"
+                    Padding="20">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Header -->
+                    <Border Grid.Row="0"
+                            BorderBrush="#6B7FDE"
+                            BorderThickness="0,0,0,2"
+                            Padding="0,0,0,10"
+                            Margin="0,0,0,15">
+                        <TextBlock Text="Virksomhedsliste"
+                                   FontSize="20"
+                                   FontWeight="Bold"
+                                   Foreground="#2D2D3A"/>
+                    </Border>
+
+                    <!-- List Items -->
+                    <ItemsControl Grid.Row="1" ItemsSource="{Binding Companies}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border BorderBrush="#6B7FDE"
+                                        BorderThickness="3,0,0,0"
+                                        Padding="15,10"
+                                        Margin="0,0,0,3">
+                                    <TextBlock Text="{Binding}"
+                                               FontSize="13"
+                                               Foreground="#2D2D3A"/>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
+                    <!-- Bottom Message -->
+                    <Border Grid.Row="2"
+                            Background="#F4D03F"
+                            CornerRadius="6"
+                            Padding="15"
+                            Margin="0,15,0,0"
+                            Height="45"
+                            Visibility="{Binding SelectedMessageCompany}">
+                        <TextBlock Text="{Binding MessageCompany}"
+                                   FontSize="13"
+                                   Foreground="#2D2D3A"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontWeight="SemiBold"/>
+                    </Border>
+                </Grid>
+            </Border>
+
+        </Grid>
+    </Grid>
+</Page>
