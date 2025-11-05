@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using _2SemesterEksamensProjekt.Models;
+using Microsoft.Data.SqlClient;
 
 namespace _2SemesterEksamensProjekt.Repository
 {
@@ -27,7 +28,24 @@ namespace _2SemesterEksamensProjekt.Repository
                     companies.Add(company);
                 }
                 return companies;
-            }) ?? new List<Company>();
+            });
+        }
+
+        public void DeleteCompany(Company company)
+        {
+            using (var connection = GetConnection())
+            {
+                connection.Open();
+
+                string query = "Delete FROM Company WHERE CompanyId = @CompanyId";
+
+                using (var command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@CompanyId", company.CompanyId);
+                    command.ExecuteNonQuery();
+                }
+            }
+
         }
     }
 }

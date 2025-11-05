@@ -38,5 +38,17 @@ namespace _2SemesterEksamensProjekt.ViewModels
             SelectedCompany = Companies.FirstOrDefault();
         }
 
+        public void DeleteSelectedCompany()
+        {
+            //Hvis ingen er valg, så retuner
+            if (SelectedCompany == null) return;
+
+            //Kalder metode i repository der slette fra databasen
+            _companyRepository.DeleteCompany(SelectedCompany);
+
+            //Sletter fra ObservableCollection
+            Companies.Remove(SelectedCompany);
+        }
+
     }
 }
