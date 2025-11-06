@@ -19,13 +19,6 @@
                        Style="{StaticResource DashboardTitleText}"
                        FontSize="16"
                        HorizontalAlignment="Left"/>
-
-            <Button Content="Menu"
-                    Style="{StaticResource DashboardButton}"
-                    Width="100"
-                    Height="40"
-                    HorizontalAlignment="Right"
-                    Click="MainMenuButton_Click"/>
         </Grid>
 
         <!-- Main Content -->
@@ -97,20 +90,23 @@
                                Margin="0,0,0,20"/>
 
                     <!-- Liste -->
-                    <ItemsControl Grid.Row="1"
-                                  ItemsSource="{Binding Companies}">
-                        <ItemsControl.ItemTemplate>
+                    <ListBox Grid.Row="1"
+                     ItemsSource="{Binding Companies}"
+                     SelectedItem="{Binding SelectedCompany, Mode=TwoWay}"
+                     BorderThickness="0"
+                     Background="Transparent">
+                        <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <Border BorderBrush="{StaticResource AccentBrush}"
-                                        BorderThickness="3,0,0,0"
-                                        Padding="15,10"
-                                        Margin="0,0,0,5">
+                        BorderThickness="3,0,0,0"
+                        Padding="15,10"
+                        Margin="0,0,0,5">
                                     <TextBlock Text="{Binding CompanyName}"
-                                               FontSize="13"/>
+                               FontSize="13"/>
                                 </Border>
                             </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
                 </Grid>
             </Border>
         </Grid>

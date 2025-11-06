@@ -9,5 +9,6 @@
 
     <Frame x:Name="MainFrame"
            Background="Transparent"
-           NavigationUIVisibility="Hidden"/>
+           NavigationUIVisibility="Visible"/>
+
 </Window>

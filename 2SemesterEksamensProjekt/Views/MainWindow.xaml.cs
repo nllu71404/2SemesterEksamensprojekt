@@ -8,6 +8,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using _2SemesterEksamensProjekt.Services;
 
 namespace _2SemesterEksamensProjekt
 {
@@ -19,6 +20,7 @@ namespace _2SemesterEksamensProjekt
         public MainWindow()
         {
             InitializeComponent();
+            AppNavigationService.Initialize(MainFrame);
             MainFrame.Navigate(new Views.Pages.MainMenuPage());
         }
     }

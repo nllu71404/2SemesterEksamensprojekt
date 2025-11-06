@@ -1,23 +1,29 @@
-﻿using System;
+﻿using _2SemesterEksamensProjekt.Commands;
+using _2SemesterEksamensProjekt.Models;
+using _2SemesterEksamensProjekt.Repository;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using _2SemesterEksamensProjekt.Models;
-using _2SemesterEksamensProjekt.Repository;
+using System.Windows.Input;
 
 namespace _2SemesterEksamensProjekt.ViewModels
-{
-    public class CompanyPageViewModel : BaseViewModel
     {
-
+        public class CompanyPageViewModel : BaseViewModel
+    {
         public readonly CompanyRepository _companyRepository;
 
-        //Data til UI
+        // Command properties
+        public ICommand SaveNewCompanyCommand { get; }
+        public ICommand DeleteSelectedCompanyCommand { get; }
+        public ICommand EditSelectedCompanyCommand { get; }
+
+        // Data til UI
         public ObservableCollection<Company> Companies { get; } = new ObservableCollection<Company>();
 
-        //Inputs til virksomhed
+        // Inputs til virksomhed
         private string _companyName;
         public string CompanyName
         {
@@ -29,15 +35,14 @@ namespace _2SemesterEksamensProjekt.ViewModels
         public Company SelectedCompany
         {
             get => _selectedCompany;
-            set 
-            { 
-                SetProperty(ref _selectedCompany, value); //Notificerer kun hvis SelectedCompany rent faktisk ændres
-                {
-                    CompanyName = value?.CompanyName ?? "";
-                }
+            set
+            {
+                SetProperty(ref _selectedCompany, value);
+                CompanyName = value?.CompanyName ?? "";
             }
         }
-        //Bekræftigelsebeskeder
+
+        // Bekræftigelsesbeskeder
         public string AddedCompanyMessage { get; private set; } = "";
         public string DeletedCompanyMessage { get; private set; } = "";
         public string EdittedCompanyMessage { get; private set; } = "";
@@ -46,17 +51,22 @@ namespace _2SemesterEksamensProjekt.ViewModels
         {
             _companyRepository = companyRepository;
 
-            foreach(var company in _companyRepository.GetAllCompanies())
+            foreach (var company in _companyRepository.GetAllCompanies())
             {
                 Companies.Add(company);
             }
             SelectedCompany = Companies.FirstOrDefault();
+
+            // Commands initialiseres og kalder de eksisterende metoder
+            SaveNewCompanyCommand = new RelayCommand(_ => SaveNewCompany());
+            DeleteSelectedCompanyCommand = new RelayCommand(_ => DeleteSelectedCompany());
+            EditSelectedCompanyCommand = new RelayCommand(_ => EditSelectedCompany());
         }
 
         public void SaveNewCompany()
         {
             if (string.IsNullOrWhiteSpace(CompanyName)) return;
-            
+
             var newCompany = new Company
             {
                 CompanyName = _companyName
@@ -68,15 +78,12 @@ namespace _2SemesterEksamensProjekt.ViewModels
             Companies.Add(newCompany);
             CompanyName = "";
         }
+
         public void DeleteSelectedCompany()
         {
-            //Hvis ingen er valg, så retuner
             if (SelectedCompany == null) return;
 
-            //Kalder metode i repository der slette fra databasen
             _companyRepository.DeleteCompany(SelectedCompany);
-
-            //Sletter fra ObservableCollection
             Companies.Remove(SelectedCompany);
         }
 
@@ -85,11 +92,10 @@ namespace _2SemesterEksamensProjekt.ViewModels
             if (SelectedCompany == null) return;
 
             SelectedCompany.CompanyName = CompanyName;
-
             _companyRepository.EditCompany(SelectedCompany);
-
             OnPropertyChanged(nameof(SelectedCompany));
         }
-
     }
+
+
 }

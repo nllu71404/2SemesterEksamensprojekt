@@ -23,11 +23,7 @@ namespace _2SemesterEksamensProjekt.Views.Pages
         public MainMenuPage()
         {
             InitializeComponent();
-        }
-
-        private void AdministrateCompanyButton_Click(object sender, RoutedEventArgs e)
-        {
-            NavigationService?.Navigate(new CompanyPage());
+            DataContext = new ViewModels.MainMenuPageViewModel();
         }
     }
 }
