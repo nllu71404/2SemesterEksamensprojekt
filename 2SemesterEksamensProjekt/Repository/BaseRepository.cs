@@ -9,15 +9,18 @@ namespace _2SemesterEksamensProjekt.Repository
 {
     public abstract class BaseRepository
     {
-        protected readonly string _connectionString = "Server=tcp:team5semester2.database.windows.net,1433;" +
-                         "Initial Catalog=team5semester2.database.windows.net;" +
-                         "Persist Security Info=False;" +
-                         "User ID=adminteam5;" +
-                         "Password=team5Admin;" +
-                         "MultipleActiveResultSets=False;" +
-                         "Encrypt=True;" +
-                         "TrustServerCertificate=False;" +
-                         "Connection Timeout=30;";
+        protected readonly string _connectionString =
+        new Microsoft.Data.SqlClient.SqlConnectionStringBuilder
+        {
+            DataSource = "tcp:team5semester2.database.windows.net,1433",
+            InitialCatalog = "Team5Semester2",        // <-- kun DB-navn
+            UserID = "adminteam5",
+            Password = "team5Admin",
+            Encrypt = true,
+            TrustServerCertificate = false,
+            MultipleActiveResultSets = false,
+            ConnectTimeout = 30
+        }.ConnectionString;
 
         //Opretter en ny sqlConnection
         protected SqlConnection GetConnection() => new SqlConnection(_connectionString);

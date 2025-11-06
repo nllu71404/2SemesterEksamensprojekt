@@ -118,7 +118,7 @@ namespace _2SemesterEksamensProjekt.Repository
         {
             var companies = new List<Company>();
             using var cmd = new Microsoft.Data.SqlClient.SqlCommand(
-                "SELECT * FROM Company", conn);
+                "SELECT * FROM vm_SelectAllCompanies", conn);
             using var reader = cmd.ExecuteReader();
             while (reader.Read())
             {
