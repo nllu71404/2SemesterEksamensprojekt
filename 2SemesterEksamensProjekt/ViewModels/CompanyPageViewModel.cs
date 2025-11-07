@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace _2SemesterEksamensProjekt.ViewModels
@@ -42,11 +43,6 @@ namespace _2SemesterEksamensProjekt.ViewModels
             }
         }
 
-        // Bekræftigelsesbeskeder
-        public string AddedCompanyMessage { get; private set; } = "";
-        public string DeletedCompanyMessage { get; private set; } = "";
-        public string EdittedCompanyMessage { get; private set; } = "";
-
         public CompanyPageViewModel(CompanyRepository companyRepository)
         {
             _companyRepository = companyRepository;
@@ -65,8 +61,12 @@ namespace _2SemesterEksamensProjekt.ViewModels
 
         public void SaveNewCompany()
         {
-            if (string.IsNullOrWhiteSpace(CompanyName)) return;
-
+            if (string.IsNullOrWhiteSpace(CompanyName))
+            {
+                MessageBox.Show("Udfyld venligst virksomhedsnavn");
+                return;
+            }
+            
             var newCompany = new Company
             {
                 CompanyName = _companyName
@@ -77,6 +77,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
 
             Companies.Add(newCompany);
             CompanyName = "";
+            MessageBox.Show("Virksomhed oprettet");
         }
 
         public void DeleteSelectedCompany()
