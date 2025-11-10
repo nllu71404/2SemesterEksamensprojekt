@@ -57,7 +57,7 @@
                         <Button Content="Opret virksomhed"
                                 Style="{StaticResource DashboardButton}"
                                 Margin="0,0,0,10"
-                                Command="{Binding SaveNewCompanyCommand}"/>
+                                Command="{Binding CreateCompanyCommand}"/>
 
                         <Button Content="Slet virksomhed"
                                 Style="{StaticResource DashboardButton}"
