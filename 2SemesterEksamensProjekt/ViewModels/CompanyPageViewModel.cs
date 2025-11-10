@@ -54,12 +54,12 @@ namespace _2SemesterEksamensProjekt.ViewModels
             SelectedCompany = Companies.FirstOrDefault();
 
             // Commands initialiseres og kalder de eksisterende metoder
-            SaveNewCompanyCommand = new RelayCommand(_ => SaveNewCompany());
+            SaveNewCompanyCommand = new RelayCommand(_ => CreateCompany());
             DeleteSelectedCompanyCommand = new RelayCommand(_ => DeleteSelectedCompany());
             EditSelectedCompanyCommand = new RelayCommand(_ => EditSelectedCompany());
         }
 
-        public void SaveNewCompany()
+        public void CreateCompany()
         {
             if (string.IsNullOrWhiteSpace(CompanyName))
             {
