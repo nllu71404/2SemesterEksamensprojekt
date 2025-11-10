@@ -21,13 +21,10 @@ namespace _2SemesterEksamensProjekt.ViewModels
         private Project? _selectedProject;
         private string? _title;
         private string? _description;
-        private ProjectStatus _projectStatus = ProjectStatus.Created;
 
         // Properties
         public ObservableCollection<Company> Companies { get; } = new();
         public ObservableCollection<Project> Projects { get; } = new();
-        public ProjectStatus[] StatusOptions { get; } =
-            new[] { ProjectStatus.Created, ProjectStatus.InProgress, ProjectStatus.Done };
 
         public Company? SelectedCompany
         {
@@ -62,24 +59,21 @@ namespace _2SemesterEksamensProjekt.ViewModels
             get => _description;
             set => SetProperty(ref _description, value);
         }
-        public ProjectStatus ProjectStatus
-        {
-            get => _projectStatus;
-            set => SetProperty(ref _projectStatus, value);
-        }
 
         // Properties - commands
         public RelayCommand CreateProjectCommand { get; }
-        public RelayCommand DeleteProjectCommand { get; }
+        public RelayCommand DeleteSelectedProjectCommand { get; }
+        public RelayCommand EditSelectedProjectCommand { get; } // klargør redigering af valgt projekt
 
-        // Mangler en editprojectcommand
+        public RelayCommand SaveSelectedProjectCommand { get; } // gemmer ændringer til valgt projekt
 
         // Constructor
         public ProjectPageViewModel()
         {
             CreateProjectCommand = new RelayCommand(_ => CreateProject());
-            // Mangler en editprojectcommand
-            DeleteProjectCommand = new RelayCommand(_ => DeleteProject());
+            EditSelectedProjectCommand = new RelayCommand(_ => EditSelectedProject());
+            DeleteSelectedProjectCommand = new RelayCommand(_ => DeleteSelectedProject());
+            SaveSelectedProjectCommand = new RelayCommand(_ => SaveSelectedProject());
 
             foreach (var c in _companyRepo.GetAllCompanies())
                 Companies.Add(c);
@@ -99,7 +93,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
                 return;
             }
 
-            var p = new Project(SelectedCompany.CompanyId, Title!, Description, ProjectStatus);
+            var p = new Project(SelectedCompany.CompanyId, Title!, Description);
             var newId = _projectRepo.SaveNewProject(p);
 
             p.ProjectId = newId;
@@ -108,15 +102,55 @@ namespace _2SemesterEksamensProjekt.ViewModels
 
             Title = string.Empty;
             Description = string.Empty;
-            ProjectStatus = ProjectStatus.Created;
         }
-        private void DeleteProject()
+
+        private void DeleteSelectedProject()
         {
             if (SelectedProject == null) return;
             _projectRepo.DeleteProject(SelectedProject.ProjectId);
 
             Projects.Remove(SelectedProject);
             SelectedProject = null;
+        }
+        private void EditSelectedProject()
+        {
+            if (SelectedProject == null)
+            {
+                MessageBox.Show("Vælg et projekt, der skal redigeres.");
+                return;
+            }
+
+            Title = SelectedProject.Title;
+            Description = SelectedProject.Description;
+        }
+
+        private void SaveSelectedProject()
+        {
+            if (SelectedProject == null)
+            {
+                MessageBox.Show("Vælg et projekt, der skal gemmes.");
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(Title))
+            {
+                MessageBox.Show("Skriv en projekttitel.");
+                return;
+            }
+
+            SelectedProject.Title = Title!;
+            SelectedProject.Description = Description;
+
+            _projectRepo.UpdateProject(SelectedProject);
+
+            // Opdater listen visuelt
+            var index = Projects.IndexOf(SelectedProject);
+            if (index >= 0)
+                Projects[index] = SelectedProject;
+
+            Title = string.Empty;
+            Description = string.Empty;
+            
         }
     }
 }

@@ -17,7 +17,7 @@ namespace _2SemesterEksamensProjekt.Repository
                 {
                     var projects = new List<Project>();
                     using var cmd = new SqlCommand(@"
-                    SELECT ProjectId, CompanyId, Title, Description, ProjectStatus
+                    SELECT ProjectId, CompanyId, Title, Description
                     FROM dbo.Project
                     ORDER BY ProjectId DESC;", conn);
 
@@ -25,14 +25,12 @@ namespace _2SemesterEksamensProjekt.Repository
                     while (reader.Read())
                     {
                         var statusStr = reader.GetString(4);
-                        var ok = Enum.TryParse<ProjectStatus>(statusStr, true, out var status);
                         projects.Add(new Project
                         {
                             ProjectId = reader.GetInt32(0),
                             CompanyId = reader.GetInt32(1),
                             Title = reader.GetString(2),
                             Description = reader.IsDBNull(3) ? null : reader.GetString(3),
-                            ProjectStatus = ok ? status : ProjectStatus.Created
                         });
                     }
                     return projects;
@@ -45,110 +43,92 @@ namespace _2SemesterEksamensProjekt.Repository
                 {
                     var projects = new List<Project>();
                     using var cmd = new SqlCommand(@"
-                    SELECT ProjectId, CompanyId, Title, Description, ProjectStatus
-                    FROM dbo.Project
-                    WHERE CompanyId = @CompanyId
-                    ORDER BY ProjectId DESC;", conn);
+                SELECT ProjectId, CompanyId, Title, Description
+                FROM dbo.Project
+                WHERE CompanyId = @CompanyId
+                ORDER BY ProjectId DESC;", conn);
 
                     cmd.Parameters.AddWithValue("@CompanyId", companyId);
 
                     using var reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        var statusStr = reader.GetString(4);
-                        var ok = Enum.TryParse<ProjectStatus>(statusStr, true, out var status);
                         projects.Add(new Project
                         {
                             ProjectId = reader.GetInt32(0),
                             CompanyId = reader.GetInt32(1),
                             Title = reader.GetString(2),
-                            Description = reader.IsDBNull(3) ? null : reader.GetString(3),
-                            ProjectStatus = ok ? status : ProjectStatus.Created
+                            Description = reader.IsDBNull(3) ? null : reader.GetString(3)
                         });
                     }
-                    return projects;
+
+                    return projects ?? new List<Project>(); // sikrer at der aldrig returneres null
                 });
             }
 
             public Project? GetProjectById(int projectId)
-            {
-                return ExecuteSafe(conn =>
                 {
-                    using var cmd = new SqlCommand(@"
-                    SELECT ProjectId, CompanyId, Title, Description, ProjectStatus
-                    FROM dbo.Project
-                    WHERE ProjectId = @ProjectId;", conn);
-
-                    cmd.Parameters.AddWithValue("@ProjectId", projectId);
-
-                    using var reader = cmd.ExecuteReader();
-                    if (!reader.Read()) return null;
-
-                    var statusStr = reader.GetString(4);
-                    var ok = Enum.TryParse<ProjectStatus>(statusStr, true, out var status);
-                    return new Project
+                    return ExecuteSafe(conn =>
                     {
-                        ProjectId = reader.GetInt32(0),
-                        CompanyId = reader.GetInt32(1),
-                        Title = reader.GetString(2),
-                        Description = reader.IsDBNull(3) ? null : reader.GetString(3),
-                        ProjectStatus = ok ? status : ProjectStatus.Created
-                    };
-                });
-            }
+                        using var cmd = new SqlCommand(@"
+                        SELECT ProjectId, CompanyId, Title, Description
+                        FROM dbo.Project
+                        WHERE ProjectId = @ProjectId;", conn);
 
-            // Gemme funktion der bruger vores Stored Procedure
-            public int SaveNewProject(Project project)
-            {
-                return ExecuteSafe(conn =>
+                        cmd.Parameters.AddWithValue("@ProjectId", projectId);
+
+                        using var reader = cmd.ExecuteReader();
+                        if (!reader.Read()) return null;
+
+                        var statusStr = reader.GetString(4);
+                        return new Project
+                        {
+                            ProjectId = reader.GetInt32(0),
+                            CompanyId = reader.GetInt32(1),
+                            Title = reader.GetString(2),
+                            Description = reader.IsDBNull(3) ? null : reader.GetString(3),
+                        };
+                    });
+                }
+
+                // Gemme funktion der bruger vores Stored Procedure
+                public int SaveNewProject(Project project)
                 {
-                    using var cmd = new SqlCommand("spCreateProject", conn);
-                    cmd.CommandType = CommandType.StoredProcedure;
+                    return ExecuteSafe(conn =>
+                    {
+                        using var cmd = new SqlCommand("spCreateProject", conn);
+                        cmd.CommandType = CommandType.StoredProcedure;
 
-                    cmd.Parameters.AddWithValue("@CompanyId", project.CompanyId);
-                    cmd.Parameters.AddWithValue("@Title", project.Title);
-                    cmd.Parameters.AddWithValue("@Description", (object?)project.Description ?? DBNull.Value);
-                    cmd.Parameters.AddWithValue("@ProjectStatus", project.ProjectStatus.ToString());
+                        cmd.Parameters.AddWithValue("@CompanyId", project.CompanyId);
+                        cmd.Parameters.AddWithValue("@Title", project.Title);
+                        cmd.Parameters.AddWithValue("@Description", (object?)project.Description ?? DBNull.Value);
 
-                    var newId = cmd.ExecuteScalar();
-                    return Convert.ToInt32(newId);
-                });
-            }
+                        var newId = cmd.ExecuteScalar();
+                        return Convert.ToInt32(newId);
+                    });
+                }
 
-            public void UpdateProjectStatus(int projectId, ProjectStatus newStatus)
+            public void UpdateProject(Project project)
             {
-                ExecuteSafe(conn =>
-                {
-                    using var cmd = new SqlCommand("spUpdateProjectStatus", conn);
-                    cmd.CommandType = CommandType.StoredProcedure;
+                using var connection = GetConnection();
+                connection.Open();
 
-                    cmd.Parameters.AddWithValue("@ProjectId", projectId);
-                    cmd.Parameters.AddWithValue("@ProjectStatus", newStatus.ToString());
+                var sql = @"
+                    UPDATE Project
+                    SET 
+                        Title = @Title,
+                        Description = @Description
+                    WHERE ProjectId = @ProjectId";
 
-                    cmd.ExecuteNonQuery();
-                    return true;
-                });
+                using var command = new SqlCommand(sql, connection);
+                command.Parameters.AddWithValue("@Title", project.Title);
+                command.Parameters.AddWithValue("@Description", (object?)project.Description ?? DBNull.Value);
+                command.Parameters.AddWithValue("@ProjectId", project.ProjectId);
+
+                command.ExecuteNonQuery();
             }
 
-            public void EditProject(Project project)
-            {
-                ExecuteSafe(conn =>
-                {
-                    using var cmd = new SqlCommand("spEditProject", conn);
-                    cmd.CommandType = CommandType.StoredProcedure;
-
-                    cmd.Parameters.AddWithValue("@ProjectId", project.ProjectId);
-                    cmd.Parameters.AddWithValue("@CompanyId", project.CompanyId);
-                    cmd.Parameters.AddWithValue("@Title", project.Title);
-                    cmd.Parameters.AddWithValue("@Description", (object?)project.Description ?? DBNull.Value);
-                    cmd.Parameters.AddWithValue("@ProjectStatus", project.ProjectStatus.ToString());
-
-                    cmd.ExecuteNonQuery();
-                    return true;
-                });
-            }
-
-            public void DeleteProject(int projectId)
+        public void DeleteProject(int projectId)
             {
                 ExecuteSafe(conn =>
                 {

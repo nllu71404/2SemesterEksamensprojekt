@@ -14,14 +14,12 @@ namespace _2SemesterEksamensProjekt.Models
         public int CompanyId { get; set; }
         public string Title { get; set; }
         public string? Description { get; set; }
-        public ProjectStatus ProjectStatus { get; set; } = Models.ProjectStatus.Created;
 
-        public Project(int companyId, string title, string? description, ProjectStatus projectstatus = ProjectStatus.Created)
+        public Project(int companyId, string title, string? description)
         {
             CompanyId = companyId;
             Title = title;
             Description = description;
-            ProjectStatus = projectstatus;
         }
 
         public Project() //parameterløs constructor
