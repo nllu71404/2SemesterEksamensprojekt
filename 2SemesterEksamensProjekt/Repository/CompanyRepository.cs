@@ -37,17 +37,19 @@ namespace _2SemesterEksamensProjekt.Repository
     {
         return ExecuteSafe(conn =>
         {
-            using var cmd = new SqlCommand("Navnet på vores StoredProcedure", conn);
-            cmd.CommandType = CommandType.StoredProcedure;
+            using (SqlCommand cmd = new SqlCommand("uspInsertCompany", conn))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@CompanyName", company.CompanyName);
 
-            cmd.Parameters.AddWithValue("@CompanyName", company.CompanyName);
+                object result = cmd.ExecuteScalar();
+                return Convert.ToInt32(result);
+            }
+            //using var cmd = new SqlCommand("dbo.uspInsertCompany", conn);
+            //cmd.CommandType = CommandType.StoredProcedure;
 
-            //Her kan man tilføje Id med det samme, men mit hovede tænkte at det giver mening vi bare lader DB om at give Id automatisk
-            var newCompanyId = cmd.ExecuteScalar(); //Returnerer der nye ide
-            return Convert.ToInt32(newCompanyId);
-
-            //HUSK at StoredProcedure også skal returnere id. 
-            //Vi bruger Id'et på listerne, uden at vi ser dem i UI
+            //var newCompanyId = cmd.ExecuteScalar(); //Returnerer der nye ide
+            //return Convert.ToInt32(newCompanyId);
 
         });
     }

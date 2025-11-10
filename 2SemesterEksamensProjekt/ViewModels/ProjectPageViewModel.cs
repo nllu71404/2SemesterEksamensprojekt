@@ -123,7 +123,6 @@ namespace _2SemesterEksamensProjekt.ViewModels
             Title = SelectedProject.Title;
             Description = SelectedProject.Description;
         }
-
         private void SaveSelectedProject()
         {
             if (SelectedProject == null)
@@ -143,14 +142,13 @@ namespace _2SemesterEksamensProjekt.ViewModels
 
             _projectRepo.UpdateProject(SelectedProject);
 
-            // Opdater listen visuelt
-            var index = Projects.IndexOf(SelectedProject);
-            if (index >= 0)
-                Projects[index] = SelectedProject;
+            // Reload så listen opdateres
+            Projects.Clear();
+            foreach (var p in _projectRepo.GetProjectsByCompanyId(SelectedCompany!.CompanyId))
+                Projects.Add(p);
 
             Title = string.Empty;
             Description = string.Empty;
-            
         }
     }
 }
