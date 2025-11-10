@@ -8,21 +8,20 @@ namespace _2SemesterEksamensProjekt.Models
 {
     public class Project
     {
-        private string _projectTitle;
-        private int _projectId;
-        private bool _projectStatus;
+        // Properties
         public Company Company { get; set; }
+        public int ProjectId { get; set; }
+        public int CompanyId { get; set; }
+        public string Title { get; set; }
+        public string? Description { get; set; }
+        public ProjectStatus ProjectStatus { get; set; } = Models.ProjectStatus.Created;
 
-        public string ProjectTitle { get { return _projectTitle; } set {  _projectTitle = value; } }
-        public int ProjectId { get { return _projectId; } set { _projectId = value; } }
-        public bool ProjectStatus { get { return _projectStatus; } set { _projectStatus = value; } }
-
-        public Project(string projectTitle, int projectId, bool projectStatus, Company company) 
+        public Project(int companyId, string title, string? description, ProjectStatus projectstatus = ProjectStatus.Created)
         {
-            _projectTitle = projectTitle;
-            _projectId = projectId;
-            _projectStatus = projectStatus;
-            Company = company;
+            CompanyId = companyId;
+            Title = title;
+            Description = description;
+            ProjectStatus = projectstatus;
         }
 
         public Project() //parameterløs constructor

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using _2SemesterEksamensProjekt.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,57 +24,7 @@ namespace _2SemesterEksamensProjekt.Views.Pages
         public ProjectPage()
         {
             InitializeComponent();
+            DataContext = new ProjectPageViewModel();
         }
-
-
-        /*
-        
-        Knapper
-        - MainMenuButtom_Click
-        - AddProject_Click
-        - DeleteProkject_Click
-        - EditProject_Click
-
-        ItemSource
-        - {Binding Projects}
-        - {Binding Companies}
-
-        BeskedBox
-        - {Binding SelectedMessageProject}
-        - {Binding MessageProject}
-        */
-
-        private void MainMenuButtom_Click(object sender, RoutedEventArgs e)
-        {
-            //Naviger til hovedmenuen
-        }
-
-        private void SaveNewProject_Click(object sender, RoutedEventArgs e)
-        {
-            //Logik tl at oprette et projekt
-
-            //Beskedtekst til bekræftigelse besked
-            //- { Binding SelectedMessageProject}
-            //- { Binding MessageProject}
-        }
-
-        private void DeleteProject_Click(Object sender, RoutedEventArgs e)
-        {
-            //Logik tl at slette et projekt
-
-            //Beskedtekst til bekræftigelse besked
-            //- { Binding SelectedMessageProject}
-            //- { Binding MessageProject}
-        }
-
-        private void EditProject_Click(Object obj, RoutedEventArgs e)
-        {
-            //Logik tl at redigerer et projekt
-
-            //Beskedtekst til bekræftigelse besked
-            //- { Binding SelectedMessageProject}
-            //- { Binding MessageProject}
-        }
-
     }
-    }
+}

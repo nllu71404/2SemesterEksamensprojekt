@@ -12,11 +12,14 @@ namespace _2SemesterEksamensProjekt.ViewModels
     public class MainMenuPageViewModel : BaseViewModel
     {
         public ICommand OpenCompanyPageCommand { get; }                  // bindes i XAML
+        public ICommand OpenProjectPageCommand { get; }                  // bindes i XAML
 
         public MainMenuPageViewModel()
         {
             OpenCompanyPageCommand = new RelayCommand(_ =>               // ved klik på knap:
             AppNavigationService.Navigate(new CompanyPage()));          // navigér til CompanyPage
+            OpenProjectPageCommand = new RelayCommand(_ =>
+            AppNavigationService.Navigate(new ProjectPage()));
         }
     }       
 }
