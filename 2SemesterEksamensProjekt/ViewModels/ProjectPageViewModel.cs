@@ -37,7 +37,13 @@ namespace _2SemesterEksamensProjekt.ViewModels
                 if (SetProperty(ref _selectedCompany, value))
                 {
                     SelectedProject = null;
-                    LoadProjects();
+
+                    Projects.Clear();
+                    if (value != null)
+                    {
+                        foreach (var p in _projectRepo.GetProjectsByCompanyId(value.CompanyId))
+                            Projects.Add(p);
+                    }
                 }
             }
         }
@@ -64,32 +70,22 @@ namespace _2SemesterEksamensProjekt.ViewModels
 
         // Properties - commands
         public RelayCommand CreateProjectCommand { get; }
-        public RelayCommand UpdateStatusCommand { get; }
         public RelayCommand DeleteProjectCommand { get; }
+
+        // Mangler en editprojectcommand
 
         // Constructor
         public ProjectPageViewModel()
         {
             CreateProjectCommand = new RelayCommand(_ => CreateProject());
-            UpdateStatusCommand = new RelayCommand(_ => UpdateStatus());
+            // Mangler en editprojectcommand
             DeleteProjectCommand = new RelayCommand(_ => DeleteProject());
-            LoadCompanies();
-        }
-        // Metoder
-        private void LoadCompanies()
-        {
-            Companies.Clear();
+
             foreach (var c in _companyRepo.GetAllCompanies())
                 Companies.Add(c);
         }
+        // Metoder
 
-        private void LoadProjects()
-        {
-            Projects.Clear();
-            if (SelectedCompany == null) return;
-            foreach (var p in _projectRepo.GetProjectsByCompanyId(SelectedCompany.CompanyId))
-                Projects.Add(p);
-        }
         private void CreateProject()
         {
             if (SelectedCompany is null)
@@ -106,25 +102,21 @@ namespace _2SemesterEksamensProjekt.ViewModels
             var p = new Project(SelectedCompany.CompanyId, Title!, Description, ProjectStatus);
             var newId = _projectRepo.SaveNewProject(p);
 
-            LoadProjects();
+            p.ProjectId = newId;
+
+            Projects.Add(p);
 
             Title = string.Empty;
             Description = string.Empty;
             ProjectStatus = ProjectStatus.Created;
-
-            MessageBox.Show($"Projekt oprettet (ID {newId}).");
-        }
-        private void UpdateStatus()
-        {
-            if (SelectedProject == null) return;
-            _projectRepo.UpdateProjectStatus(SelectedProject.ProjectId, SelectedProject.ProjectStatus);
-            MessageBox.Show("Status opdateret.");
         }
         private void DeleteProject()
         {
             if (SelectedProject == null) return;
             _projectRepo.DeleteProject(SelectedProject.ProjectId);
-            LoadProjects();
+
+            Projects.Remove(SelectedProject);
+            SelectedProject = null;
         }
     }
 }
