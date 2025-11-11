@@ -140,7 +140,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
             SelectedProject.Title = Title!;
             SelectedProject.Description = Description;
 
-            _projectRepo.UpdateProject(SelectedProject);
+            //_projectRepo.UpdateProject(SelectedProject);
 
             // Reload så listen opdateres
             Projects.Clear();

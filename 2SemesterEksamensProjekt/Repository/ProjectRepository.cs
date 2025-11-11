@@ -43,10 +43,7 @@ namespace _2SemesterEksamensProjekt.Repository
                 {
                     var projects = new List<Project>();
                     using var cmd = new SqlCommand(@"
-                SELECT ProjectId, CompanyId, Title, Description
-                FROM dbo.Project
-                WHERE CompanyId = @CompanyId
-                ORDER BY ProjectId DESC;", conn);
+                  SELECT * FROM vwProjectListByCompanyId", conn);
 
                     cmd.Parameters.AddWithValue("@CompanyId", companyId);
 
@@ -67,7 +64,7 @@ namespace _2SemesterEksamensProjekt.Repository
             }
 
             public Project? GetProjectById(int projectId)
-                {
+            {
                     return ExecuteSafe(conn =>
                     {
                         using var cmd = new SqlCommand(@"
@@ -89,57 +86,48 @@ namespace _2SemesterEksamensProjekt.Repository
                             Description = reader.IsDBNull(3) ? null : reader.GetString(3),
                         };
                     });
-                }
-
-                // Gemme funktion der bruger vores Stored Procedure
-                public int SaveNewProject(Project project)
-                {
-                    return ExecuteSafe(conn =>
-                    {
-                        using var cmd = new SqlCommand("spCreateProject", conn);
-                        cmd.CommandType = CommandType.StoredProcedure;
-
-                        cmd.Parameters.AddWithValue("@CompanyId", project.CompanyId);
-                        cmd.Parameters.AddWithValue("@Title", project.Title);
-                        cmd.Parameters.AddWithValue("@Description", (object?)project.Description ?? DBNull.Value);
-
-                        var newId = cmd.ExecuteScalar();
-                        return Convert.ToInt32(newId);
-                    });
-                }
-
-            public void UpdateProject(Project project)
-            {
-                using var connection = GetConnection();
-                connection.Open();
-
-                var sql = @"
-                    UPDATE Project
-                    SET 
-                        Title = @Title,
-                        Description = @Description
-                    WHERE ProjectId = @ProjectId";
-
-                using var command = new SqlCommand(sql, connection);
-                command.Parameters.AddWithValue("@Title", project.Title);
-                command.Parameters.AddWithValue("@Description", (object?)project.Description ?? DBNull.Value);
-                command.Parameters.AddWithValue("@ProjectId", project.ProjectId);
-
-                command.ExecuteNonQuery();
             }
+
+        // Gemme funktion der bruger vores Stored Procedure
+        public int SaveNewProject(Project project)
+        {
+            using var connection = GetConnection();
+            connection.Open();
+
+            using var cmd = new SqlCommand("uspCreateProject", connection);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@CompanyId", project.CompanyId);
+            cmd.Parameters.AddWithValue("@Title", project.Title);
+            cmd.Parameters.AddWithValue("@Description", (object?)project.Description ?? DBNull.Value);
+
+            var newId = cmd.ExecuteScalar();
+            return Convert.ToInt32(newId);
+        }
+
+        public void UpdateProject(int projectId)
+        {
+            using var connection = GetConnection();
+            connection.Open();
+
+            using var command = new SqlCommand("uspUpdateProject", connection);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("@ProjectId", projectId);
+
+            command.ExecuteNonQuery();
+        }
 
         public void DeleteProject(int projectId)
-            {
-                ExecuteSafe(conn =>
-                {
-                    using var cmd = new SqlCommand("spDeleteProject", conn);
-                    cmd.CommandType = CommandType.StoredProcedure;
+        {
+            using var connection = GetConnection();
+            connection.Open();
 
-                    cmd.Parameters.AddWithValue("@ProjectId", projectId);
+            using var cmd = new SqlCommand("uspDeleteProject", connection);
+            cmd.CommandType = CommandType.StoredProcedure;
 
-                    cmd.ExecuteNonQuery();
-                    return true;
-                });
-            }
+            cmd.Parameters.AddWithValue("@ProjectId", projectId);
+
+            cmd.ExecuteNonQuery();
         }
+    }
     }

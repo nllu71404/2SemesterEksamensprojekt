@@ -18,7 +18,7 @@ namespace _2SemesterEksamensProjekt.Repository
         {
             var companies = new List<Company>();
             using var cmd = new Microsoft.Data.SqlClient.SqlCommand(
-                "SELECT * FROM vm_SelectAllCompanies", conn);
+                "SELECT * FROM vwSelectAllCompanies", conn);
             using var reader = cmd.ExecuteReader();
             while (reader.Read())
             {
@@ -37,7 +37,7 @@ namespace _2SemesterEksamensProjekt.Repository
     {
         return ExecuteSafe(conn =>
         {
-            using (SqlCommand cmd = new SqlCommand("uspInsertCompany", conn))
+            using (SqlCommand cmd = new SqlCommand("uspCreateCompany", conn))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@CompanyName", company.CompanyName);
@@ -59,7 +59,7 @@ namespace _2SemesterEksamensProjekt.Repository
         ExecuteSafe(conn =>
         {
             //Standard for connection til SQL (skal altid bruges)
-            using var cmd = new SqlCommand("Navnet på vores Delete StoredProcedure", conn);
+            using var cmd = new SqlCommand("uspDeleteCompany", conn);
 
             // Fortæller systemet at det er StoredProcedure vi kalder (skal altid bruges) 
             cmd.CommandType = CommandType.StoredProcedure;
@@ -82,15 +82,12 @@ namespace _2SemesterEksamensProjekt.Repository
             using var connection = GetConnection();
             connection.Open();
 
-            var sql = @"
-                UPDATE Company
-                SET 
-                    CompanyName = @CompanyName
-                WHERE CompanyId = @CompanyId";
+            using var command = new SqlCommand("uspUpdateCompany", connection);
+            command.CommandType = CommandType.StoredProcedure;
 
-            using var command = new SqlCommand(sql, connection);
             command.Parameters.AddWithValue("@CompanyId", company.CompanyId);
             command.Parameters.AddWithValue("@CompanyName", company.CompanyName);
+
             command.ExecuteNonQuery();
         }
     }
