@@ -17,9 +17,11 @@ namespace _2SemesterEksamensProjekt.ViewModels
         public readonly CompanyRepository _companyRepository;
 
         // Command properties
-        public ICommand CreateCompanyCommand { get; }
-        public ICommand DeleteSelectedCompanyCommand { get; }
-        public ICommand EditSelectedCompanyCommand { get; }
+        public RelayCommand CreateCompanyCommand { get; }
+        public RelayCommand DeleteSelectedCompanyCommand { get; }
+        public RelayCommand EditSelectedCompanyCommand { get; }
+
+        public RelayCommand SaveSelectedCompanyCommand { get; } 
 
         // Data til UI
         public ObservableCollection<Company> Companies { get; } = new ObservableCollection<Company>();
@@ -39,7 +41,6 @@ namespace _2SemesterEksamensProjekt.ViewModels
             set
             {
                 SetProperty(ref _selectedCompany, value);
-                CompanyName = value?.CompanyName ?? "";
             }
         }
 
@@ -57,6 +58,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
             CreateCompanyCommand = new RelayCommand(_ => CreateCompany());
             DeleteSelectedCompanyCommand = new RelayCommand(_ => DeleteSelectedCompany());
             EditSelectedCompanyCommand = new RelayCommand(_ => EditSelectedCompany());
+            SaveSelectedCompanyCommand = new RelayCommand(_ => SaveSelectedCompany());
         }
 
         public void CreateCompany()
@@ -90,11 +92,38 @@ namespace _2SemesterEksamensProjekt.ViewModels
 
         public void EditSelectedCompany()
         {
-            if (SelectedCompany == null) return;
+            if (SelectedCompany == null) 
+            {
+                MessageBox.Show("Vælg en virksomhed, der skal redigeres.");
+                return;
+            }
+            CompanyName = SelectedCompany.CompanyName;
+        }
 
-            SelectedCompany.CompanyName = CompanyName;
-            _companyRepository.EditCompany(SelectedCompany);
-            OnPropertyChanged(nameof(SelectedCompany));
+        private void SaveSelectedCompany()
+        {
+            if (SelectedCompany == null)
+            {
+                MessageBox.Show("Vælg en virksomhed, der skal gemmes.");
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(CompanyName))
+            {
+                MessageBox.Show("Skriv et virksomhedsnavn");
+                return;
+            }
+
+            SelectedCompany.CompanyName = CompanyName!;
+
+            _companyRepository.UpdateCompany(SelectedCompany);
+
+            // Reload så listen opdateres
+            Companies.Clear();
+            foreach (var c in _companyRepository.GetAllCompanies())
+                Companies.Add(c);
+
+            CompanyName = string.Empty;
         }
     }
 

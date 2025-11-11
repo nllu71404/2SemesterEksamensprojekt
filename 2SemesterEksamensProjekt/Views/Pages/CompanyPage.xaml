@@ -66,7 +66,21 @@
 
                         <Button Content="Rediger virksomhed"
                                 Style="{StaticResource DashboardButton}"
+                                Margin="0,0,0,10"
                                 Command="{Binding EditSelectedCompanyCommand}"/>
+                        <Button Content="Gem virksomhed" 
+                            Style="{StaticResource DashboardButton}"
+                            Width="193" RenderTransformOrigin="0.5,0.5" Height="25"
+                            Command="{Binding SaveSelectedCompanyCommand}">
+                            <Button.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform/>
+                                    <SkewTransform/>
+                                    <RotateTransform Angle="-0.077"/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </Button.RenderTransform>
+                        </Button>
                     </StackPanel>
                 </Border>
             </StackPanel>

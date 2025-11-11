@@ -76,20 +76,23 @@ namespace _2SemesterEksamensProjekt.Repository
 
     }
 
-    public void EditCompany(Company company)
-    {
-        ExecuteSafe(conn =>
+
+        public void UpdateCompany(Company company)
         {
-            using var cmd = new SqlCommand("Navnet på vores Edit StoredProcedure", conn);
-            cmd.CommandType = CommandType.StoredProcedure;
+            using var connection = GetConnection();
+            connection.Open();
 
-            //Tilføjer de nye værdier til CompanyName og CompanyId
-            cmd.Parameters.AddWithValue("@CompanyId", company.CompanyId);
-            cmd.Parameters.AddWithValue("@CompanyName", company.CompanyName);
+            var sql = @"
+                UPDATE Company
+                SET 
+                    CompanyName = @CompanyName
+                WHERE CompanyId = @CompanyId";
 
-            cmd.ExecuteNonQuery();
-            return true;
-        });
+            using var command = new SqlCommand(sql, connection);
+            command.Parameters.AddWithValue("@CompanyId", company.CompanyId);
+            command.Parameters.AddWithValue("@CompanyName", company.CompanyName);
+            command.ExecuteNonQuery();
+        }
     }
 }
-}
+
