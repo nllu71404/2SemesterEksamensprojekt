@@ -12,11 +12,12 @@ namespace _2SemesterEksamensProjekt.Models
         public string TopicDescription { get; set; }
         public int? ProjectId { get; set; }
 
-        public Topic(string topicdescription, int? projectId)
+        public Topic(string topicdescription)
         {
-            
+
             TopicDescription = topicdescription;
-            ProjectId = projectId;
         }
+
+        public Topic() { }
     }
 }

@@ -15,7 +15,7 @@ namespace _2SemesterEksamensProjekt.Models
         public string Title { get; set; }
         public string? Description { get; set; }
 
-        public Project(int projectId, int companyId, string title, string? description)
+        public Project(int companyId, string title, string? description)
         {
             CompanyId = companyId;
             Title = title;

@@ -15,6 +15,8 @@ namespace _2SemesterEksamensProjekt.ViewModels
         public class CompanyPageViewModel : BaseViewModel
     {
         public readonly CompanyRepository _companyRepository;
+        public ObservableCollection<Company> Companies { get; } = new ObservableCollection<Company>();
+
 
         // Command properties
         public RelayCommand CreateCompanyCommand { get; }
@@ -23,8 +25,8 @@ namespace _2SemesterEksamensProjekt.ViewModels
 
         public RelayCommand SaveSelectedCompanyCommand { get; } 
 
-        // Data til UI
-        public ObservableCollection<Company> Companies { get; } = new ObservableCollection<Company>();
+        
+        
 
         // Inputs til virksomhed
         private string _companyName;
@@ -34,14 +36,12 @@ namespace _2SemesterEksamensProjekt.ViewModels
             set => SetProperty(ref _companyName, value);
         }
 
-        private Company _selectedCompany;
-        public Company SelectedCompany
+        private Company? _selectedCompany;
+        public Company? SelectedCompany
         {
             get => _selectedCompany;
-            set
-            {
-                SetProperty(ref _selectedCompany, value);
-            }
+            set => SetProperty(ref _selectedCompany, value);
+
         }
 
         public CompanyPageViewModel(CompanyRepository companyRepository)
@@ -86,8 +86,24 @@ namespace _2SemesterEksamensProjekt.ViewModels
         {
             if (SelectedCompany == null) return;
 
-            _companyRepository.DeleteCompany(SelectedCompany);
-            Companies.Remove(SelectedCompany);
+            // Vis bekræftelsesdialog
+            var result = MessageBox.Show(
+                $"Er du sikker på, at du vil slette virksomheden '{SelectedCompany.CompanyName}' og alle tilknyttede projekter?",
+                "Bekræft sletning",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Warning
+            );
+
+            // Brugeren trykkede "Ja"
+            if (result == MessageBoxResult.Yes)
+            {
+                _companyRepository.DeleteCompany(SelectedCompany.CompanyId);
+                Companies.Remove(SelectedCompany);
+
+                SelectedCompany = null;
+
+            }
+            
         }
 
         public void EditSelectedCompany()

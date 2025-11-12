@@ -48,14 +48,14 @@ namespace _2SemesterEksamensProjekt.Repository
             });
         }
 
-        public void DeleteCompany(Company company)
+        public void DeleteCompany(int companyId)
         {
             ExecuteSafe(conn =>
             {
                 using var cmd = new SqlCommand("uspDeleteCompany", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 
-                cmd.Parameters.AddWithValue("@CompanyId", company.CompanyId);
+                cmd.Parameters.AddWithValue("@CompanyId", companyId);
                 cmd.ExecuteNonQuery();
 
                 return true;
