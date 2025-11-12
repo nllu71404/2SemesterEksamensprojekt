@@ -37,8 +37,9 @@
                     <TextBlock Text="Vælg virksomhed" FontSize="13"
                                Foreground="{StaticResource AccentBrush}" Margin="0,0,0,5"/>
                     <ComboBox ItemsSource="{Binding Companies}"
-                              SelectedItem="{Binding SelectedCompany}"
+                              SelectedItem="{Binding SelectedCompany, Mode=TwoWay}"
                               DisplayMemberPath="CompanyName"
+                              SelectedValuePath="CompanyId"
                               Height="32" Padding="8,0,0,0"
                               Background="#F5F5F5" BorderThickness="0" Margin="0,0,0,12"/>
 
@@ -78,7 +79,7 @@
                                Style="{StaticResource DashboardTitleText}" FontSize="18" Margin="0,0,0,10"/>
                     <ListBox Grid.Row="1"
                              ItemsSource="{Binding Projects}"
-                             SelectedItem="{Binding SelectedProject}"
+                             SelectedItem="{Binding SelectedProject, Mode=TwoWay}"
                              Background="Transparent" BorderThickness="0">
                         <ListBox.ItemTemplate>
                             <DataTemplate>

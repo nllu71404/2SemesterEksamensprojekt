@@ -42,9 +42,8 @@ namespace _2SemesterEksamensProjekt.Repository
                 return ExecuteSafe(conn =>
                 {
                     var projects = new List<Project>();
-                    using var cmd = new SqlCommand(@"
-                  SELECT * FROM vwProjectListByCompanyId", conn);
-
+                    using var cmd = new SqlCommand("uspGetProjectsByCompanyId", conn);
+                    cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@CompanyId", companyId);
 
                     using var reader = cmd.ExecuteReader();
@@ -59,7 +58,7 @@ namespace _2SemesterEksamensProjekt.Repository
                         });
                     }
 
-                    return projects ?? new List<Project>(); // sikrer at der aldrig returneres null
+                    return projects;
                 });
             }
 
@@ -105,14 +104,17 @@ namespace _2SemesterEksamensProjekt.Repository
             return Convert.ToInt32(newId);
         }
 
-        public void UpdateProject(int projectId)
+        public void UpdateProject(Project project)
         {
             using var connection = GetConnection();
             connection.Open();
 
             using var command = new SqlCommand("uspUpdateProject", connection);
             command.CommandType = CommandType.StoredProcedure;
-            command.Parameters.AddWithValue("@ProjectId", projectId);
+            command.Parameters.AddWithValue("@ProjectId", project.ProjectId);
+            command.Parameters.AddWithValue("@CompanyId", project.CompanyId);
+            command.Parameters.AddWithValue("@Title", project.Title);
+            command.Parameters.AddWithValue("@Description", (object?)project.Description ?? DBNull.Value);
 
             command.ExecuteNonQuery();
         }

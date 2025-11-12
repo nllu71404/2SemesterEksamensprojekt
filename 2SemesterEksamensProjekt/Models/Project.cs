@@ -8,8 +8,8 @@ namespace _2SemesterEksamensProjekt.Models
 {
     public class Project
     {
-        // Properties
-        public Company Company { get; set; }
+
+        // Auto-Properties (Indkapsler også!) 
         public int ProjectId { get; set; }
         public int CompanyId { get; set; }
         public string Title { get; set; }

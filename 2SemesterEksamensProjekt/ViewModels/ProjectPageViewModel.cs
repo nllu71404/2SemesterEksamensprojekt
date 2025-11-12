@@ -33,22 +33,36 @@ namespace _2SemesterEksamensProjekt.ViewModels
             {
                 if (SetProperty(ref _selectedCompany, value))
                 {
-                    SelectedProject = null;
-
-                    Projects.Clear();
-                    if (value != null)
-                    {
-                        foreach (var p in _projectRepo.GetProjectsByCompanyId(value.CompanyId))
-                            Projects.Add(p);
-                    }
+                    LoadProjectsForSelectedCompany();
                 }
             }
         }
         public Project? SelectedProject
         {
             get => _selectedProject;
-            set => SetProperty(ref _selectedProject, value);
-        }
+            set
+            {
+                if (SetProperty(ref _selectedProject, value))
+                {
+                    if (_selectedProject != null)
+                    {
+                        //Combobox viser virksomhedsnavnet
+                        SelectedCompany = Companies.FirstOrDefault(c => c.CompanyId == _selectedProject.CompanyId);
+                        // Sæt Title og Description
+                        Title = _selectedProject.Title;
+                        Description = _selectedProject.Description;
+                    }
+                    else
+                    {
+                        // Hvis intet projekt er valgt, nulstil felter
+                        SelectedCompany = null;
+                        Title = string.Empty;
+                        Description = string.Empty;
+                    }
+                }
+
+            }
+            }
         public string? Title
         {
             get => _title;
@@ -120,8 +134,10 @@ namespace _2SemesterEksamensProjekt.ViewModels
                 return;
             }
 
+            SelectedCompany = Companies.FirstOrDefault(c => c.CompanyId == SelectedProject.CompanyId);
             Title = SelectedProject.Title;
             Description = SelectedProject.Description;
+
         }
         private void SaveSelectedProject()
         {
@@ -131,24 +147,40 @@ namespace _2SemesterEksamensProjekt.ViewModels
                 return;
             }
 
+            if (SelectedCompany == null)
+            {
+                MessageBox.Show("Vælg en virksomhed.");
+                return;
+            }
+
             if (string.IsNullOrWhiteSpace(Title))
             {
                 MessageBox.Show("Skriv en projekttitel.");
                 return;
             }
 
+            //SelectedProject.CompanyId = SelectedCompany.CompanyId;
             SelectedProject.Title = Title!;
             SelectedProject.Description = Description;
 
-            //_projectRepo.UpdateProject(SelectedProject);
+            _projectRepo.UpdateProject(SelectedProject);
 
             // Reload så listen opdateres
-            Projects.Clear();
-            foreach (var p in _projectRepo.GetProjectsByCompanyId(SelectedCompany!.CompanyId))
-                Projects.Add(p);
+            LoadProjectsForSelectedCompany();
 
             Title = string.Empty;
             Description = string.Empty;
+        }
+
+        private void LoadProjectsForSelectedCompany()
+        {
+            if (SelectedCompany == null) return;
+
+            Projects.Clear();
+           
+
+            foreach (var p in _projectRepo.GetProjectsByCompanyId(SelectedCompany!.CompanyId))
+                Projects.Add(p);
         }
     }
 }
