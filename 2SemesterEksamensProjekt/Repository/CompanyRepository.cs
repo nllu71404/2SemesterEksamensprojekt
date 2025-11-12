@@ -13,83 +13,68 @@ namespace _2SemesterEksamensProjekt.Repository
     public class CompanyRepository : BaseRepository
     {
         public List<Company> GetAllCompanies()
-    {
-        return ExecuteSafe(conn =>
         {
-            var companies = new List<Company>();
-            using var cmd = new Microsoft.Data.SqlClient.SqlCommand(
-                "SELECT * FROM vwSelectAllCompanies", conn);
-            using var reader = cmd.ExecuteReader();
-            while (reader.Read())
+            return ExecuteSafe(conn =>
             {
-                var company = new Company
+                var companies = new List<Company>();
+                using var cmd = new Microsoft.Data.SqlClient.SqlCommand("dbo.uspGetAllCompanies", conn);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                using var reader = cmd.ExecuteReader();
+                while (reader.Read())
                 {
-                    CompanyId = reader.GetInt32(0),
-                    CompanyName = reader.IsDBNull(1) ? "" : reader.GetString(1)
-                };
-                companies.Add(company);
-            }
-            return companies;
-        });
-    }
+                    var company = new Company
+                    {
+                        CompanyId = reader.GetInt32(0),                                 
+                        CompanyName = reader.IsDBNull(1) ? "" : reader.GetString(1)     
+                    };
+                    companies.Add(company);
+                }
+                return companies;
+            });
+        }
 
-    public int SaveNewCompany(Company company)
-    {
-        return ExecuteSafe(conn =>
+        public int SaveNewCompany(Company company)
         {
-            using (SqlCommand cmd = new SqlCommand("uspCreateCompany", conn))
+            return ExecuteSafe(conn =>
             {
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@CompanyName", company.CompanyName);
+                using (SqlCommand cmd = new SqlCommand("uspCreateCompany", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@CompanyName", company.CompanyName);
+                    object result = cmd.ExecuteScalar();
+                    return Convert.ToInt32(result);
+                }
+            });
+        }
 
-                object result = cmd.ExecuteScalar();
-                return Convert.ToInt32(result);
-            }
-            //using var cmd = new SqlCommand("dbo.uspInsertCompany", conn);
-            //cmd.CommandType = CommandType.StoredProcedure;
-
-            //var newCompanyId = cmd.ExecuteScalar(); //Returnerer der nye ide
-            //return Convert.ToInt32(newCompanyId);
-
-        });
-    }
-
-    public void DeleteCompany(Company company)
-    {
-        ExecuteSafe(conn =>
+        public void DeleteCompany(Company company)
         {
-            //Standard for connection til SQL (skal altid bruges)
-            using var cmd = new SqlCommand("uspDeleteCompany", conn);
+            ExecuteSafe(conn =>
+            {
+                using var cmd = new SqlCommand("uspDeleteCompany", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                
+                cmd.Parameters.AddWithValue("@CompanyId", company.CompanyId);
+                cmd.ExecuteNonQuery();
 
-            // Fortæller systemet at det er StoredProcedure vi kalder (skal altid bruges) 
-            cmd.CommandType = CommandType.StoredProcedure;
+                return true;
+            });
 
-            //Standard måde til at tøje params (vores parameter, og property)
-            cmd.Parameters.AddWithValue("@CompanyId", company.CompanyId);
-
-            //Denne ændres baseret på hvilken operation Delete/Update/Insert
-            cmd.ExecuteNonQuery();
-
-            //Standard return for ExecuteSafe
-            return true;
-        });
-
-    }
-
-
+        }
         public void UpdateCompany(Company company)
         {
-            using var connection = GetConnection();
-            connection.Open();
+            ExecuteSafe(conn =>
+            {
+                using var cmd = new SqlCommand("uspUpdateCompany", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
 
-            using var command = new SqlCommand("uspUpdateCompany", connection);
-            command.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@CompanyId", company.CompanyId);
+                cmd.Parameters.AddWithValue("@CompanyName", company.CompanyName);
 
-            command.Parameters.AddWithValue("@CompanyId", company.CompanyId);
-            command.Parameters.AddWithValue("@CompanyName", company.CompanyName);
-
-            command.ExecuteNonQuery();
+                cmd.ExecuteNonQuery();
+                return true; // nødvendigt pga. ExecuteSafe<T>
+            });
         }
     }
 }
-

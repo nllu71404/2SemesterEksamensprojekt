@@ -40,29 +40,8 @@ namespace _2SemesterEksamensProjekt.ViewModels
         public Project? SelectedProject
         {
             get => _selectedProject;
-            set
-            {
-                if (SetProperty(ref _selectedProject, value))
-                {
-                    if (_selectedProject != null)
-                    {
-                        //Combobox viser virksomhedsnavnet
-                        SelectedCompany = Companies.FirstOrDefault(c => c.CompanyId == _selectedProject.CompanyId);
-                        // Sæt Title og Description
-                        Title = _selectedProject.Title;
-                        Description = _selectedProject.Description;
-                    }
-                    else
-                    {
-                        // Hvis intet projekt er valgt, nulstil felter
-                        SelectedCompany = null;
-                        Title = string.Empty;
-                        Description = string.Empty;
-                    }
-                }
-
-            }
-            }
+            set => SetProperty(ref _selectedProject, value);
+        }
         public string? Title
         {
             get => _title;
@@ -141,32 +120,18 @@ namespace _2SemesterEksamensProjekt.ViewModels
         }
         private void SaveSelectedProject()
         {
-            if (SelectedProject == null)
-            {
-                MessageBox.Show("Vælg et projekt, der skal gemmes.");
-                return;
-            }
+            if (SelectedProject == null) { MessageBox.Show("Vælg et projekt, der skal gemmes."); return; }
+            if (SelectedCompany == null) { MessageBox.Show("Vælg en virksomhed."); return; }
+            if (string.IsNullOrWhiteSpace(Title)) { MessageBox.Show("Skriv en projekttitel."); return; }
 
-            if (SelectedCompany == null)
-            {
-                MessageBox.Show("Vælg en virksomhed.");
-                return;
-            }
-
-            if (string.IsNullOrWhiteSpace(Title))
-            {
-                MessageBox.Show("Skriv en projekttitel.");
-                return;
-            }
-
-            //SelectedProject.CompanyId = SelectedCompany.CompanyId;
             SelectedProject.Title = Title!;
             SelectedProject.Description = Description;
 
+            var keepId = SelectedProject.ProjectId;   // <- husk hvilket projekt der var valgt
             _projectRepo.UpdateProject(SelectedProject);
 
-            // Reload så listen opdateres
-            LoadProjectsForSelectedCompany();
+            LoadProjectsForSelectedCompany();         // <- reload
+            SelectedProject = Projects.FirstOrDefault(p => p.ProjectId == keepId); // <- genvælg
 
             Title = string.Empty;
             Description = string.Empty;
@@ -174,12 +139,14 @@ namespace _2SemesterEksamensProjekt.ViewModels
 
         private void LoadProjectsForSelectedCompany()
         {
-            if (SelectedCompany == null) return;
+            if (SelectedCompany == null)
+                return;
+            var projekter = _projectRepo.GetProjectsByCompanyId(SelectedCompany.CompanyId)
+                            ?? new List<Project>();
 
             Projects.Clear();
-           
 
-            foreach (var p in _projectRepo.GetProjectsByCompanyId(SelectedCompany!.CompanyId))
+            foreach (var p in projekter)
                 Projects.Add(p);
         }
     }
