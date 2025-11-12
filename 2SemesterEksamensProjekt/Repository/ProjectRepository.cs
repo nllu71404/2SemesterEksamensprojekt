@@ -15,28 +15,26 @@ namespace _2SemesterEksamensProjekt.Repository
         {
             return ExecuteSafe(conn =>
             {
-                    var projects = new List<Project>();
-                    using var cmd = new SqlCommand(@"
-                    SELECT ProjectId, CompanyId, Title, Description
-                    FROM dbo.Project
-                    ORDER BY ProjectId DESC;", conn);
+                var projects = new List<Project>();
 
-                    using var reader = cmd.ExecuteReader();
-                    while (reader.Read())
+                using var cmd = new SqlCommand(
+                    "SELECT ProjectId, CompanyId, Title, Description FROM dbo.vwSelectAllProjects;", conn);
+
+                using var reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    projects.Add(new Project
                     {
-                        var statusStr = reader.GetString(4);
-                        projects.Add(new Project
-                        {
-                            ProjectId = reader.GetInt32(0),
-                            CompanyId = reader.GetInt32(1),
-                            Title = reader.GetString(2),
-                            Description = reader.IsDBNull(3) ? null : reader.GetString(3),
-                        });
-                    }
-                    return projects;
+                        ProjectId = reader.GetInt32(0),
+                        CompanyId = reader.GetInt32(1),
+                        Title = reader.GetString(2),
+                        Description = reader.IsDBNull(3) ? null : reader.GetString(3)
+                    });
+                }
+
+                return projects;
             });
         }
-
         public List<Project> GetProjectsByCompanyId(int companyId)
         {
                 return ExecuteSafe(conn =>
