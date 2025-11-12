@@ -20,16 +20,16 @@ namespace _2SemesterEksamensProjekt.Tests
         public void SaveNewTopic_ShouldInsertAndReturnNewId()
         {
             // Arrange
-            var newTopic = new Topic { TopicDescription = "MSTest topic" };
+            var newTopic = new Topic { TopicDescription = "Test topic" };
 
             // Act
             int newId = _repo.SaveNewTopic(newTopic);
 
             // Assert
-            Assert.IsTrue(newId > 0, "SaveNewTopic should return a valid new ID");
+            Assert.IsGreaterThan(0, newId, "SaveNewTopic should return a valid new ID");
 
             // Cleanup
-            //_repo.DeleteTopic(newId);
+            _repo.DeleteTopic(newId);
         }
         
         [TestMethod]
@@ -40,7 +40,7 @@ namespace _2SemesterEksamensProjekt.Tests
 
             // Assert
             Assert.IsNotNull(result, "Result should not be null");
-            Assert.IsTrue(result.Count >= 0, "Result should return a list (possibly empty)");
+            Assert.IsGreaterThanOrEqualTo(0, result.Count, "Result should return a list (possibly empty)");
         }
 
         
