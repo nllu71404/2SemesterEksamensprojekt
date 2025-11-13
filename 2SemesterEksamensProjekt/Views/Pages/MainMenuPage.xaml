@@ -33,7 +33,7 @@
                         </Grid.RowDefinitions>
 
                         <Button Grid.Row="0" Grid.Column="0" Style="{StaticResource DashboardButton}" Margin="10,10,10,10" Content="Administrér virksomheder" Command="{Binding OpenCompanyPageCommand}" />
-                        <Button Grid.Row="0" Grid.Column="1" Style="{StaticResource DashboardButton}" Margin="10" Content="Start timer" />
+                        <Button Grid.Row="0" Grid.Column="1" Style="{StaticResource DashboardButton}" Margin="10" Content="Start timer" Command="{Binding OpenTimerPageCommand}"/>
                         <Button Grid.Row="1" Grid.Column="0" Style="{StaticResource DashboardButton}" Margin="10" Content="Administrér projekter" Command="{Binding OpenProjectPageCommand}" />
                         <Button Grid.Row="1" Grid.Column="1" Style="{StaticResource DashboardButton}" Margin="10" Content="Vis timeroversigt" />
                         <Button Grid.Row="2" Grid.Column="0" Style="{StaticResource DashboardButton}" Margin="10" Content="Administrér emner" Command="{Binding OpenTopicPageCommand}"/>
