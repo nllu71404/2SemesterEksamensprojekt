@@ -10,7 +10,7 @@ namespace _2SemesterEksamensProjekt.Models
     {
         public int TopicId { get; set; }
         public string TopicDescription { get; set; }
-        public int? ProjectId { get; set; }
+        //public int? ProjectId { get; set; }
 
         public Topic(string topicdescription)
         {
