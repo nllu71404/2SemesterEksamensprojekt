@@ -204,7 +204,7 @@
                                                     Foreground="#64748B"/>
                                             <Button Content="Slet timer"
                                                         Style="{StaticResource DashboardButton}"
-                                                        Command="{Binding DeleteTimerCommand}"
+                                                        Command="{Binding DataContext.DeleteTimerCommand, RelativeSource={RelativeSource AncestorType=Page}}"
                                                         CommandParameter="{Binding}"
                                                         FontSize="13"
                                                     Width="100"
