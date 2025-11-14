@@ -10,8 +10,10 @@ using System.Windows.Threading;
 using _2SemesterEksamensProjekt.Commands;
 using _2SemesterEksamensProjekt.Repository;
 using Timer = _2SemesterEksamensProjekt.Models.Timer;
+using System.Configuration;
+using System.Windows;
 
- namespace _2SemesterEksamensProjekt.ViewModels
+namespace _2SemesterEksamensProjekt.ViewModels
 {
     public class TimerPageViewModel : BaseViewModel
     {
@@ -20,7 +22,7 @@ using Timer = _2SemesterEksamensProjekt.Models.Timer;
         private readonly DispatcherTimer _dispatcherTimer;
         private string _newTimerName;
 
-        public ObservableCollection<Timer> Timers { get; set; }
+        public ObservableCollection<Timer> Timers { get; } = new ObservableCollection<Timer>();
 
         public string NewTimerName
         {
@@ -34,8 +36,19 @@ using Timer = _2SemesterEksamensProjekt.Models.Timer;
         }
 
         public ICommand CreateTimerCommand { get; }
+        public ICommand DeleteTimerCommand { get; }
         public ICommand StartTimerCommand { get; }
         public ICommand StopTimerCommand { get; }
+        public ICommand SaveTimerCommand { get; }
+
+        /*
+        private Timer? _selectedTimer;
+        public Timer? SelectedTimer
+        {
+            get => _selectedTimer;
+            set => SetProperty(ref _selectedTimer, value);
+        }
+        */
 
         public TimerPageViewModel()
         {
@@ -53,6 +66,8 @@ using Timer = _2SemesterEksamensProjekt.Models.Timer;
             CreateTimerCommand = new RelayCommand(CreateTimer, CanCreateTimer);
             StartTimerCommand = new RelayCommand(StartTimer);
             StopTimerCommand = new RelayCommand(StopTimer);
+            DeleteTimerCommand = new RelayCommand(DeleteTimer);
+            SaveTimerCommand = new RelayCommand(SaveTimer);
         }
 
         private bool CanCreateTimer(object parameter)
@@ -67,7 +82,7 @@ using Timer = _2SemesterEksamensProjekt.Models.Timer;
 
             var newTimer = new Timer
             {
-                Name = NewTimerName,
+                TimerName = NewTimerName,
                 ElapsedTime = TimeSpan.Zero,
                 IsRunning = false
             };
@@ -98,11 +113,32 @@ using Timer = _2SemesterEksamensProjekt.Models.Timer;
             {
                 if (timer.IsRunning)
                 {
-                    var elapsed = DateTime.Now - timer.StartTime;
+                    //var elapsed = DateTime.Now - timer.StartTime;
                     timer.ElapsedTime += TimeSpan.FromSeconds(1);
                 }
             }
         }
+        public void DeleteTimer(object parameter)
+        {
+            if (parameter is Timer timerToDelete)
+            {
+                var result = MessageBox.Show(
+                    $"Er du sikker på, at du vil slette timeren '{timerToDelete.TimerName}'?",
+                    "Bekræft sletning",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Warning
+                );
 
+                if (result == MessageBoxResult.Yes)
+                {
+                    Timers.Remove(timerToDelete);
+                    NewTimerName = string.Empty;
+                }
+            }
+        }
+        public void SaveTimer(object parameter)
+        {
+
+        }
     }
 }

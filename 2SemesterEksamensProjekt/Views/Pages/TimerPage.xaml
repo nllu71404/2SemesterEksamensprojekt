@@ -22,20 +22,34 @@
                    Margin="0,0,0,30"/>
 
         <!-- Opret timer sektion -->
-        <Border Grid.Row="1" 
+        <Border 
                 Style="{StaticResource CardStyle}"
-                Margin="0,0,0,20">
+                Margin="0,67,-29,20" Grid.RowSpan="2">
             <StackPanel Orientation="Horizontal" 
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center">
 
+                <!-- Tekstboks til navn -->
+
+                <!-- Opret timer knap -->
+                <!-- Tekstboks til navn -->
+
+                <!-- Opret timer knap -->
+                <!-- Tekstboks til navn -->
+
+                <!-- Opret timer knap -->
+                <!-- Tekstboks til navn -->
+
+                <!-- Opret timer knap -->
+                <!-- Tekstboks til navn -->
+
+                <!-- Opret timer knap -->
                 <!-- Tekstboks til navn -->
                 <Border Background="White"
                         BorderBrush="{StaticResource AccentBrush}"
                         BorderThickness="3"
                         CornerRadius="12"
                         Padding="20,12"
-                        Margin="0,0,20,0"
                         MinWidth="300">
                     <TextBox x:Name="TimerNameTextBox"
                              Text="{Binding NewTimerName, UpdateSourceTrigger=PropertyChanged}"
@@ -45,7 +59,7 @@
                              Background="Transparent"
                              Foreground="{StaticResource TitleBrush}">
                         <TextBox.Style>
-                            <Style TargetType="TextBox">
+                            <Style TargetType="{x:Type TextBox}">
                                 <Style.Triggers>
                                     <Trigger Property="Text" Value="">
                                         <Setter Property="Background">
@@ -66,12 +80,13 @@
                         </TextBox.Style>
                     </TextBox>
                 </Border>
-
-                <!-- Opret timer knap -->
                 <Button Content="Opret timer"
                         Style="{StaticResource DashboardButton}"
                         Command="{Binding CreateTimerCommand}"
                         MinWidth="150"/>
+                
+
+                <!-- Opret timer knap -->
             </StackPanel>
         </Border>
 
@@ -173,7 +188,7 @@
                                         <StackPanel Grid.Column="2"
                                                     VerticalAlignment="Center"
                                                     Margin="0,0,15,0">
-                                            <TextBlock Text="{Binding Name}"
+                                            <TextBlock Text="{Binding TimerName}"
                                                        FontSize="16"
                                                        FontWeight="Bold"
                                                        Foreground="{StaticResource TitleBrush}"
@@ -181,6 +196,19 @@
                                             <TextBlock Text="{Binding DisplayInfo}"
                                                        FontSize="13"
                                                        Foreground="#64748B"/>
+                                            <Button Content="Gem timer"
+                                                       Style="{StaticResource DashboardButton}"
+                                                       Command="{Binding SaveTimerCommand}"
+                                                    FontSize="13"
+                                                    Width="100"
+                                                    Foreground="#64748B"/>
+                                            <Button Content="Slet timer"
+                                                        Style="{StaticResource DashboardButton}"
+                                                        Command="{Binding DeleteTimerCommand}"
+                                                        CommandParameter="{Binding}"
+                                                        FontSize="13"
+                                                    Width="100"
+                                                        Foreground="#64748B"/>
                                         </StackPanel>
 
                                         <!-- Stop knap -->
@@ -226,5 +254,6 @@
                 </ScrollViewer>
             </Grid>
         </Border>
+        
     </Grid>
 </Page>
