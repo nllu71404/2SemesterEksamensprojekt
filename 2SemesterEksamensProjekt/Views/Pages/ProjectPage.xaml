@@ -36,27 +36,46 @@
 
                     <TextBlock Text="Vælg virksomhed" FontSize="13"
                                Foreground="{StaticResource AccentBrush}" Margin="0,0,0,5"/>
-                    <ComboBox ItemsSource="{Binding Companies}"
+                    <Border Background="#ECECEC"
+                            BorderBrush="#5A67D8"
+                            CornerRadius="8"
+                            BorderThickness="1"
+                            Height="32">
+                        <ComboBox ItemsSource="{Binding Companies}"
                               SelectedItem="{Binding SelectedCompany, Mode=TwoWay}"
                               DisplayMemberPath="CompanyName"
                               SelectedValuePath="CompanyId"
-                              Height="32" Padding="8,0,0,0"
-                              Background="#F5F5F5" BorderThickness="0" Margin="0,0,0,12"/>
+                              Height="28" Padding="8,0,0,0"
+                              Background="Transparent" BorderThickness="0" Margin="0,0,0,12"/>
+                    </Border>
 
                     <TextBlock Text="Projekttitel" FontSize="13"
                                Foreground="{StaticResource AccentBrush}" Margin="0,0,0,5"/>
-                    <TextBox Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}"
+                    <Border Background="#ECECEC"
+                            BorderBrush="#5A67D8"
+                            BorderThickness="1"
+                            CornerRadius="8"
+                            Height="32">
+                        <TextBox Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}"
                              Height="32" Padding="8"
-                             Background="#F5F5F5" BorderThickness="0" Margin="0,0,0,12"/>
+                             Background="Transparent" BorderThickness="0" Margin="0,0,0,12"/>
+                    </Border>
 
                     <!-- Projektbeskrivelse lige under titel -->
                     <TextBlock Text="Projektbeskrivelse" FontSize="13"
                                Foreground="{StaticResource AccentBrush}" Margin="0,0,0,5"/>
-                    <TextBox Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"
+                    <Border Background="#ECECEC"
+                            BorderBrush="#5A67D8"
+                            BorderThickness="1"
+                            CornerRadius="8"
+                            Margin="0,0,0,16"
+                            Height="140">
+                        <TextBox Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"
                              TextWrapping="Wrap" AcceptsReturn="True"
                              ScrollViewer.VerticalScrollBarVisibility="Auto"
                              Height="140"
-                             Padding="10" Background="#F5F5F5" BorderThickness="0" Margin="0,0,0,16"/>
+                             Padding="10" Background="Transparent" BorderThickness="0" Margin="0,0,0,16"/>
+                    </Border>
 
                     <Button Content="Opret projekt"   Style="{StaticResource DashboardButton}" Margin="0,0,0,8" Command="{Binding CreateProjectCommand}"/>
                     <Button Content="Rediger projekt" Style="{StaticResource DashboardButton}" Margin="0,0,0,8" Command="{Binding EditSelectedProjectCommand}"/>
