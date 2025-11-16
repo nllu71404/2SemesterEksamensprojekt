@@ -19,8 +19,6 @@
             <TextBlock Text="Administrer projekter"
                  Style="{StaticResource DashboardTitleText}" FontSize="16"
                  HorizontalAlignment="Left"/>
-            <Button Content="Menu" Style="{StaticResource DashboardButton}"
-              Width="100" Height="40" HorizontalAlignment="Right"/>
         </Grid>
 
         <!-- To kolonner -->
