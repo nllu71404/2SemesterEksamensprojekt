@@ -32,7 +32,7 @@
                         VerticalAlignment="Center">
 
                 <!-- Tekstboks til navn -->
-                <Border Background="#ECECEC"
+                <Border Background="White"
                         BorderBrush="{StaticResource AccentBrush}"
                         BorderThickness="3"
                         CornerRadius="12"
@@ -111,35 +111,43 @@
                                         Effect="{x:Null}">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="Auto"/>
                                         </Grid.ColumnDefinitions>
 
-                                        <!-- Timer info til venstre -->
+                                        <!-- Timer -->
                                         <StackPanel Grid.Column="0"
                                                     VerticalAlignment="Center"
                                                     Margin="0,0,20,0">
+                                            
+                                            <TextBlock Text="{Binding DisplayInfo}"
+                                                       FontSize="20"
+                                                       FontWeight="Bold"
+                                                       Foreground="Black"/>
+                                        </StackPanel>
+
+                                        <!-- Timer name info -->
+                                        <Border Grid.Column="2"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center">
                                             <TextBlock Text="{Binding TimerName}"
-                                                       FontSize="16"
+                                                       FontSize="20"
                                                        FontWeight="Bold"
                                                        Foreground="{StaticResource TitleBrush}"
                                                        Margin="0,0,0,4"/>
-                                            <TextBlock Text="{Binding DisplayInfo}"
-                                                       FontSize="13"
-                                                       Foreground="#64748B"/>
-                                        </StackPanel>
-
-                                        <!-- Spacer (tom kolonne der tager resterende plads) -->
-                                        <Border Grid.Column="1"/>
+                                            
+                                        </Border>
 
                                         <!-- Start knap -->
-                                        <Button Grid.Column="2"
+                                        <Button Grid.Column="1"
                                                 Content="Start"
-                                                Width="80"
+                                                Width="120"
+                                                Height="50"
+                                                HorizontalAlignment="Center"
                                                 Background="#A7F3D0"
                                                 Foreground="#065F46"
                                                 BorderBrush="#10B981"
@@ -150,7 +158,7 @@
                                                 Cursor="Hand"
                                                 Command="{Binding DataContext.StartTimerCommand, RelativeSource={RelativeSource AncestorType=Page}}"
                                                 CommandParameter="{Binding}"
-                                                Margin="0,0,10,0">
+                                                Margin="0,0,5,0">
                                             <Button.Template>
                                                 <ControlTemplate TargetType="Button">
                                                     <Border Background="{TemplateBinding Background}"
@@ -177,9 +185,10 @@
                                         <!-- Stop knap -->
                                         <Button Grid.Column="3"
                                                 Content="Stop"
-                                                Width="80"
+                                                Width="120"
+                                                HorizontalAlignment="Center"
                                                 Background="#FECACA"
-                                                Foreground="#991B1B"
+                                                Foreground="#4B0000"
                                                 BorderBrush="#EF4444"
                                                 BorderThickness="2"
                                                 Padding="10"
@@ -216,11 +225,9 @@
                                         <Button Grid.Column="4"
                                                 Content="Gem"
                                                 Width="80"
-                                                Background="#DBEAFE"
-                                                Foreground="#1E40AF"
-                                                BorderBrush="#3B82F6"
                                                 BorderThickness="2"
                                                 Padding="10"
+                                                VerticalAlignment="Center"
                                                 FontSize="13"
                                                 FontWeight="SemiBold"
                                                 Cursor="Hand"
@@ -244,11 +251,9 @@
                                         <Button Grid.Column="5"
                                                 Content="Slet"
                                                 Width="80"
-                                                Background="#FEE2E2"
-                                                Foreground="#7F1D1D"
-                                                BorderBrush="#DC2626"
                                                 BorderThickness="2"
                                                 Padding="10"
+                                                VerticalAlignment="Center"
                                                 FontSize="13"
                                                 FontWeight="SemiBold"
                                                 Cursor="Hand"
