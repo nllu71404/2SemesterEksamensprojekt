@@ -119,16 +119,27 @@
                                             <ColumnDefinition Width="Auto"/>
                                         </Grid.ColumnDefinitions>
 
-                                        <!-- Timer -->
-                                        <StackPanel Grid.Column="0"
-                                                    VerticalAlignment="Center"
-                                                    Margin="0,0,20,0">
-                                            
-                                            <TextBlock Text="{Binding DisplayInfo}"
-                                                       FontSize="20"
-                                                       FontWeight="Bold"
-                                                       Foreground="Black"/>
-                                        </StackPanel>
+                                        <!-- Timeren tæller -->
+                                        <Border Grid.Column="0"
+                                                Background="#F8FAFC"
+                                                BorderBrush="{StaticResource AccentBrush}"
+                                                BorderThickness="2"
+                                                CornerRadius="8"
+                                                Padding="12,8"
+                                                Margin="0,0,15,0">
+                                            <StackPanel VerticalAlignment="Center">
+                                                <TextBlock Text="{Binding DisplayTime}"
+                                                           FontSize="18"
+                                                           FontWeight="Bold"
+                                                           Foreground="{StaticResource TitleBrush}"
+                                                           HorizontalAlignment="Center"/>
+                                                <TextBlock Text="{Binding DisplayInfo}"
+                                                           FontSize="11"
+                                                           Foreground="#64748B"
+                                                           HorizontalAlignment="Center"
+                                                           Margin="0,3,0,0"/>
+                                            </StackPanel>
+                                        </Border>
 
                                         <!-- Timer name info -->
                                         <Border Grid.Column="2"
