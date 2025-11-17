@@ -14,7 +14,6 @@ namespace _2SemesterEksamensProjekt.ViewModels
     public class ProjectPageViewModel : BaseViewModel
     {
         // Fields
-        private readonly CompanyRepository _companyRepo = new();
         private readonly ProjectRepository _projectRepo = new();
 
         private Company? _selectedCompany;
@@ -61,7 +60,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
         public RelayCommand SaveSelectedProjectCommand { get; } // gemmer ændringer til valgt projekt
 
         // Constructor
-        public ProjectPageViewModel()
+        public ProjectPageViewModel(CompanyRepository _companyRepo)
         {
             CreateProjectCommand = new RelayCommand(_ => CreateProject());
             EditSelectedProjectCommand = new RelayCommand(_ => EditSelectedProject());

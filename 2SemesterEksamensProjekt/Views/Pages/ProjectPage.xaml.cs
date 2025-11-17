@@ -1,4 +1,5 @@
-﻿using _2SemesterEksamensProjekt.ViewModels;
+﻿using _2SemesterEksamensProjekt.Repository;
+using _2SemesterEksamensProjekt.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,10 +22,15 @@ namespace _2SemesterEksamensProjekt.Views.Pages
     /// </summary>
     public partial class ProjectPage : Page
     {
+
+        public ProjectPageViewModel projectPageViewModel;
         public ProjectPage()
         {
             InitializeComponent();
-            DataContext = new ProjectPageViewModel();
+            var companyRepository = new CompanyRepository();
+            projectPageViewModel = new ProjectPageViewModel(companyRepository);
+            DataContext = projectPageViewModel;
+
         }
     }
 }
