@@ -1,28 +1,46 @@
 ﻿using System;
-using _2SemesterEksamensProjekt.Models;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Configuration;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
 using _2SemesterEksamensProjekt.Commands;
+using _2SemesterEksamensProjekt.Models;
 using _2SemesterEksamensProjekt.Repository;
-using Timer = _2SemesterEksamensProjekt.Models.Timer;
-using System.Configuration;
-using System.Windows;
+using _2SemesterEksamensProjekt.Views.Pages;
+using Timer = _2SemesterEksamensProjekt.Models.TimeRecord;
 
 namespace _2SemesterEksamensProjekt.ViewModels
 {
     public class TimerPageViewModel : BaseViewModel
     {
-        //private readonly TimerRepository _timerRepository;
-
+        
+        private readonly TimeRecordRepository _timeRecordRepository;
         private readonly DispatcherTimer _dispatcherTimer;
         private string _newTimerName;
+        private string _timerName;
+        private string _elapsedTime;
+        private string _isRunning;
+        private string _startTime;
 
-        public ObservableCollection<Timer> Timers { get; } = new ObservableCollection<Timer>();
+        public ObservableCollection<TimeRecord> Timers { get; } = new ObservableCollection<TimeRecord>();
+
+        
+        //Command properties
+        public RelayCommand CreateTimerCommand { get; }
+        public RelayCommand DeleteTimerCommand { get; }
+        public RelayCommand StartTimerCommand { get; }
+        public RelayCommand StopTimerCommand { get; }
+        public RelayCommand SaveTimerCommand { get; }
+
+        
+        //Inputs til Timer
 
         public string NewTimerName
         {
@@ -34,25 +52,51 @@ namespace _2SemesterEksamensProjekt.ViewModels
                 CommandManager.InvalidateRequerySuggested();
             }
         }
-
-        public ICommand CreateTimerCommand { get; }
-        public ICommand DeleteTimerCommand { get; }
-        public ICommand StartTimerCommand { get; }
-        public ICommand StopTimerCommand { get; }
-        public ICommand SaveTimerCommand { get; }
-
-        /*
-        private Timer? _selectedTimer;
-        public Timer? SelectedTimer
+        public string TimerName
         {
-            get => _selectedTimer;
-            set => SetProperty(ref _selectedTimer, value);
+            get => _timerName;
+            set
+            {
+                _timerName = value;
+                OnPropertyChanged();
+            }
         }
-        */
+        public TimeSpan ElapsedTime
+        {
+            get => ElapsedTime;
+            set
+            {
+                ElapsedTime = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(DisplayTime));
+                OnPropertyChanged(nameof(DisplayInfo));
+            }
+        }
+        public bool IsRunning
+        {
+            get => IsRunning;
+            set
+            {
+                IsRunning = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(DisplayInfo));
+            }
+        }
+
+        public DateTime StartTime
+        {
+            get => StartTime;
+            set
+            {
+                StartTime = value;
+                OnPropertyChanged();
+            }
+        }
 
         public TimerPageViewModel()
         {
-            Timers = new ObservableCollection<Timer>();
+            //TimerPage
+            Timers = new ObservableCollection<TimeRecord>();
 
             _dispatcherTimer = new DispatcherTimer
             {
@@ -69,6 +113,12 @@ namespace _2SemesterEksamensProjekt.ViewModels
             DeleteTimerCommand = new RelayCommand(DeleteTimer);
             SaveTimerCommand = new RelayCommand(SaveTimer);
         }
+        //Defulat properties til visning
+        public string DisplayTime =>
+            $"{(int)ElapsedTime.TotalHours:00}:{ElapsedTime.Minutes:00}:{ElapsedTime.Seconds:00}";
+
+        public string DisplayInfo =>
+            IsRunning ? "Kører ..." : $"Total id: {DisplayTime}";
 
         private bool CanCreateTimer(object parameter)
         {
@@ -138,7 +188,12 @@ namespace _2SemesterEksamensProjekt.ViewModels
         }
         public void SaveTimer(object parameter)
         {
-
+            //Kald den nye side
+        }
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
