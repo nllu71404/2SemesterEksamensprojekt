@@ -13,6 +13,7 @@ using System.Windows.Threading;
 using _2SemesterEksamensProjekt.Commands;
 using _2SemesterEksamensProjekt.Models;
 using _2SemesterEksamensProjekt.Repository;
+using _2SemesterEksamensProjekt.Services;
 using _2SemesterEksamensProjekt.Views.Pages;
 using Timer = _2SemesterEksamensProjekt.Models.TimeRecord;
 
@@ -20,28 +21,11 @@ namespace _2SemesterEksamensProjekt.ViewModels
 {
     public class TimerPageViewModel : BaseViewModel
     {
-        
-        private readonly TimeRecordRepository _timeRecordRepository;
+        //Viser tiden der tæller ned
         private readonly DispatcherTimer _dispatcherTimer;
+        
+        //Giv timeren et navn
         private string _newTimerName;
-        private string _timerName;
-        private string _elapsedTime;
-        private string _isRunning;
-        private string _startTime;
-
-        public ObservableCollection<TimeRecord> Timers { get; } = new ObservableCollection<TimeRecord>();
-
-        
-        //Command properties
-        public RelayCommand CreateTimerCommand { get; }
-        public RelayCommand DeleteTimerCommand { get; }
-        public RelayCommand StartTimerCommand { get; }
-        public RelayCommand StopTimerCommand { get; }
-        public RelayCommand SaveTimerCommand { get; }
-
-        
-        //Inputs til Timer
-
         public string NewTimerName
         {
             get => _newTimerName;
@@ -52,46 +36,16 @@ namespace _2SemesterEksamensProjekt.ViewModels
                 CommandManager.InvalidateRequerySuggested();
             }
         }
-        public string TimerName
-        {
-            get => _timerName;
-            set
-            {
-                _timerName = value;
-                OnPropertyChanged();
-            }
-        }
-        public TimeSpan ElapsedTime
-        {
-            get => ElapsedTime;
-            set
-            {
-                ElapsedTime = value;
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(DisplayTime));
-                OnPropertyChanged(nameof(DisplayInfo));
-            }
-        }
-        public bool IsRunning
-        {
-            get => IsRunning;
-            set
-            {
-                IsRunning = value;
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(DisplayInfo));
-            }
-        }
 
-        public DateTime StartTime
-        {
-            get => StartTime;
-            set
-            {
-                StartTime = value;
-                OnPropertyChanged();
-            }
-        }
+        //ObservableCollection som midlertidig liste med kørende timers 
+        public ObservableCollection<TimeRecord> Timers { get; set; }
+
+        //Command properties
+        public RelayCommand CreateTimerCommand { get; }
+        public RelayCommand DeleteTimerCommand { get; }
+        public RelayCommand StartTimerCommand { get; }
+        public RelayCommand StopTimerCommand { get; }
+        public RelayCommand SaveTimerCommand { get; }
 
         public TimerPageViewModel()
         {
@@ -113,13 +67,6 @@ namespace _2SemesterEksamensProjekt.ViewModels
             DeleteTimerCommand = new RelayCommand(DeleteTimer);
             SaveTimerCommand = new RelayCommand(SaveTimer);
         }
-        //Defulat properties til visning
-        public string DisplayTime =>
-            $"{(int)ElapsedTime.TotalHours:00}:{ElapsedTime.Minutes:00}:{ElapsedTime.Seconds:00}";
-
-        public string DisplayInfo =>
-            IsRunning ? "Kører ..." : $"Total id: {DisplayTime}";
-
         private bool CanCreateTimer(object parameter)
         {
             return !string.IsNullOrWhiteSpace(NewTimerName);
@@ -140,6 +87,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
             Timers.Add(newTimer);
             NewTimerName = string.Empty;
         }
+
 
         private void StartTimer(object parameter)
         {
@@ -188,12 +136,11 @@ namespace _2SemesterEksamensProjekt.ViewModels
         }
         public void SaveTimer(object parameter)
         {
-            //Kald den nye side
+            if(parameter is TimeRecord timer)
+            {
+                AppNavigationService.Navigate(new TimeRecordPage(timer));
+            }
         }
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        
     }
 }
