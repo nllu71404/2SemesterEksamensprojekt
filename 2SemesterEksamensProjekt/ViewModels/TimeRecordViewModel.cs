@@ -97,7 +97,9 @@ namespace _2SemesterEksamensProjekt.ViewModels
         private void LoadCompanies()
         {
             Companies.Clear();
-            foreach (var company in _companyRepo.GetAllCompanies())
+
+            foreach (var company in _companyRepo.GetAllCompanies()
+                                        .Where(c => c.ProjectId != null))
             {
                 Companies.Add(company);
             }
