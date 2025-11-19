@@ -46,9 +46,8 @@ namespace _2SemesterEksamensProjekt.ViewModels
 
         public CompanyPageViewModel(CompanyRepository companyRepository)
         {
-            _companyRepository = companyRepository;
 
-            foreach (var company in _companyRepository.GetAllCompanies())
+            foreach (var company in companyRepository.GetAllCompanies())
             {
                 Companies.Add(company);
             }

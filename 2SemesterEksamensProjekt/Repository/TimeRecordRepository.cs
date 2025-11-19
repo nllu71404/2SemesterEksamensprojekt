@@ -64,7 +64,7 @@ namespace _2SemesterEksamensProjekt.Repository
                 return timers;
             });
         }
-        public int SaveNewProject(TimeRecord timer)
+        public int SaveNewTimeRecord(TimeRecord timer)
         {
             return ExecuteSafe(conn =>
             {

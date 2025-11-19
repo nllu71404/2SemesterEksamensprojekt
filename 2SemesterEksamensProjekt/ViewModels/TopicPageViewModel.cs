@@ -41,9 +41,8 @@ namespace _2SemesterEksamensProjekt.ViewModels
 
         public TopicPageViewModel(TopicRepository topicRepository)
         {
-            _topicRepository = topicRepository;
 
-            foreach (var topic in _topicRepository.GetAllTopics())
+            foreach (var topic in topicRepository.GetAllTopics())
             {
                 Topics.Add(topic);
             }

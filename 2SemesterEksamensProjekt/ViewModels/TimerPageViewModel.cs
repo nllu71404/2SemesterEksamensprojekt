@@ -24,49 +24,55 @@ namespace _2SemesterEksamensProjekt.ViewModels
         //Viser tiden der tæller ned
         private readonly DispatcherTimer _dispatcherTimer;
 
-        private readonly TimeRecord _timeRecord;
+        //private Timer _timeRecord;
 
-        public string TimerName
-        {
-            get => _timeRecord.TimerName;
-            set
-            {
-                _timeRecord.TimerName = value;
-                OnPropertyChanged();
-            }
-        }
+        //public Timer TimeRecord
+        //{
+        //    get => _timeRecord;
+        //    set => _timeRecord = value;
+        //}
 
-        public TimeSpan ElapsedTime
-        {
-            get => _timeRecord.ElapsedTime;
-            set
-            {
-                _timeRecord.ElapsedTime = value;
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(DisplayTime));
-                OnPropertyChanged(nameof(DisplayInfo));
-            }
-        }
+        //public string TimerName
+        //{
+        //    get => _timeRecord.TimerName;
+        //    set
+        //    {
+        //        _timeRecord.TimerName = value;
+        //        OnPropertyChanged(nameof(TimerName));
+        //    }
+        //}
 
-        public bool IsRunning
-        {
-            get => _timeRecord.IsRunning;
-            set
-            {
-                _timeRecord.IsRunning = value;
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(DisplayInfo));
-            }
-        }
+        //public TimeSpan ElapsedTime
+        //{
+        //    get => _timeRecord.ElapsedTime;
+        //    set
+        //    {
+        //        _timeRecord.ElapsedTime = value;
+        //        OnPropertyChanged();
+        //        OnPropertyChanged(nameof(DisplayTime));
+        //        OnPropertyChanged(nameof(DisplayInfo));
+        //    }
+        //}
 
-        public string DisplayTime =>
-            $"{(int)_timeRecord.ElapsedTime.TotalHours:00}:{_timeRecord.ElapsedTime.Minutes:00}:{_timeRecord.ElapsedTime.Seconds:00}";
+        //public bool IsRunning
+        //{
+        //    get => _timeRecord.IsRunning;
+        //    set
+        //    {
+        //        _timeRecord.IsRunning = value;
+        //        OnPropertyChanged();
+        //        OnPropertyChanged(nameof(DisplayInfo));
+        //    }
+        //}
 
-        public string DisplayInfo =>
-            IsRunning ? "Kører ..." : $"Total tid: {DisplayTime}";
+        //public string DisplayTime =>
+        //    $"{(int)_timeRecord.ElapsedTime.TotalHours:00}:{_timeRecord.ElapsedTime.Minutes:00}:{_timeRecord.ElapsedTime.Seconds:00}";
+
+        //public string DisplayInfo =>
+        //    IsRunning ? "Kører ..." : $"Total tid: {DisplayTime}";
 
         //ObservableCollection som midlertidig liste med kørende timers 
-        public ObservableCollection<TimeRecord> Timers { get; set; }
+        public ObservableCollection<Timer> Timers { get; set; }
 
         //Command properties
         public RelayCommand CreateTimerCommand { get; }
@@ -75,10 +81,12 @@ namespace _2SemesterEksamensProjekt.ViewModels
         public RelayCommand StopTimerCommand { get; }
         public RelayCommand SaveTimerCommand { get; }
 
+        public string TimerName { get; set; }
+
         public TimerPageViewModel()
         {
-            //TimerPage
-            Timers = new ObservableCollection<TimeRecord>();
+
+            Timers = new ObservableCollection<Timer>();
 
             _dispatcherTimer = new DispatcherTimer
             {
@@ -114,12 +122,13 @@ namespace _2SemesterEksamensProjekt.ViewModels
 
             Timers.Add(newTimer);
             TimerName = string.Empty;
+            OnPropertyChanged(nameof(TimerName));
         }
-
 
         private void StartTimer(object parameter)
         {
-            if(parameter is Timer timer && !timer.IsRunning){
+            if (parameter is Timer timer && !timer.IsRunning)
+            {
                 timer.StartTime = DateTime.Now;
                 timer.IsRunning = true;
             }
@@ -127,7 +136,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
 
         private void StopTimer(object parameter)
         {
-            if(parameter is Timer timer && timer.IsRunning)
+            if (parameter is Timer timer && timer.IsRunning)
             {
                 timer.IsRunning = false;
             }
@@ -135,7 +144,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
 
         private void DispatcherTimer_Tick(object sender, EventArgs e)
         {
-            foreach(var timer in Timers)
+            foreach (var timer in Timers)
             {
                 if (timer.IsRunning)
                 {
@@ -144,6 +153,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
                 }
             }
         }
+
         public void DeleteTimer(object parameter)
         {
             if (parameter is Timer timerToDelete)
@@ -162,13 +172,13 @@ namespace _2SemesterEksamensProjekt.ViewModels
                 }
             }
         }
+
         public void SaveTimer(object parameter)
         {
-            if(parameter is TimeRecord timer)
+            if (parameter is Timer timer)
             {
-                AppNavigationService.Navigate(new TimeRecordPage(timer));
+                AppNavigationService.Navigate(new TimeRecordPage());
             }
         }
-        
     }
 }
