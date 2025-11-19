@@ -68,19 +68,30 @@ namespace _2SemesterEksamensProjekt.Repository
         {
             return ExecuteSafe(conn =>
             {
-                using var cmd = new SqlCommand("INDSÆT STORED PROCEDURE", conn);
+                using var cmd = new SqlCommand("uspCreateTimeRecord", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                cmd.Parameters.AddWithValue("@TimerId", timer.TimerId);
-                cmd.Parameters.AddWithValue("@TimerName", timer.TimerName);
-                cmd.Parameters.AddWithValue("@ElapsedTime", timer.ElapsedTime);
-                cmd.Parameters.AddWithValue("@StartTime", timer.StartTime);
-                cmd.Parameters.AddWithValue("@CompanyId", timer.CompanyId);
-                cmd.Parameters.AddWithValue("@ProjectId", timer.ProjectId);
-                cmd.Parameters.AddWithValue("@TopicId", timer.TopicId);
+                cmd.Parameters.Add("@TimerName", SqlDbType.NVarChar, 100).Value =
+                string.IsNullOrEmpty(timer.TimerName) ? throw new ArgumentException("TimerName må ikke være tom") : timer.TimerName;
 
-                var newId = cmd.ExecuteScalar();
-                return Convert.ToInt32(newId);
+                cmd.Parameters.Add("@ElapsedTime", SqlDbType.Time).Value = timer.ElapsedTime;
+
+                cmd.Parameters.Add("@StartTime", SqlDbType.DateTime).Value =
+                    timer.StartTime != default ? timer.StartTime : DateTime.Now;
+
+                cmd.Parameters.Add("@CompanyId", SqlDbType.Int).Value =
+                    timer.CompanyId.HasValue ? timer.CompanyId.Value : DBNull.Value;
+
+                cmd.Parameters.Add("@ProjectId", SqlDbType.Int).Value =
+                    timer.ProjectId.HasValue ? timer.ProjectId.Value : DBNull.Value;
+
+                cmd.Parameters.Add("@TopicId", SqlDbType.Int).Value =
+                    timer.TopicId.HasValue ? timer.TopicId.Value : DBNull.Value;
+
+
+                object result = cmd.ExecuteScalar();
+                return Convert.ToInt32(result);
+
             });
         }
 

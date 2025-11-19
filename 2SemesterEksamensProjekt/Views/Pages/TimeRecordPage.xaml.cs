@@ -22,13 +22,19 @@ namespace _2SemesterEksamensProjekt.Views.Pages
     /// </summary>
     public partial class TimeRecordPage : Page
     {
-        private TimeRecord _timeRecord;
 
         public TimeRecordPage(string timerName, TimeSpan elapsedTime)
         {
             InitializeComponent();
-            _timeRecord = new TimeRecord();
-            DataContext = new TimeRecordViewModel(_timeRecord, timerName, elapsedTime);
+
+            var timeRecord = new TimeRecord
+            {
+                TimerName = timerName,
+                ElapsedTime = elapsedTime,
+                IsRunning = false
+            };
+
+            DataContext = new TimeRecordViewModel(timeRecord);
             //DataContext = new ProjectPageViewModel();
         }
     }

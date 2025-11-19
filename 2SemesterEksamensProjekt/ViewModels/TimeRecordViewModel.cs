@@ -74,7 +74,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
         public RelayCommand CancelTimeRecordCommand { get; }
 
         //Constructor
-        public TimeRecordViewModel(TimeRecord timeRecord, string timerName, TimeSpan elapsedTime)
+        public TimeRecordViewModel(TimeRecord timeRecord)
         {
 
             _timeRecord = timeRecord ?? throw new ArgumentNullException(nameof(timeRecord));
@@ -82,10 +82,10 @@ namespace _2SemesterEksamensProjekt.ViewModels
             // Når modellen ændrer sig -> opdater viewmodel
             _timeRecord.PropertyChanged += (s, e) =>
             {
-                if (e.PropertyName == nameof(elapsedTime))
+                if (e.PropertyName == nameof(TimeRecord.ElapsedTime))
                     OnPropertyChanged(nameof(ElapsedTimeDisplay));
 
-                if (e.PropertyName == nameof(timerName))
+                if (e.PropertyName == nameof(TimeRecord.TimerName))
                     OnPropertyChanged(nameof(TimerName));
             };
 
@@ -98,8 +98,8 @@ namespace _2SemesterEksamensProjekt.ViewModels
             Projects = new ObservableCollection<Project>();
             Topics = new ObservableCollection<Topic>();
 
-            //LoadCompanies();
-            //LoadAllTopics();
+            LoadCompanies();
+            LoadAllTopics();
 
             SaveTimeRecordCommand = new RelayCommand(_ => SaveTimeRecord());
             CancelTimeRecordCommand = new RelayCommand(_ => CancelTimeRecord());
@@ -108,14 +108,22 @@ namespace _2SemesterEksamensProjekt.ViewModels
         //Metoder
         private void LoadCompanies()
         {
+            
             Companies.Clear();
 
-            foreach (var company in _companyRepo.GetAllCompanies()
-                                        .Where(c => c.ProjectId != null))
+            var allCompanies = _companyRepo.GetAllCompanies() ?? new List<Company>();
+            var allProjects = _projectRepo.GetAllProjects() ?? new List<Project>();
+
+            // Kun de virksomheder, der har mindst ét projekt
+            var companiesWithProjects = allCompanies
+                .Where(c => allProjects.Any(p => p.CompanyId == c.CompanyId));
+
+            foreach (var company in companiesWithProjects)
             {
                 Companies.Add(company);
             }
         }
+        
 
         private void LoadProjectsForSelectedCompany()
         {
@@ -164,14 +172,16 @@ namespace _2SemesterEksamensProjekt.ViewModels
                 return;
             }
 
+
             _timeRecord.CompanyId = SelectedCompany.CompanyId;
             _timeRecord.ProjectId = SelectedProject.ProjectId;
             _timeRecord.TopicId = SelectedTopic.TopicId;
+           
 
             try
             {
                 int newId = _timeRecordRepo.SaveNewTimeRecord(_timeRecord);
-                _timeRecord.TimerId = newId;
+                
 
                 MessageBox.Show("Tidsregistrering gemt!", "Succes",
                     MessageBoxButton.OK, MessageBoxImage.Information);

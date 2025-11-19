@@ -19,6 +19,7 @@ namespace _2SemesterEksamensProjekt.Models
         {
             CompanyName = companyName;
             CompanyId = companyId;
+            ProjectId = null;
 
         }
 
