@@ -74,7 +74,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
         public RelayCommand CancelTimeRecordCommand { get; }
 
         //Constructor
-        public TimeRecordViewModel(TimeRecord timeRecord)
+        public TimeRecordViewModel(TimeRecord timeRecord, string timerName, TimeSpan elapsedTime)
         {
 
             _timeRecord = timeRecord ?? throw new ArgumentNullException(nameof(timeRecord));
@@ -82,10 +82,10 @@ namespace _2SemesterEksamensProjekt.ViewModels
             // Når modellen ændrer sig -> opdater viewmodel
             _timeRecord.PropertyChanged += (s, e) =>
             {
-                if (e.PropertyName == nameof(TimeRecord.ElapsedTime))
+                if (e.PropertyName == nameof(elapsedTime))
                     OnPropertyChanged(nameof(ElapsedTimeDisplay));
 
-                if (e.PropertyName == nameof(TimeRecord.TimerName))
+                if (e.PropertyName == nameof(timerName))
                     OnPropertyChanged(nameof(TimerName));
             };
 

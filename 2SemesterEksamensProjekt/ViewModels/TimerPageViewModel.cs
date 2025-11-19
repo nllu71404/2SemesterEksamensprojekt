@@ -24,6 +24,8 @@ namespace _2SemesterEksamensProjekt.ViewModels
         //Viser tiden der tæller ned
         private readonly DispatcherTimer _dispatcherTimer;
 
+        private TimeRecordViewModel _timeRecordViewModel;
+        private TimeRecord _timeRecord;
         //ObservableCollection som midlertidig liste med kørende timers 
         public ObservableCollection<Timer> Timers { get; set; }
 
@@ -35,7 +37,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
         public RelayCommand SaveTimerCommand { get; }
 
         public string TimerName { get; set; }
-
+        public TimeSpan ElapsedTime { get; set; }
         public TimerPageViewModel()
         {
 
@@ -129,9 +131,27 @@ namespace _2SemesterEksamensProjekt.ViewModels
         public void SaveTimer(object parameter)
         {
 
+            //Timers.Add(TimeSpan.ElapsedTime);
+
+            //_timeRecordViewModel = new TimeRecordViewModel(_timeRecord);
+            /*
+            var newTimeRecord = new Timer
+            {
+                TimerName = TimerName,
+                ElapsedTime = _timeRecordViewModel.TimeSpan.ElapsedTimeDisplay
+            };
+            Timers.Add(newTimeRecord);
+            */
+
+
+
+
             if (parameter is Timer timer)
             {
-                AppNavigationService.Navigate(new TimeRecordPage());
+                AppNavigationService.Navigate(new TimeRecordPage(
+                timer.TimerName,
+                timer.ElapsedTime
+                ));
             }
         }
     }

@@ -24,11 +24,11 @@ namespace _2SemesterEksamensProjekt.Views.Pages
     {
         private TimeRecord _timeRecord;
 
-        public TimeRecordPage()
+        public TimeRecordPage(string timerName, TimeSpan elapsedTime)
         {
             InitializeComponent();
             _timeRecord = new TimeRecord();
-            DataContext = new TimeRecordViewModel(_timeRecord);
+            DataContext = new TimeRecordViewModel(_timeRecord, timerName, elapsedTime);
             //DataContext = new ProjectPageViewModel();
         }
     }

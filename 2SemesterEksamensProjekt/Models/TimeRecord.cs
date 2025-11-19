@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -14,7 +15,17 @@ namespace _2SemesterEksamensProjekt.Models
 
         //Fields
         public int TimerId { get; set; }
-        public string TimerName { get; set; }
+        private string _timerName;
+        public string TimerName
+        {
+            get => _timerName;
+            set 
+            {
+                _timerName = value;
+                OnPropertyChanged();
+                    
+            }
+        }
 
 
         private TimeSpan _elapsedTime;
