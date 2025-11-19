@@ -101,8 +101,13 @@
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <Border BorderBrush="{StaticResource AccentBrush}" BorderThickness="3,0,0,0"
-                                        Padding="15,10" Margin="0,0,0,3" Background="Transparent">
-                                    <TextBlock Text="{Binding Title}" FontSize="13"/>
+        Padding="15,10" Margin="0,0,0,3" Background="Transparent">
+
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding Title}" FontSize="13" FontWeight="Bold"/>
+                                        <TextBlock Text="{Binding Description}" FontSize="12" Opacity="0.7"/>
+                                    </StackPanel>
+
                                 </Border>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
