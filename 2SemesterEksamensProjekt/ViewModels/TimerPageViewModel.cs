@@ -24,53 +24,6 @@ namespace _2SemesterEksamensProjekt.ViewModels
         //Viser tiden der tæller ned
         private readonly DispatcherTimer _dispatcherTimer;
 
-        //private Timer _timeRecord;
-
-        //public Timer TimeRecord
-        //{
-        //    get => _timeRecord;
-        //    set => _timeRecord = value;
-        //}
-
-        //public string TimerName
-        //{
-        //    get => _timeRecord.TimerName;
-        //    set
-        //    {
-        //        _timeRecord.TimerName = value;
-        //        OnPropertyChanged(nameof(TimerName));
-        //    }
-        //}
-
-        //public TimeSpan ElapsedTime
-        //{
-        //    get => _timeRecord.ElapsedTime;
-        //    set
-        //    {
-        //        _timeRecord.ElapsedTime = value;
-        //        OnPropertyChanged();
-        //        OnPropertyChanged(nameof(DisplayTime));
-        //        OnPropertyChanged(nameof(DisplayInfo));
-        //    }
-        //}
-
-        //public bool IsRunning
-        //{
-        //    get => _timeRecord.IsRunning;
-        //    set
-        //    {
-        //        _timeRecord.IsRunning = value;
-        //        OnPropertyChanged();
-        //        OnPropertyChanged(nameof(DisplayInfo));
-        //    }
-        //}
-
-        //public string DisplayTime =>
-        //    $"{(int)_timeRecord.ElapsedTime.TotalHours:00}:{_timeRecord.ElapsedTime.Minutes:00}:{_timeRecord.ElapsedTime.Seconds:00}";
-
-        //public string DisplayInfo =>
-        //    IsRunning ? "Kører ..." : $"Total tid: {DisplayTime}";
-
         //ObservableCollection som midlertidig liste med kørende timers 
         public ObservableCollection<Timer> Timers { get; set; }
 
@@ -175,6 +128,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
 
         public void SaveTimer(object parameter)
         {
+
             if (parameter is Timer timer)
             {
                 AppNavigationService.Navigate(new TimeRecordPage());

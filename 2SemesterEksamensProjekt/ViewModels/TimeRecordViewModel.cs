@@ -66,8 +66,8 @@ namespace _2SemesterEksamensProjekt.ViewModels
             set => SetProperty(ref _selectedTopic, value);
         }
 
-        public string TimerName => _timeRecord?.TimerName ?? "";
-        public string ElapsedTimeDisplay => _timeRecord?.DisplayTime ?? "00:00:00";
+        public string TimerName => _timeRecord.TimerName;
+        public string ElapsedTimeDisplay => _timeRecord.DisplayTime;
 
         //Commands
         public RelayCommand SaveTimeRecordCommand { get; }
@@ -98,8 +98,8 @@ namespace _2SemesterEksamensProjekt.ViewModels
             Projects = new ObservableCollection<Project>();
             Topics = new ObservableCollection<Topic>();
 
-            LoadCompanies();
-            LoadAllTopics();
+            //LoadCompanies();
+            //LoadAllTopics();
 
             SaveTimeRecordCommand = new RelayCommand(_ => SaveTimeRecord());
             CancelTimeRecordCommand = new RelayCommand(_ => CancelTimeRecord());
