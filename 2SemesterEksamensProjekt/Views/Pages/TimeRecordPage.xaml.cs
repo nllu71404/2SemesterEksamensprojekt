@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using _2SemesterEksamensProjekt.ViewModels;
+using _2SemesterEksamensProjekt.Models;
 
 namespace _2SemesterEksamensProjekt.Views.Pages
 {
@@ -21,10 +22,13 @@ namespace _2SemesterEksamensProjekt.Views.Pages
     /// </summary>
     public partial class TimeRecordPage : Page
     {
+        private TimeRecord _timeRecord;
+
         public TimeRecordPage()
         {
             InitializeComponent();
-            DataContext = new TimeRecordViewModel();
+            _timeRecord = new TimeRecord();
+            DataContext = new TimeRecordViewModel(_timeRecord);
             //DataContext = new ProjectPageViewModel();
         }
     }
