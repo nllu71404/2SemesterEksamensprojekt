@@ -52,7 +52,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
             }
         }
 
-        public Project? _selectedproject;
+        private Project? _selectedproject;
         public Project? SelectedProject
         {
             get => _selectedproject;

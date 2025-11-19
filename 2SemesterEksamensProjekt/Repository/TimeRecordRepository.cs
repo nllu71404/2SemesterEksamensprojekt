@@ -117,7 +117,7 @@ namespace _2SemesterEksamensProjekt.Repository
                 return projects;
             });
         }
-        public List<TimeRecord> GetProjectsByCompanyId(int companyId)
+        public List<TimeRecord> GetProjectsByCompanyId(int companyId) //Skal vi bruge denne til noget?:-)
         {
             return ExecuteSafe(conn =>
             {

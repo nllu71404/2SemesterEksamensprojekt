@@ -26,8 +26,11 @@ namespace _2SemesterEksamensProjekt.ViewModels
 
         private TimeRecordViewModel _timeRecordViewModel;
         private TimeRecord _timeRecord;
+
         //ObservableCollection som midlertidig liste med kørende timers 
         public ObservableCollection<Timer> Timers { get; set; }
+        public string TimerName { get; set; }
+        public TimeSpan ElapsedTime { get; set; }
 
         //Command properties
         public RelayCommand CreateTimerCommand { get; }
@@ -36,8 +39,8 @@ namespace _2SemesterEksamensProjekt.ViewModels
         public RelayCommand StopTimerCommand { get; }
         public RelayCommand SaveTimerCommand { get; }
 
-        public string TimerName { get; set; }
-        public TimeSpan ElapsedTime { get; set; }
+        
+
         public TimerPageViewModel()
         {
 
@@ -103,7 +106,6 @@ namespace _2SemesterEksamensProjekt.ViewModels
             {
                 if (timer.IsRunning)
                 {
-                    //var elapsed = DateTime.Now - timer.StartTime;
                     timer.ElapsedTime += TimeSpan.FromSeconds(1);
                 }
             }
