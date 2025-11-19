@@ -23,19 +23,47 @@ namespace _2SemesterEksamensProjekt.ViewModels
     {
         //Viser tiden der tæller ned
         private readonly DispatcherTimer _dispatcherTimer;
-        
-        //Giv timeren et navn
-        private string _newTimerName;
-        public string NewTimerName
+
+        private readonly TimeRecord _timeRecord;
+
+        public string TimerName
         {
-            get => _newTimerName;
+            get => _timeRecord.TimerName;
             set
             {
-                _newTimerName = value;
+                _timeRecord.TimerName = value;
                 OnPropertyChanged();
-                CommandManager.InvalidateRequerySuggested();
             }
         }
+
+        public TimeSpan ElapsedTime
+        {
+            get => _timeRecord.ElapsedTime;
+            set
+            {
+                _timeRecord.ElapsedTime = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(DisplayTime));
+                OnPropertyChanged(nameof(DisplayInfo));
+            }
+        }
+
+        public bool IsRunning
+        {
+            get => _timeRecord.IsRunning;
+            set
+            {
+                _timeRecord.IsRunning = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(DisplayInfo));
+            }
+        }
+
+        public string DisplayTime =>
+            $"{(int)_timeRecord.ElapsedTime.TotalHours:00}:{_timeRecord.ElapsedTime.Minutes:00}:{_timeRecord.ElapsedTime.Seconds:00}";
+
+        public string DisplayInfo =>
+            IsRunning ? "Kører ..." : $"Total tid: {DisplayTime}";
 
         //ObservableCollection som midlertidig liste med kørende timers 
         public ObservableCollection<TimeRecord> Timers { get; set; }
@@ -69,23 +97,23 @@ namespace _2SemesterEksamensProjekt.ViewModels
         }
         private bool CanCreateTimer(object parameter)
         {
-            return !string.IsNullOrWhiteSpace(NewTimerName);
+            return !string.IsNullOrWhiteSpace(TimerName);
         }
 
         private void CreateTimer(object parameter)
         {
-            if (string.IsNullOrWhiteSpace(NewTimerName))
+            if (string.IsNullOrWhiteSpace(TimerName))
                 return;
 
             var newTimer = new Timer
             {
-                TimerName = NewTimerName,
+                TimerName = TimerName,
                 ElapsedTime = TimeSpan.Zero,
                 IsRunning = false
             };
 
             Timers.Add(newTimer);
-            NewTimerName = string.Empty;
+            TimerName = string.Empty;
         }
 
 
@@ -130,7 +158,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
                 if (result == MessageBoxResult.Yes)
                 {
                     Timers.Remove(timerToDelete);
-                    NewTimerName = string.Empty;
+                    TimerName = string.Empty;
                 }
             }
         }

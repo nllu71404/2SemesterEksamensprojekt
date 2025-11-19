@@ -27,7 +27,8 @@ namespace _2SemesterEksamensProjekt.ViewModels
         private readonly TopicRepository _topicRepo;
 
         //Tager den gemte tid med over i ny Page
-        private TimeRecord _currentTimeRecord;
+        private TimerPageViewModel _timerPageViewModel;
+        private TimeRecord _timeRecord;
 
         //Properties
         public ObservableCollection<Company> Companies { get; set; }
@@ -62,8 +63,8 @@ namespace _2SemesterEksamensProjekt.ViewModels
             set => SetProperty(ref _selectedTopic, value);
         }
 
-        public string TimerName => _currentTimeRecord?.TimerName ?? "";
-        public string ElapsedTimeDisplay => _currentTimeRecord?.DisplayTime ?? "00:00:00";
+        public string TimerName => _timeRecord?.TimerName ?? "";
+        public string ElapsedTimeDisplay => _timerPageViewModel?.DisplayTime ?? "00:00:00";
 
         //Commands
         public RelayCommand SaveTimeRecordCommand { get; }
@@ -72,7 +73,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
         //Constructor
         public TimeRecordViewModel(TimeRecord timeRecord)
         {
-            _currentTimeRecord = timeRecord ?? throw new ArgumentNullException(nameof(timeRecord));
+            _timeRecord = timeRecord ?? throw new ArgumentNullException(nameof(timeRecord));
 
             _timeRecordRepo = new TimeRecordRepository();
             _companyRepo = new CompanyRepository();
@@ -154,15 +155,15 @@ namespace _2SemesterEksamensProjekt.ViewModels
             }
 
             // Udfyld TimeRecord med valgte værdier
-            _currentTimeRecord.CompanyId = SelectedCompany.CompanyId;
-            _currentTimeRecord.ProjectId = SelectedProject.ProjectId;
-            _currentTimeRecord.TopicId = SelectedTopic.TopicId;
+            _timeRecord.CompanyId = SelectedCompany.CompanyId;
+            _timeRecord.ProjectId = SelectedProject.ProjectId;
+            _timeRecord.TopicId = SelectedTopic.TopicId;
 
             // Gem i database
             try
             {
-                int newId = _timeRecordRepo.SaveNewTimeRecord(_currentTimeRecord);
-                _currentTimeRecord.TimerId = newId;
+                int newId = _timeRecordRepo.SaveNewTimeRecord(_timeRecord);
+                _timeRecord.TimerId = newId;
 
                 MessageBox.Show("Tidsregistrering gemt!", "Succes",
                     MessageBoxButton.OK, MessageBoxImage.Information);
