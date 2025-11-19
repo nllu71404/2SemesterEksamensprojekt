@@ -24,7 +24,8 @@ namespace _2SemesterEksamensProjekt.Views.Pages
         public TimeRecordPage()
         {
             InitializeComponent();
-            DataContext = new TimeRecordViewModel(XXX);
+            DataContext = new TimeRecordViewModel();
+            //DataContext = new ProjectPageViewModel();
         }
     }
 }

@@ -45,7 +45,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
                 {
                     //Hvis   
 
-                    LoadProjectsForCompany();
+                    LoadProjectsForSelectedCompany();
                     SelectedProject = null;
                 }
             }
@@ -88,7 +88,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
             LoadCompanies();
             LoadAllTopics();
 
-            SaveTimeRecordCommand = new RelayCommand(_ => SaveTimeRecord(object parameter));
+            SaveTimeRecordCommand = new RelayCommand(_ => SaveTimeRecord());
             CancelTimeRecordCommand = new RelayCommand(_ => CancelTimeRecord());
 
         }
@@ -106,18 +106,20 @@ namespace _2SemesterEksamensProjekt.ViewModels
             }
         }
 
-        private void LoadProjectsForCompany()
+        
+        private void LoadProjectsForSelectedCompany()
         {
+            if (SelectedCompany == null)
+                return;
+            var projekter = _projectRepo.GetProjectsByCompanyId(SelectedCompany.CompanyId)
+                            ?? new List<Project>();
+
             Projects.Clear();
 
-            if (SelectedCompany == null) return;
-
-            // Hent kun projekter for den valgte virksomhed
-            foreach (var project in _projectRepo.GetProjectsByCompanyId(SelectedCompany.CompanyId))
-            {
-                Projects.Add(project);
-            }
+            foreach (var p in projekter)
+                Projects.Add(p);
         }
+
 
         private void LoadAllTopics()
         {
