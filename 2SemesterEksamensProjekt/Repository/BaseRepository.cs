@@ -24,10 +24,23 @@ namespace _2SemesterEksamensProjekt.Repository
         //}.ConnectionString;
 
         //                                                                          Lauras streng til lokal SQL Server     
-        protected readonly string _connectionString =                                
+        //protected readonly string _connectionString =                                
+        //new SqlConnectionStringBuilder
+        //{
+        //    DataSource = @"DESKTOP-20JEDR6\SQLEXPRESS",
+        //    InitialCatalog = "StackhouseDB",
+        //    IntegratedSecurity = true,           // Windows login
+        //    TrustServerCertificate = true,       // undgår certifikatfejl
+        //    Encrypt = false,                     // Express kræver det ikke
+        //    MultipleActiveResultSets = true,
+        //    ConnectTimeout = 30
+        //}.ConnectionString;
+
+        // Mias connection string
+        protected readonly string _connectionString =
         new SqlConnectionStringBuilder
         {
-            DataSource = @"DESKTOP-20JEDR6\SQLEXPRESS",
+            DataSource = "localhost",
             InitialCatalog = "StackhouseDB",
             IntegratedSecurity = true,           // Windows login
             TrustServerCertificate = true,       // undgår certifikatfejl
