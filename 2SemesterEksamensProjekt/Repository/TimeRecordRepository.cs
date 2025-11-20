@@ -18,7 +18,7 @@ namespace _2SemesterEksamensProjekt.Repository
                 var timers = new List<TimeRecord>();
 
                 using var cmd = new SqlCommand(
-                        "SKRIV VIEW QUERY IND", conn);
+                        "SELECT * FROM dbo.vwSelectAllTimeRecord", conn);
 
                 using var reader = cmd.ExecuteReader();
                 while (reader.Read())
