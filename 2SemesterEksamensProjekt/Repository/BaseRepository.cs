@@ -9,16 +9,30 @@ namespace _2SemesterEksamensProjekt.Repository
 {
     public abstract class BaseRepository
     {
-        protected readonly string _connectionString =
-        new Microsoft.Data.SqlClient.SqlConnectionStringBuilder
+        //                                                                          gammel string til Azure SQL
+        //protected readonly string _connectionString =
+        //new Microsoft.Data.SqlClient.SqlConnectionStringBuilder
+        //{
+        //    DataSource = "tcp:team5semester2.database.windows.net,1433",
+        //    InitialCatalog = "Team5Semester2",        // <-- kun DB-navn
+        //    UserID = "adminteam5",
+        //    Password = "team5Admin",
+        //    Encrypt = true,
+        //    TrustServerCertificate = false,
+        //    MultipleActiveResultSets = false,
+        //    ConnectTimeout = 30
+        //}.ConnectionString;
+
+        //                                                                          Lauras streng til lokal SQL Server     
+        protected readonly string _connectionString =                                
+        new SqlConnectionStringBuilder
         {
-            DataSource = "tcp:team5semester2.database.windows.net,1433",
-            InitialCatalog = "Team5Semester2",        // <-- kun DB-navn
-            UserID = "adminteam5",
-            Password = "team5Admin",
-            Encrypt = true,
-            TrustServerCertificate = false,
-            MultipleActiveResultSets = false,
+            DataSource = @"DESKTOP-20JEDR6\SQLEXPRESS",
+            InitialCatalog = "StackhouseDB",
+            IntegratedSecurity = true,           // Windows login
+            TrustServerCertificate = true,       // undgår certifikatfejl
+            Encrypt = false,                     // Express kræver det ikke
+            MultipleActiveResultSets = true,
             ConnectTimeout = 30
         }.ConnectionString;
 
