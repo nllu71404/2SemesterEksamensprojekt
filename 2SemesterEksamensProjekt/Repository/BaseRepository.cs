@@ -37,6 +37,7 @@ namespace _2SemesterEksamensProjekt.Repository
         //}.ConnectionString;
 
         // Mias connection string
+        /*
         protected readonly string _connectionString =
         new SqlConnectionStringBuilder
         {
@@ -48,6 +49,21 @@ namespace _2SemesterEksamensProjekt.Repository
             MultipleActiveResultSets = true,
             ConnectTimeout = 30
         }.ConnectionString;
+        */
+
+        //Melindas connection string
+        /*
+        protected readonly string _connectionString = new SqlConnectionStringBuilder
+        {
+            DataSource = @"(localdb)\MSSQLLocalDB",
+            InitialCatalog = "StackhouseDB",
+            IntegratedSecurity = true,           // Windows login
+            TrustServerCertificate = true,       // undgår certifikatfejl
+            Encrypt = false,                     // Express kræver det ikke
+            MultipleActiveResultSets = true,
+            ConnectTimeout = 30
+        }.ConnectionString;
+        */
 
         //Opretter en ny sqlConnection
         protected SqlConnection GetConnection() => new SqlConnection(_connectionString);
