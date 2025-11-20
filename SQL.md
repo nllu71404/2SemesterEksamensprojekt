@@ -248,3 +248,24 @@ BEGIN
     WHERE CompanyId = @CompanyId;
 END;
 GO
+
+------------------------------------------------------------
+-- 7. SEED TOPICS
+------------------------------------------------------------
+
+INSERT INTO dbo.Topic (TopicDescription)
+VALUES
+    ('DSU'),
+    ('Sprint Planning'),
+    ('Refinement'),
+    ('Retrospective'),
+    ('Code Review'),
+    ('IO Weekly'),
+    ('Diff. DSU'),
+    ('Bugfixes'),
+    ('Map Availability'),
+    ('Status Meeting'),
+    ('Support tickets'),
+    ('Testing'),
+    ('Onboarding');
+GO
