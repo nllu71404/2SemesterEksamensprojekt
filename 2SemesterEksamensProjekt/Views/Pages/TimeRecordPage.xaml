@@ -78,32 +78,13 @@
                             BorderThickness="3"
                             CornerRadius="12"
                             Padding="5">
-                        <ListBox ItemsSource="{Binding Companies}"
+                        <ComboBox ItemsSource="{Binding Companies}"
                                  SelectedItem="{Binding SelectedCompany, Mode=TwoWay}"
                                  DisplayMemberPath="CompanyName"
                                  Height="50"
                                  BorderThickness="0"
                                  Background="Transparent"
-                                 ScrollViewer.VerticalScrollBarVisibility="Auto">
-                            <ListBox.ItemContainerStyle>
-                                <Style TargetType="ListBoxItem">
-                                    <Setter Property="Padding" Value="15,10"/>
-                                    <Setter Property="Margin" Value="0,0,0,2"/>
-                                    <Setter Property="Background" Value="Transparent"/>
-                                    <Setter Property="Foreground" Value="{StaticResource TitleBrush}"/>
-                                    <Setter Property="FontSize" Value="14"/>
-                                    <Style.Triggers>
-                                        <Trigger Property="IsSelected" Value="True">
-                                            <Setter Property="Background" Value="{StaticResource AccentBrush}"/>
-                                            <Setter Property="Foreground" Value="White"/>
-                                        </Trigger>
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Background" Value="#E0E7FF"/>
-                                        </Trigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </ListBox.ItemContainerStyle>
-                        </ListBox>
+                                 />
                     </Border>
                 </StackPanel>
 
@@ -119,32 +100,13 @@
                             BorderThickness="3"
                             CornerRadius="12"
                             Padding="5">
-                        <ListBox ItemsSource="{Binding Projects}"
+                        <ComboBox ItemsSource="{Binding Projects}"
                                  SelectedItem="{Binding SelectedProject, Mode=TwoWay}"
                                  DisplayMemberPath="Title"
                                  Height="50"
                                  BorderThickness="0"
                                  Background="Transparent"
-                                 ScrollViewer.VerticalScrollBarVisibility="Auto">
-                            <ListBox.ItemContainerStyle>
-                                <Style TargetType="ListBoxItem">
-                                    <Setter Property="Padding" Value="15,10"/>
-                                    <Setter Property="Margin" Value="0,0,0,2"/>
-                                    <Setter Property="Background" Value="Transparent"/>
-                                    <Setter Property="Foreground" Value="{StaticResource TitleBrush}"/>
-                                    <Setter Property="FontSize" Value="14"/>
-                                    <Style.Triggers>
-                                        <Trigger Property="IsSelected" Value="True">
-                                            <Setter Property="Background" Value="{StaticResource AccentBrush}"/>
-                                            <Setter Property="Foreground" Value="White"/>
-                                        </Trigger>
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Background" Value="#E0E7FF"/>
-                                        </Trigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </ListBox.ItemContainerStyle>
-                        </ListBox>
+                                 />
                     </Border>
                 </StackPanel>
 
@@ -160,32 +122,12 @@
                             BorderThickness="3"
                             CornerRadius="12"
                             Padding="5">
-                        <ListBox ItemsSource="{Binding Topics}"
+                        <ComboBox ItemsSource="{Binding Topics}"
                                  SelectedItem="{Binding SelectedTopic, Mode=TwoWay}"
                                  DisplayMemberPath="TopicDescription"
                                  Height="50"
                                  BorderThickness="0"
-                                 Background="Transparent"
-                                 ScrollViewer.VerticalScrollBarVisibility="Auto">
-                            <ListBox.ItemContainerStyle>
-                                <Style TargetType="ListBoxItem">
-                                    <Setter Property="Padding" Value="15,10"/>
-                                    <Setter Property="Margin" Value="0,0,0,2"/>
-                                    <Setter Property="Background" Value="Transparent"/>
-                                    <Setter Property="Foreground" Value="{StaticResource TitleBrush}"/>
-                                    <Setter Property="FontSize" Value="14"/>
-                                    <Style.Triggers>
-                                        <Trigger Property="IsSelected" Value="True">
-                                            <Setter Property="Background" Value="{StaticResource AccentBrush}"/>
-                                            <Setter Property="Foreground" Value="White"/>
-                                        </Trigger>
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Background" Value="#E0E7FF"/>
-                                        </Trigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </ListBox.ItemContainerStyle>
-                        </ListBox>
+                                 Background="Transparent"/>
                     </Border>
                 </StackPanel>
 
