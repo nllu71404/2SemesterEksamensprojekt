@@ -1,4 +1,4 @@
-1) Opret database
+
 USE master;
 GO
 
@@ -8,15 +8,13 @@ GO
 USE StackhouseDB;
 GO
 
-2) Tabeller
-Company
+
 CREATE TABLE dbo.Company(
     CompanyId INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
     CompanyName NVARCHAR(100) NOT NULL
 );
 GO
 
-Project
 CREATE TABLE dbo.Project(
     ProjectId INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
     CompanyId INT NOT NULL,
@@ -26,34 +24,31 @@ CREATE TABLE dbo.Project(
 );
 GO
 
-Topic
 CREATE TABLE dbo.Topic(
     TopicId INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
     TopicDescription NVARCHAR(200) NOT NULL
 );
 GO
 
-3) Views
-vwSelectAllCompanies
+
 CREATE VIEW dbo.vwSelectAllCompanies AS
 SELECT CompanyId, CompanyName
 FROM dbo.Company;
 GO
 
-vwSelectAllProjects
+
 CREATE VIEW dbo.vwSelectAllProjects AS
 SELECT ProjectId, CompanyId, Title, Description
 FROM dbo.Project;
 GO
 
-vwSelectAllTopics
+
 CREATE VIEW dbo.vwSelectAllTopics AS
 SELECT TopicId, TopicDescription
 FROM dbo.Topic;
 GO
 
-4) Indsæt testdata
-Companies
+
 SET IDENTITY_INSERT dbo.Company ON;
 
 INSERT INTO dbo.Company (CompanyId, CompanyName) VALUES
@@ -66,7 +61,6 @@ INSERT INTO dbo.Company (CompanyId, CompanyName) VALUES
 SET IDENTITY_INSERT dbo.Company OFF;
 GO
 
-Projects
 SET IDENTITY_INSERT dbo.Project ON;
 
 INSERT INTO dbo.Project (ProjectId, CompanyId, Title, Description) VALUES
@@ -84,8 +78,7 @@ INSERT INTO dbo.Project (ProjectId, CompanyId, Title, Description) VALUES
 SET IDENTITY_INSERT dbo.Project OFF;
 GO
 
-5) Stored Procedures
-CREATE – Company
+
 CREATE PROCEDURE dbo.uspCreateCompany
     @CompanyName NVARCHAR(100)
 AS
@@ -97,7 +90,6 @@ BEGIN
 END;
 GO
 
-CREATE – Project
 CREATE PROCEDURE dbo.uspCreateProject
     @CompanyId INT,
     @Title NVARCHAR(100),
@@ -111,7 +103,6 @@ BEGIN
 END;
 GO
 
-CREATE – Topic
 CREATE PROCEDURE dbo.uspCreateTopic
     @TopicDescription NVARCHAR(200)
 AS
@@ -123,7 +114,6 @@ BEGIN
 END;
 GO
 
-DELETE – Company
 CREATE PROCEDURE dbo.uspDeleteCompany
     @CompanyId INT
 AS
@@ -133,7 +123,6 @@ BEGIN
 END;
 GO
 
-DELETE – Project
 CREATE PROCEDURE dbo.uspDeleteProject
     @ProjectId INT
 AS
@@ -143,7 +132,6 @@ BEGIN
 END;
 GO
 
-DELETE – Topic
 CREATE PROCEDURE dbo.uspDeleteTopic
     @TopicId INT
 AS
@@ -153,7 +141,6 @@ BEGIN
 END;
 GO
 
-GET – Projects by Company
 CREATE PROCEDURE dbo.uspGetProjectsByCompanyId
     @CompanyId INT
 AS
@@ -164,7 +151,7 @@ BEGIN
 END;
 GO
 
-UPDATE – Company
+
 CREATE PROCEDURE dbo.uspUpdateCompany
     @CompanyId INT,
     @CompanyName NVARCHAR(100)
@@ -176,7 +163,7 @@ BEGIN
 END;
 GO
 
-UPDATE – Project
+
 CREATE PROCEDURE dbo.uspUpdateProject
     @ProjectId INT,
     @CompanyId INT,
@@ -193,7 +180,7 @@ BEGIN
 END;
 GO
 
-UPDATE – Topic
+
 CREATE PROCEDURE dbo.uspUpdateTopic
     @TopicId INT,
     @TopicDescription NVARCHAR(200)
