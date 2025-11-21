@@ -151,27 +151,12 @@ namespace _2SemesterEksamensProjekt.ViewModels
 
         private void SaveTimeRecord()
         {
-            if (SelectedCompany == null)
+            if (SelectedCompany == null || SelectedProject == null || SelectedTopic == null)
             {
-                MessageBox.Show("Vælg en virksomhed", "Mangler information",
+                MessageBox.Show("Udfyld venligst alle felter", "Mangler information",
                     MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
-
-            if (SelectedProject == null)
-            {
-                MessageBox.Show("Vælg et projekt", "Mangler information",
-                    MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
-
-            if (SelectedTopic == null)
-            {
-                MessageBox.Show("Vælg et emne", "Mangler information",
-                    MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
-
 
             _timeRecord.CompanyId = SelectedCompany.CompanyId;
             _timeRecord.ProjectId = SelectedProject.ProjectId;
@@ -186,7 +171,8 @@ namespace _2SemesterEksamensProjekt.ViewModels
                 MessageBox.Show("Tidsregistrering gemt!", "Succes",
                     MessageBoxButton.OK, MessageBoxImage.Information);
 
-                AppNavigationService.Navigate(new MainMenuPage());
+                // AppNavigationService.Navigate(new TimerPage());
+                AppNavigationService.GoBack();
             }
             catch (Exception ex)
             {

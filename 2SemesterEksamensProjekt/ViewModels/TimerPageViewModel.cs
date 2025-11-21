@@ -139,7 +139,9 @@ namespace _2SemesterEksamensProjekt.ViewModels
                 timer.TimerName,
                 timer.ElapsedTime
                 ));
+                Timers.Remove(timer);
             }
+
         }
     }
 }
