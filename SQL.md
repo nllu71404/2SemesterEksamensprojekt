@@ -269,3 +269,39 @@ VALUES
     ('Testing'),
     ('Onboarding');
 GO
+
+
+CREATE OR ALTER   PROCEDURE [dbo].[uspCreateTimeRecord]
+    @TimerName NVARCHAR(100),
+    @ElapsedTime TIME,
+    @StartTime DATETIME,
+    @CompanyId INT = NULL,
+    @ProjectId INT = NULL,
+    @TopicId INT = NULL
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    INSERT INTO dbo.TimeRecord
+    (
+        TimerName,
+        ElapsedTime,
+        StartTime,
+        CompanyId,
+        ProjectId,
+        TopicId
+    )
+    VALUES
+    (
+        @TimerName,
+        @ElapsedTime,
+        @StartTime,
+        @CompanyId,
+        @ProjectId,
+        @TopicId
+    );
+
+    -- Returner den nye identity-værdi
+    SELECT SCOPE_IDENTITY() AS NewTimeRecordId;
+END;
+
