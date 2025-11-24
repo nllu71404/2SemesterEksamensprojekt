@@ -66,10 +66,23 @@ namespace _2SemesterEksamensProjekt.Repository
         */
 
         //                                                                          Ninnas connection string
+        //protected readonly string _connectionString =
+        //new SqlConnectionStringBuilder
+        //{
+        //    DataSource = @"(localdb)\MSSQLLocalDB",
+        //    InitialCatalog = "StackhouseDB",
+        //    IntegratedSecurity = true,
+        //    TrustServerCertificate = true,
+        //    Encrypt = false,
+        //    MultipleActiveResultSets = true,
+        //    ConnectTimeout = 30
+        //}.ConnectionString;
+
+        //                                                                        Rebeccas connection string     
         protected readonly string _connectionString =
         new SqlConnectionStringBuilder
         {
-            DataSource = @"(localdb)\MSSQLLocalDB",
+            DataSource = @"DESKTOP-F0Q76JI\rebec",
             InitialCatalog = "StackhouseDB",
             IntegratedSecurity = true,
             TrustServerCertificate = true,
