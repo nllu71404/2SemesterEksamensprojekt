@@ -82,7 +82,7 @@ namespace _2SemesterEksamensProjekt.Repository
         protected readonly string _connectionString =
         new SqlConnectionStringBuilder
         {
-            DataSource = @"DESKTOP-F0Q76JI\rebec",
+            DataSource = "localhost",
             InitialCatalog = "StackhouseDB",
             IntegratedSecurity = true,
             TrustServerCertificate = true,
