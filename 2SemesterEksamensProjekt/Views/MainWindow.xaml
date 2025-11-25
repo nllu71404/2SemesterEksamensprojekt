@@ -7,7 +7,7 @@
         Width="1200"
         WindowStyle="None"
         Background="Transparent"
-        AllowsTransparency="True">
+        AllowsTransparency="False">
 
     <Border Background="{StaticResource WindowBackgroundBrush}" CornerRadius="20">
         <Grid>
@@ -40,7 +40,7 @@
             <!-- Sidenes indhold -->
             <Frame x:Name="MainFrame"
                    Grid.Row="1"
-                   NavigationUIVisibility="Hidden" />
+                   NavigationUIVisibility="Visible" />
         </Grid>
     </Border>
 </Window>
