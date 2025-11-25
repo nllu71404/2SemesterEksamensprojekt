@@ -5,8 +5,8 @@
         Title="MainWindow"
         Height="800"
         Width="1200"
-        WindowStyle="None"
-        Background="Transparent"
+        WindowStyle="SingleBorderWindow"
+        ResizeMode="CanResize"
         AllowsTransparency="False">
 
     <Border Background="{StaticResource WindowBackgroundBrush}" CornerRadius="20">
@@ -40,7 +40,7 @@
             <!-- Sidenes indhold -->
             <Frame x:Name="MainFrame"
                    Grid.Row="1"
-                   NavigationUIVisibility="Visible" />
+                   NavigationUIVisibility="Hidden" />
         </Grid>
     </Border>
 </Window>
