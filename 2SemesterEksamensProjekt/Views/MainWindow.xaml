@@ -1,14 +1,46 @@
-﻿<Window x:Class="_2SemesterEksamensProjekt.MainWindow"
+﻿<Window x:Class="_2SemesterEksamensProjekt.Views.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:_2SemesterEksamensProjekt"
         Title="MainWindow"
         Height="800"
         Width="1200"
-        Background="{StaticResource MainGradientBackground}">
+        WindowStyle="None"
+        Background="Transparent"
+        AllowsTransparency="True">
 
-    <Frame x:Name="MainFrame"
-           Background="Transparent"
-           NavigationUIVisibility="Visible"/>
+    <Border Background="{StaticResource WindowBackgroundBrush}" CornerRadius="20">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <!-- topbar med tilbagepil -->
+                <RowDefinition Height="*"/>
+                <!-- indhold (Frame) -->
+            </Grid.RowDefinitions>
 
+            <!-- Tilbage-pil i topbaren -->
+            <Button Grid.Row="0"
+                    Width="32"
+                    Height="32"
+                    Margin="25,4,0,4"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Background="#FF9E2323"
+                    BorderThickness="0"
+                    Cursor="Hand"
+                    Command="{Binding BackCommand}"
+                    Visibility="{Binding BackButtonVisibility}">
+                <TextBlock Text="←"
+                           Foreground="White"
+                           FontSize="18"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"/>
+            </Button>
+
+            <!-- Sidenes indhold -->
+            <Frame x:Name="MainFrame"
+                   Grid.Row="1"
+                   NavigationUIVisibility="Hidden" />
+        </Grid>
+    </Border>
 </Window>

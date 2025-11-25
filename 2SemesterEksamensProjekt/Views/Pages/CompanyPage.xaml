@@ -4,132 +4,133 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:_2SemesterEksamensProjekt.Views.Pages"
-      mc:Ignorable="d" 
-      d:DesignHeight="800" d:DesignWidth="1200"
-      Title="CompanyPage">
-    <Grid Margin="20">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+        mc:Ignorable="d" 
+  d:DesignHeight="800"
+  d:DesignWidth="1200"
+  Title="CompanyPage"
+  Style="{StaticResource BasePageStyle}">
 
-        <!-- Top: Header + Menu knap -->
-        <Grid Grid.Row="0" Margin="0,0,0,20">
-            <TextBlock Text="Administrer virksomhed"
+    <!-- Fælles afrundede hjørner + baggrund -->
+    <Border Style="{StaticResource RoundedPageBorderStyle}">
+
+        <Grid Margin="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Top: Header -->
+            <Grid Grid.Row="0" Margin="0,0,0,20">
+                <TextBlock Text="Administrer virksomhed"
                        Style="{StaticResource DashboardTitleText}"
                        FontSize="16"
                        HorizontalAlignment="Left"/>
-        </Grid>
+            </Grid>
 
-        <!-- Main Content -->
-        <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="240"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
+            <!-- Main Content -->
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="250"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-            <!-- Left Panel -->
-            <StackPanel Grid.Column="0" Margin="0,0,15,0">
+                <!-- Left Panel -->
+                <StackPanel Grid.Column="0" Margin="0,0,15,0">
 
-                <!-- Virksomhedsnavn Box -->
-                <Border Style="{StaticResource CardStyle}"
+                    <!-- Virksomhedsnavn Box -->
+                    <Border Style="{StaticResource CardStyle}"
                         Padding="15"
                         Height="100"
                         Margin="0,0,0,15">
-                    <StackPanel>
-                        <TextBlock Text="Virksomhedsnavn"
-                                   FontSize="13"
+                        <StackPanel>
+                            <TextBlock Text="Virksomhedsnavn"
+                                   FontSize="14"
                                    FontWeight="Bold"
                                    Foreground="{StaticResource AccentBrush}"
                                    Margin="0,0,0,10"/>
-                        <Border Background="#ECECEC"
+                            <Border Background="#ECECEC"
                                 BorderBrush="#5A67D8"
                                 CornerRadius="8"
                                 BorderThickness="1"
                                 Height="32">
-                            <TextBox Text="{Binding CompanyName}"
-                                 Height="32"
-                                 Padding="8"
-                                 Background="Transparent"
-                                 BorderThickness="0"/>
-                        </Border>
-                    </StackPanel>
-                </Border>
+                                <TextBox Text="{Binding CompanyName}"
+                                     Height="32"
+                                     Padding="8"
+                                     Background="Transparent"
+                                     BorderThickness="0"/>
+                            </Border>
+                        </StackPanel>
+                    </Border>
 
-                <!-- Buttons -->
-                <Border Style="{StaticResource CardStyle}"
+                    <!-- Buttons -->
+                    <Border Style="{StaticResource CardStyle}"
                         Padding="15"
-                        Height="180">
-                    <StackPanel>
-                        <Button Content="Opret virksomhed"
+                        Height="565">
+                        <StackPanel>
+                            <Button Content="Opret virksomhed"
                                 Style="{StaticResource DashboardButton}"
                                 Margin="0,0,0,10"
-                                Command="{Binding CreateCompanyCommand}"/>
+                                Command="{Binding CreateCompanyCommand}" Width="200"/>
 
-                        <Button Content="Slet virksomhed"
+                            <Button Content="Slet virksomhed"
                                 Style="{StaticResource DashboardButton}"
                                 Margin="0,0,0,10"
-                                Command="{Binding DeleteSelectedCompanyCommand}"/>
+                                Command="{Binding DeleteSelectedCompanyCommand}" Width="200"/>
 
-                        <Button Content="Rediger virksomhed"
+                            <Button Content="Rediger virksomhed"
                                 Style="{StaticResource DashboardButton}"
                                 Margin="0,0,0,10"
-                                Command="{Binding EditSelectedCompanyCommand}"/>
-                        <Button Content="Gem virksomhed" 
-                            Style="{StaticResource DashboardButton}"
-                            Width="193" RenderTransformOrigin="0.5,0.5" Height="25"
-                            Command="{Binding SaveSelectedCompanyCommand}">
-                            <Button.RenderTransform>
-                                <TransformGroup>
-                                    <ScaleTransform/>
-                                    <SkewTransform/>
-                                    <RotateTransform Angle="-0.077"/>
-                                    <TranslateTransform/>
-                                </TransformGroup>
-                            </Button.RenderTransform>
-                        </Button>
-                    </StackPanel>
-                </Border>
-            </StackPanel>
+                                Command="{Binding EditSelectedCompanyCommand}" Width="200"/>
 
-            <!-- Right Panel - Liste -->
-            <Border Style="{StaticResource CardStyle}"
+                            <Button Content="Gem virksomhed" 
+                                Style="{StaticResource DashboardButton}"
+                                Margin="0,0,0,10"
+                                Command="{Binding SaveSelectedCompanyCommand}" Width="200">
+                            </Button>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+
+                <!-- Right Panel - Liste -->
+                <Border Style="{StaticResource CardStyle}"
                     Grid.Column="1"
-                    Padding="20">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
+                    Padding="20" Margin="10,0,-10,0">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
 
-                    <!-- Header -->
-                    <TextBlock Grid.Row="0"
+                        <!-- Header -->
+                        <TextBlock Grid.Row="0"
                                Text="Virksomhedsliste"
                                Style="{StaticResource DashboardTitleText}"
                                FontSize="20"
                                HorizontalAlignment="Left"
                                Margin="0,0,0,20"/>
 
-                    <!-- Liste -->
-                    <ListBox Grid.Row="1"
-                     ItemsSource="{Binding Companies}"
-                     SelectedItem="{Binding SelectedCompany, Mode=TwoWay}"
-                     BorderThickness="0"
-                     Background="Transparent">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <Border BorderBrush="{StaticResource AccentBrush}"
-                        BorderThickness="3,0,0,0"
-                        Padding="15,10"
-                        Margin="0,0,0,5">
-                                    <TextBlock Text="{Binding CompanyName}"
-                               FontSize="13"/>
-                                </Border>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                </Grid>
-            </Border>
+                        <!-- Liste -->
+                        <ListBox Grid.Row="1"
+                             ItemsSource="{Binding Companies}"
+                             SelectedItem="{Binding SelectedCompany, Mode=TwoWay}"
+                             BorderThickness="0"
+                             Background="Transparent">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Border BorderBrush="{StaticResource AccentBrush}"
+                                        BorderThickness="3,0,0,0"
+                                        Padding="15,10"
+                                        Margin="0,0,0,5">
+                                        <TextBlock Text="{Binding CompanyName}"
+                                               FontSize="13"/>
+                                    </Border>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Grid>
+                </Border>
+            </Grid>
         </Grid>
-    </Grid>
+
+    </Border>
 </Page>

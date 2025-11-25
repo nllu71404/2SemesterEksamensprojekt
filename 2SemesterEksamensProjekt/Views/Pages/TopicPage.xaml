@@ -5,131 +5,136 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:_2SemesterEksamensProjekt.Views.Pages"
       mc:Ignorable="d" 
-      d:DesignHeight="800" d:DesignWidth="1200"
-      Title="TopicPage">
-    <Grid Margin="20">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+            d:DesignHeight="800"
+      d:DesignWidth="1200"
+      Title="TopicPage"
+      Style="{StaticResource BasePageStyle}">
 
-        <!-- Top: Header + Menu knap -->
-        <Grid Grid.Row="0" Margin="0,0,0,20">
-            <TextBlock Text="Administrer emne"
-                       Style="{StaticResource DashboardTitleText}"
-                       FontSize="16"
-                       HorizontalAlignment="Left"/>
-        </Grid>
+    <!-- Fælles afrundet baggrund -->
+    <Border Style="{StaticResource RoundedPageBorderStyle}">
 
-        <!-- Main Content -->
-        <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="240"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
+        <Grid Margin="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
-            <!-- Left Panel -->
-            <StackPanel Grid.Column="0" Margin="0,0,15,0">
+            <!-- HEADER -->
+            <Grid Grid.Row="0" Margin="0,0,0,20">
+                <TextBlock Text="Administrer emner"
+                           Style="{StaticResource DashboardTitleText}"
+                           FontSize="20"
+                           HorizontalAlignment="Left"/>
+            </Grid>
 
-                <!-- Virksomhedsnavn Box -->
-                <Border Style="{StaticResource CardStyle}"
+            <!-- MAIN CONTENT -->
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="320"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- LEFT PANEL -->
+                <Border Grid.Column="0"
+                        Style="{StaticResource CardStyle}"
                         Padding="15"
-                        Height="100"
-                        Margin="0,0,0,15">
+                        Margin="0,0,15,0">
+
                     <StackPanel>
+
+                        <!-- Emnebeskrivelse -->
                         <TextBlock Text="Emnebeskrivelse"
-                                   FontSize="13"
-                                   FontWeight="Bold"
+                                   FontSize="14"
+                                   FontWeight="SemiBold"
                                    Foreground="{StaticResource AccentBrush}"
-                                   Margin="0,0,0,10"/>
-                        <Border Background="#ECECEC"
-                                BorderBrush="#5A67D8"
-                                CornerRadius="8"
-                                BorderThickness="1"
-                                Height="32">
-                            <TextBox Text="{Binding TopicDescription}"
-                                      Height="25"
-                                      Padding="8"
-                                     Background="Transparent"
-                                     BorderThickness="0"/>
-                        </Border>
-                    </StackPanel>
-                </Border>
+                                   Margin="0,0,0,8"/>
 
-                <!-- Buttons -->
-                <Border Style="{StaticResource CardStyle}"
-                        Padding="15"
-                        Height="180">
-                    <StackPanel>
+                        <Border Background="#322E40"
+                                BorderBrush="{StaticResource ButtonBorderBrush}"
+                                BorderThickness="2"
+                                CornerRadius="8"
+                                Height="40"
+                                Margin="0,0,0,20">
+
+                            <TextBox Text="{Binding TopicDescription}"
+                                     Background="Transparent"
+                                     Foreground="White"
+                                     BorderThickness="0"
+                                     Padding="10"
+                                     FontSize="14"
+                                     VerticalContentAlignment="Center"/>
+                        </Border>
+
+                        <!-- BUTTONS -->
                         <Button Content="Opret emne"
                                 Style="{StaticResource DashboardButton}"
-                                Margin="0,0,0,10"
-                                Command="{Binding CreateTopicCommand}"/>
+                                Command="{Binding CreateTopicCommand}"
+                                Margin="0,0,0,8" Width="275"/>
 
                         <Button Content="Slet emne"
                                 Style="{StaticResource DashboardButton}"
-                                Margin="0,0,0,10"
-                                Command="{Binding DeleteTopicCommand}"/>
+                                Command="{Binding DeleteTopicCommand}"
+                                Margin="0,0,0,8" Width="275"/>
 
                         <Button Content="Rediger emne"
                                 Style="{StaticResource DashboardButton}"
-                                Margin="0,0,0,10"
-                                Command="{Binding EditSelectedTopicCommand}"/>
-                        <Button Content="Gem emne" 
-                            Style="{StaticResource DashboardButton}"
-                            Width="193" RenderTransformOrigin="0.5,0.5" Height="25"
-                            Command="{Binding SaveSelectedTopicCommand}">
-                            <Button.RenderTransform>
-                                <TransformGroup>
-                                    <ScaleTransform/>
-                                    <SkewTransform/>
-                                    <RotateTransform Angle="-0.077"/>
-                                    <TranslateTransform/>
-                                </TransformGroup>
-                            </Button.RenderTransform>
-                        </Button>
+                                Command="{Binding EditSelectedTopicCommand}"
+                                Margin="0,0,0,8 " Width="275"/>
+
+                        <Button Content="Gem emne"
+                                Style="{StaticResource DashboardButton}"
+                                Command="{Binding SaveSelectedTopicCommand}"
+                                Margin="0,0,0,8" Width="275"/>
                     </StackPanel>
                 </Border>
-            </StackPanel>
 
-            <!-- Right Panel - Liste -->
-            <Border Style="{StaticResource CardStyle}"
-                    Grid.Column="1"
-                    Padding="20">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
+                <!-- RIGHT PANEL: LISTE -->
+                <Border Grid.Column="1"
+                        Style="{StaticResource CardStyle}"
+                        Padding="20">
 
-                    <!-- Header -->
-                    <TextBlock Grid.Row="0"
-                               Text="Emneliste"
-                               Style="{StaticResource DashboardTitleText}"
-                               FontSize="20"
-                               HorizontalAlignment="Left"
-                               Margin="0,0,0,20"/>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
 
-                    <!-- Liste -->
-                    <ListBox Grid.Row="1"
-                     ItemsSource="{Binding Topics}"
-                     SelectedItem="{Binding SelectedTopic, Mode=TwoWay}"
-                     BorderThickness="0"
-                     Background="Transparent">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <Border BorderBrush="{StaticResource AccentBrush}"
-                        BorderThickness="3,0,0,0"
-                        Padding="15,10"
-                        Margin="0,0,0,5">
-                                    <TextBlock Text="{Binding TopicDescription}"
-                               FontSize="13"/>
-                                </Border>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                </Grid>
-            </Border>
+                        <!-- Overskrift -->
+                        <TextBlock Grid.Row="0"
+                                   Text="Emneliste"
+                                   Style="{StaticResource DashboardTitleText}"
+                                   FontSize="18"
+                                   Margin="0,0,0,15"/>
+
+                        <!-- Liste -->
+                        <ListBox Grid.Row="1"
+                                 ItemsSource="{Binding Topics}"
+                                 SelectedItem="{Binding SelectedTopic, Mode=TwoWay}"
+                                 BorderThickness="0"
+                                 Background="Transparent">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Padding="15,10"
+                                            Margin="0,0,0,6"
+                                            BorderBrush="{StaticResource AccentBrush}"
+                                            BorderThickness="3,0,0,0"
+                                            Background="Transparent"
+                                            CornerRadius="6">
+
+                                        <TextBlock Text="{Binding TopicDescription}"
+                                                   FontSize="14"
+                                                   Foreground="White"/>
+                                    </Border>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+
+                    </Grid>
+                </Border>
+            </Grid>
+
         </Grid>
-    </Grid>
+
+    </Border>
+
 </Page>

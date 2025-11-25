@@ -69,6 +69,21 @@ namespace _2SemesterEksamensProjekt.ViewModels
         public string TimerName => _timeRecord.TimerName;
         public string ElapsedTimeDisplay => _timeRecord.DisplayTime;
 
+        
+        private string? _note;
+        public string? Note
+        {
+            get => _note;
+            set
+            {
+                if (_note != value)
+                {
+                    _note = value;
+                    OnPropertyChanged(nameof(Note));
+                }
+            }
+        }
+
         //Commands
         public RelayCommand SaveTimeRecordCommand { get; }
         public RelayCommand CancelTimeRecordCommand { get; }
@@ -87,6 +102,8 @@ namespace _2SemesterEksamensProjekt.ViewModels
 
                 if (e.PropertyName == nameof(TimeRecord.TimerName))
                     OnPropertyChanged(nameof(TimerName));
+                if (e.PropertyName == nameof(TimeRecord.Note))
+                    OnPropertyChanged(nameof(Note));    
             };
 
             _timeRecordRepo = new TimeRecordRepository();
@@ -161,7 +178,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
             _timeRecord.CompanyId = SelectedCompany.CompanyId;
             _timeRecord.ProjectId = SelectedProject.ProjectId;
             _timeRecord.TopicId = SelectedTopic.TopicId;
-           
+            _timeRecord.Note = this.Note;
 
             try
             {

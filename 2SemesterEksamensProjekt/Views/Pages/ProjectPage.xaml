@@ -1,119 +1,175 @@
-﻿<Page
+﻿<Page x:Class="_2SemesterEksamensProjekt.Views.Pages.ProjectPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:av="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      mc:Ignorable="av" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      d:DesignHeight="800" d:DesignWidth="1200"
-      x:Class="_2SemesterEksamensProjekt.Views.Pages.ProjectPage">
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:_2SemesterEksamensProjekt.Views.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="800" 
+      d:DesignWidth="1200"
+      Title="ProjectPage"
+      Style="{StaticResource BasePageStyle}">
 
-    <Grid Margin="20">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+    <!-- Fælles afrundede hjørner + baggrund -->
+    <Border Style="{StaticResource RoundedPageBorderStyle}">
 
-        <!-- Top -->
-        <Grid Grid.Row="0" Margin="0,0,0,20">
-            <TextBlock Text="Administrer projekter"
-                 Style="{StaticResource DashboardTitleText}" FontSize="16"
-                 HorizontalAlignment="Left"/>
+        <Grid Margin="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Top -->
+            <Grid Grid.Row="0" Margin="0,0,0,20">
+                <TextBlock Text="Administrer projekter"
+                           Style="{StaticResource DashboardTitleText}"
+                           FontSize="16"
+                           HorizontalAlignment="Left"/>
+            </Grid>
+
+            <!-- To kolonner -->
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="320"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- VENSTRE: input (virksomhed, titel, beskrivelse, knapper) -->
+                <Border Grid.Column="0"
+                        Style="{StaticResource CardStyle}"
+                        Padding="15"
+                        Margin="0,0,15,0">
+                    <StackPanel>
+
+                        <TextBlock Text="Vælg virksomhed"
+                                   FontSize="14"
+                                   Foreground="{StaticResource AccentBrush}"
+                                   Margin="0,0,0,5"/>
+                        <Border Background="#ECECEC"
+                                BorderBrush="{StaticResource AccentBrush}"
+                                CornerRadius="8"
+                                BorderThickness="1"
+                                Height="32">
+                            <ComboBox ItemsSource="{Binding Companies}"
+                                      SelectedItem="{Binding SelectedCompany, Mode=TwoWay}"
+                                      DisplayMemberPath="CompanyName"
+                                      SelectedValuePath="CompanyId"
+                                      Height="28"
+                                      Padding="8,0,0,0"
+                                      Background="Transparent"
+                                      BorderThickness="0"
+                                      Margin="0,0,0,12"/>
+                        </Border>
+
+                        <TextBlock Text="Projekttitel"
+                                   FontSize="14"
+                                   Foreground="{StaticResource AccentBrush}"
+                                   Margin="0,10,0,5"/>
+                        <Border Background="#ECECEC"
+                                BorderBrush="{StaticResource AccentBrush}"
+                                BorderThickness="1"
+                                CornerRadius="8"
+                                Height="32">
+                            <TextBox Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}"
+                                     Height="32"
+                                     Padding="8"
+                                     Background="Transparent"
+                                     BorderThickness="0"
+                                     Margin="0,0,0,12"/>
+                        </Border>
+
+                        <!-- Projektbeskrivelse lige under titel -->
+                        <TextBlock Text="Projektbeskrivelse"
+                                   FontSize="14"
+                                   Foreground="{StaticResource AccentBrush}"
+                                   Margin="0,10,0,5"/>
+                        <Border Background="#ECECEC"
+                                BorderBrush="{StaticResource AccentBrush}"
+                                BorderThickness="1"
+                                CornerRadius="8"
+                                Margin="0,0,0,16"
+                                Height="140">
+                            <TextBox Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"
+                                     TextWrapping="Wrap"
+                                     AcceptsReturn="True"
+                                     ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                     Height="140"
+                                     Padding="10"
+                                     Background="Transparent"
+                                     BorderThickness="0"
+                                     Margin="0,0,0,16"/>
+                        </Border>
+
+                        <Button Content="Opret projekt"
+                                Style="{StaticResource DashboardButton}"
+                                Margin="0,0,0,8"
+                                Command="{Binding CreateProjectCommand}" Width="275"/>
+
+                        <Button Content="Rediger projekt"
+                                Style="{StaticResource DashboardButton}"
+                                Margin="0,0,0,8"
+                                Command="{Binding EditSelectedProjectCommand}" Width="275"/>
+
+                        <Button Content="Slet projekt"
+                                Style="{StaticResource DashboardButton}"
+                                Margin="0,0,0,8"
+                                Command="{Binding DeleteSelectedProjectCommand}" Width="275"/>
+
+                        <Button Content="Gem projekt"
+                                Style="{StaticResource DashboardButton}"
+                                 Margin="0,0,0,8"
+                        Command="{Binding SaveSelectedProjectCommand}" Width="275"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- HØJRE: projektliste -->
+                <Border Grid.Column="1"
+                        Style="{StaticResource CardStyle}"
+                        Padding="20">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0"
+                                   Text="Projektliste"
+                                   Style="{StaticResource DashboardTitleText}"
+                                   FontSize="18"
+                                   Margin="0,0,0,10"/>
+
+                        <ListBox Grid.Row="1"
+                                 ItemsSource="{Binding Projects}"
+                                 SelectedItem="{Binding SelectedProject, Mode=TwoWay}"
+                                 Background="Transparent"
+                                 BorderThickness="0">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Border BorderBrush="{StaticResource AccentBrush}"
+                                            BorderThickness="3,0,0,0"
+                                            Padding="15,10"
+                                            Margin="0,0,0,3"
+                                            Background="Transparent">
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding Title}"
+                                                       FontSize="13"
+                                                       FontWeight="Bold"
+                                                       Foreground="White"/>
+                                            <TextBlock Text="{Binding Description}"
+                                                       FontSize="12"
+                                                       Opacity="0.7"
+                                                       Foreground="White"/>
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Grid>
+                </Border>
+            </Grid>
         </Grid>
 
-        <!-- To kolonner -->
-        <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="320"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-
-            <!-- VENSTRE: input (virksomhed, titel, beskrivelse, knapper) -->
-            <Border Grid.Column="0" Style="{StaticResource CardStyle}" Padding="15" Margin="0,0,15,0">
-                <StackPanel>
-
-                    <TextBlock Text="Vælg virksomhed" FontSize="13"
-                               Foreground="{StaticResource AccentBrush}" Margin="0,0,0,5"/>
-                    <Border Background="#ECECEC"
-                            BorderBrush="#5A67D8"
-                            CornerRadius="8"
-                            BorderThickness="1"
-                            Height="32">
-                        <ComboBox ItemsSource="{Binding Companies}"
-                              SelectedItem="{Binding SelectedCompany, Mode=TwoWay}"
-                              DisplayMemberPath="CompanyName"
-                              SelectedValuePath="CompanyId"
-                              Height="28" Padding="8,0,0,0"
-                              Background="Transparent" BorderThickness="0" Margin="0,0,0,12"/>
-                    </Border>
-
-                    <TextBlock Text="Projekttitel" FontSize="13"
-                               Foreground="{StaticResource AccentBrush}" Margin="0,0,0,5"/>
-                    <Border Background="#ECECEC"
-                            BorderBrush="#5A67D8"
-                            BorderThickness="1"
-                            CornerRadius="8"
-                            Height="32">
-                        <TextBox Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}"
-                             Height="32" Padding="8"
-                             Background="Transparent" BorderThickness="0" Margin="0,0,0,12"/>
-                    </Border>
-
-                    <!-- Projektbeskrivelse lige under titel -->
-                    <TextBlock Text="Projektbeskrivelse" FontSize="13"
-                               Foreground="{StaticResource AccentBrush}" Margin="0,0,0,5"/>
-                    <Border Background="#ECECEC"
-                            BorderBrush="#5A67D8"
-                            BorderThickness="1"
-                            CornerRadius="8"
-                            Margin="0,0,0,16"
-                            Height="140">
-                        <TextBox Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"
-                             TextWrapping="Wrap" AcceptsReturn="True"
-                             ScrollViewer.VerticalScrollBarVisibility="Auto"
-                             Height="140"
-                             Padding="10" Background="Transparent" BorderThickness="0" Margin="0,0,0,16"/>
-                    </Border>
-
-                    <Button Content="Opret projekt"   Style="{StaticResource DashboardButton}" Margin="0,0,0,8" Command="{Binding CreateProjectCommand}"/>
-                    <Button Content="Rediger projekt" Style="{StaticResource DashboardButton}" Margin="0,0,0,8" Command="{Binding EditSelectedProjectCommand}"/>
-                    <Button Content="Slet projekt"    Style="{StaticResource DashboardButton}" Margin="0,0,0,8" Command="{Binding DeleteSelectedProjectCommand}"/>
-                    <Button Content="Gem projekt"
-                            Style="{StaticResource DashboardButton}"
-                            Width="273"
-                            Command="{Binding SaveSelectedProjectCommand}"/>
-                </StackPanel>
-            </Border>
-
-            <!-- HØJRE: projektliste -->
-            <Border Grid.Column="1" Style="{StaticResource CardStyle}" Padding="20">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" Text="Projektliste"
-                               Style="{StaticResource DashboardTitleText}" FontSize="18" Margin="0,0,0,10"/>
-                    <ListBox Grid.Row="1"
-                             ItemsSource="{Binding Projects}"
-                             SelectedItem="{Binding SelectedProject, Mode=TwoWay}"
-                             Background="Transparent" BorderThickness="0">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <Border BorderBrush="{StaticResource AccentBrush}" BorderThickness="3,0,0,0"
-        Padding="15,10" Margin="0,0,0,3" Background="Transparent">
-
-                                    <StackPanel>
-                                        <TextBlock Text="{Binding Title}" FontSize="13" FontWeight="Bold"/>
-                                        <TextBlock Text="{Binding Description}" FontSize="12" Opacity="0.7"/>
-                                    </StackPanel>
-
-                                </Border>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                </Grid>
-            </Border>
-        </Grid>
-    </Grid>
+    </Border>
 </Page>
+
+    

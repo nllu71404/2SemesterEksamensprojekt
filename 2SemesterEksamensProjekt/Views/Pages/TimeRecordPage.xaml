@@ -5,147 +5,189 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:_2SemesterEksamensProjekt.Views.Pages"
       mc:Ignorable="d" 
-      d:DesignHeight="800" d:DesignWidth="1200"
-      Title="TimeRecordPage">
+      d:DesignHeight="800" 
+      d:DesignWidth="1200"
+      Title="TimeRecordPage"
+      Style="{StaticResource BasePageStyle}">
 
-    <Grid Margin="40">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+    <!-- Fælles afrundede hjørner + baggrund -->
+    <Border Style="{StaticResource RoundedPageBorderStyle}">
 
-        <!-- Titel -->
-        <TextBlock Grid.Row="0" 
-                   Text="Gem tidsregistrering" 
-                   Style="{StaticResource DashboardTitleText}"
-                   Margin="0,0,0,30"/>
+        <Grid Margin="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
-        <!-- Timer info (read-only display) -->
-        <Border Grid.Row="1" 
-                Style="{StaticResource CardStyle}"
-                Margin="0,0,0,20"
-                Padding="20">
-            <StackPanel Orientation="Horizontal" 
-                        HorizontalAlignment="Center">
-                <StackPanel Margin="0,0,40,0">
-                    <TextBlock Text="Timer navn" 
-                               FontSize="15"
-                               Foreground="#64748B"
-                               Margin="0,0,0,5"/>
-                    <TextBlock Text="{Binding TimerName}" 
-                               FontSize="18"
-                               FontWeight="Bold"
-                               Foreground="{StaticResource TitleBrush}"/>
+            <!-- Titel -->
+            <TextBlock Grid.Row="0" 
+                       Text="Gem tidsregistrering"
+                       Style="{StaticResource DashboardTitleText}"
+                       FontSize="22"
+                       Margin="0,0,0,30"/>
+
+            <!-- Timer info -->
+            <Border Grid.Row="1"
+                    Style="{StaticResource CardStyle}"
+                    Padding="20"
+                    Margin="0,0,0,20">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+
+                    <!-- Timer navn -->
+                    <StackPanel Margin="0,0,40,0">
+                        <TextBlock Text="Timer navn"
+                                   FontSize="15"
+                                   Foreground="#A0A0A0"
+                                   Margin="0,0,0,5"/>
+                        <TextBlock Text="{Binding TimerName}"
+                                   FontSize="18"
+                                   FontWeight="Bold"
+                                   Foreground="White"/>
+                    </StackPanel>
+
+                    <!-- Total tid -->
+                    <StackPanel>
+                        <TextBlock Text="Total tid"
+                                   FontSize="15"
+                                   Foreground="#A0A0A0"
+                                   Margin="0,0,0,5"/>
+                        <TextBlock Text="{Binding ElapsedTimeDisplay}"
+                                   FontSize="18"
+                                   FontWeight="Bold"
+                                   Foreground="{StaticResource AccentBrush}"/>
+                    </StackPanel>
+
                 </StackPanel>
+            </Border>
 
-                <StackPanel>
-                    <TextBlock Text="Total tid" 
-                               FontSize="15"
-                               Foreground="#64748B"
-                               Margin="0,0,0,5"/>
-                    <TextBlock Text="{Binding ElapsedTimeDisplay}" 
-                               FontSize="18"
-                               FontWeight="Bold"
-                               Foreground="{StaticResource AccentBrush}"/>
-                </StackPanel>
-            </StackPanel>
-        </Border>
+            <!-- Hovedindhold -->
+            <Border Grid.Row="2"
+                    Style="{StaticResource CardStyle}"
+                    Padding="40">
 
-        <!-- Hovedindhold: Vælg virksomhed, projekt, emne + knap -->
-        <Border Grid.Row="2" 
-                Style="{StaticResource CardStyle}"
-                Padding="40">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
 
-                <!-- Vælg virksomhed -->
-                <StackPanel Grid.Row="0" Margin="0,0,0,20">
-                    <TextBlock Text="Vælg virksomhed" 
-                               FontSize="14"
-                               FontWeight="SemiBold"
-                               Foreground="{StaticResource TitleBrush}"
-                               Margin="0,0,0,10"/>
-                    <Border Background="White"
-                            BorderBrush="{StaticResource AccentBrush}"
-                            BorderThickness="3"
-                            CornerRadius="12"
-                            Padding="5">
-                        <ComboBox ItemsSource="{Binding Companies}"
-                                 SelectedItem="{Binding SelectedCompany, Mode=TwoWay}"
-                                 DisplayMemberPath="CompanyName"
-                                 Height="50"
-                                 BorderThickness="0"
-                                 Background="Transparent"
-                                 />
-                    </Border>
-                </StackPanel>
+                    <!-- Virksomhed -->
+                    <StackPanel Grid.Row="0" Margin="0,0,0,20">
+                        <TextBlock Text="Vælg virksomhed"
+                                   FontSize="14"
+                                   FontWeight="SemiBold"
+                                   Foreground="White"
+                                   Margin="0,0,0,10"/>
+                        <Border Background="#322E40"
+                                BorderBrush="{StaticResource ButtonBorderBrush}"
+                                BorderThickness="2"
+                                CornerRadius="8"
+                                Padding="5">
+                            <ComboBox ItemsSource="{Binding Companies}"
+                                      SelectedItem="{Binding SelectedCompany, Mode=TwoWay}"
+                                      DisplayMemberPath="CompanyName"
+                                      Height="45"
+                                      BorderThickness="0"
+                                      Background="Transparent"
+                                      Foreground="White"/>
+                        </Border>
+                    </StackPanel>
 
-                <!-- Vælg projekt -->
-                <StackPanel Grid.Row="1" Margin="0,0,0,20">
-                    <TextBlock Text="Vælg projekt" 
-                               FontSize="14"
-                               FontWeight="SemiBold"
-                               Foreground="{StaticResource TitleBrush}"
-                               Margin="0,0,0,10"/>
-                    <Border Background="White"
-                            BorderBrush="{StaticResource AccentBrush}"
-                            BorderThickness="3"
-                            CornerRadius="12"
-                            Padding="5">
-                        <ComboBox ItemsSource="{Binding Projects}"
-                                 SelectedItem="{Binding SelectedProject, Mode=TwoWay}"
-                                 DisplayMemberPath="Title"
-                                 Height="50"
-                                 BorderThickness="0"
-                                 Background="Transparent"
-                                 />
-                    </Border>
-                </StackPanel>
+                    <!-- Projekt -->
+                    <StackPanel Grid.Row="1" Margin="0,0,0,20">
+                        <TextBlock Text="Vælg projekt"
+                                   FontSize="14"
+                                   FontWeight="SemiBold"
+                                   Foreground="White"
+                                   Margin="0,0,0,10"/>
+                        <Border Background="#322E40"
+                                BorderBrush="{StaticResource ButtonBorderBrush}"
+                                BorderThickness="2"
+                                CornerRadius="8"
+                                Padding="5">
+                            <ComboBox ItemsSource="{Binding Projects}"
+                                      SelectedItem="{Binding SelectedProject, Mode=TwoWay}"
+                                      DisplayMemberPath="Title"
+                                      Height="45"
+                                      BorderThickness="0"
+                                      Background="Transparent"
+                                      Foreground="White"/>
+                        </Border>
+                    </StackPanel>
 
-                <!-- Vælg emne -->
-                <StackPanel Grid.Row="2" Margin="0,0,0,20">
-                    <TextBlock Text="Vælg emne" 
-                               FontSize="14"
-                               FontWeight="SemiBold"
-                               Foreground="{StaticResource TitleBrush}"
-                               Margin="0,0,0,10"/>
-                    <Border Background="White"
-                            BorderBrush="{StaticResource AccentBrush}"
-                            BorderThickness="3"
-                            CornerRadius="12"
-                            Padding="5">
-                        <ComboBox ItemsSource="{Binding Topics}"
-                                 SelectedItem="{Binding SelectedTopic, Mode=TwoWay}"
-                                 DisplayMemberPath="TopicDescription"
-                                 Height="50"
-                                 BorderThickness="0"
-                                 Background="Transparent"/>
-                    </Border>
-                </StackPanel>
+                    <!-- Emne -->
+                    <StackPanel Grid.Row="2" Margin="0,0,0,20">
+                        <TextBlock Text="Vælg emne"
+                                   FontSize="14"
+                                   FontWeight="SemiBold"
+                                   Foreground="White"
+                                   Margin="0,0,0,10"/>
+                        <Border Background="#322E40"
+                                BorderBrush="{StaticResource ButtonBorderBrush}"
+                                BorderThickness="2"
+                                CornerRadius="8"
+                                Padding="5">
+                            <ComboBox ItemsSource="{Binding Topics}"
+                                      SelectedItem="{Binding SelectedTopic, Mode=TwoWay}"
+                                      DisplayMemberPath="TopicDescription"
+                                      Height="45"
+                                      BorderThickness="0"
+                                      Background="Transparent"
+                                      Foreground="White"/>
+                        </Border>
+                    </StackPanel>
 
-                <!-- Spacer -->
-                <Grid Grid.Row="4"/>
+                    <!-- Spacer -->
+                    <Grid Grid.Row="3"/>
 
-                <!-- Gem registrering knap -->
-                <StackPanel Grid.Row="5" 
-                            HorizontalAlignment="Center">
-                    <Button Content="Gem registrering"
-                            Style="{StaticResource DashboardButton}"
-                            Command="{Binding SaveTimeRecordCommand}"
-                            MinWidth="250"
-                            Height="50"
-                            FontSize="16"/>
-                </StackPanel>
-            </Grid>
-        </Border>
-    </Grid>
+                    <!-- Gem registrering + bemærkning -->
+                    <Grid Grid.Row="4" HorizontalAlignment="Center" Margin="0,8,0,0">
+                        <Grid.ColumnDefinitions>
+                            <!-- Give bemærkningsfeltet mere plads -->
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Bemærkning textbox (større) -->
+                        <Border Grid.Column="0"
+                                Background="#322E40"
+                                BorderBrush="{StaticResource ButtonBorderBrush}"
+                                BorderThickness="2"
+                                CornerRadius="8"
+                                Height="80"
+                                Padding="10"
+                                Margin="0,0,12,0">
+                            <TextBox Text="{Binding Note, Mode=TwoWay}"
+                                     Background="Transparent"
+                                     Foreground="White"
+                                     BorderThickness="0"
+                                     VerticalContentAlignment="Top"
+                                     FontSize="14"
+                                     AcceptsReturn="True"
+                                     TextWrapping="Wrap"
+                                     MinHeight="60"
+                                     MinWidth="420"/>
+
+                        </Border>
+
+                        <!-- Gem knap (mindre) -->
+                        <Button Grid.Column="1"
+                                Content="Gem registrering"
+                                BorderBrush="{StaticResource AccentBrush}"
+                                Command="{Binding SaveTimeRecordCommand}"
+                                Width="160"
+                                Height="55"
+                                FontSize="16"/>
+                    </Grid>
+
+                </Grid>
+            </Border>
+        </Grid>
+
+    </Border>
+
 </Page>
-

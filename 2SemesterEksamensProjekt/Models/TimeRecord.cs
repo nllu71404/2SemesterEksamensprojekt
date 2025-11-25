@@ -58,6 +58,16 @@ namespace _2SemesterEksamensProjekt.Models
         public int? ProjectId { get; set; }
         public int? TopicId { get; set; }
 
+        private string? _note;
+        public string? Note
+        {
+            get => _note;
+            set
+            {
+                _note = value;
+                OnPropertyChanged();
+            }
+        }
 
         //Defulat properties til visning
         public string DisplayTime =>

@@ -10,17 +10,26 @@ namespace _2SemesterEksamensProjekt.Services
 {
     public static class AppNavigationService
     {
-        private static Frame? _frame;                          // holder reference til MainWindow’s Frame
-        public static void Initialize(Frame frame) => _frame = frame; // kaldes én gang i MainWindow
-        public static void Navigate(Page page) => _frame?.Navigate(page); // bruges fra ViewModels
-        // Back/Forward-knapperne virker automatisk når NavigationUIVisibility=Visible
+        private static Frame? _frame;
 
+        // Kaldes én gang fra MainWindow, efter InitializeComponent
+        public static void Initialize(Frame frame)
+        {
+            _frame = frame;
+        }
+
+        // Bruges fra ViewModels og MainWindow til at navigere til en side
+        public static void Navigate(Page page)
+        {
+            _frame?.Navigate(page);
+        }
+
+        // Valgfrit: hvis du nogensinde vil bruge historik-tilbage
         public static void GoBack()
         {
-            if (Application.Current.MainWindow is MainWindow main &&
-                main.MainFrame.CanGoBack)
+            if (_frame != null && _frame.CanGoBack)
             {
-                main.MainFrame.GoBack();
+                _frame.GoBack();
             }
         }
     }

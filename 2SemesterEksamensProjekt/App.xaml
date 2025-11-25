@@ -5,88 +5,102 @@
              StartupUri="Views/MainWindow.xaml">
     <Application.Resources>
 
-        <!-- Farver -->
-        <Color x:Key="AccentLight">#667EEA</Color>
-        <Color x:Key="Accent">#5A67D8</Color>
-        <Color x:Key="AccentDark">#764BA2</Color>
-        <Color x:Key="TitleColor">#2C3E50</Color>
+        <!--Farver -->
+        <SolidColorBrush x:Key="WindowBackgroundBrush" Color="#272537"/>
+        <SolidColorBrush x:Key="ButtonBorderBrush" Color="#3A3443"/>
+        <SolidColorBrush x:Key="ButtonHoverBorderBrush" Color="#4A4150"/>
+        <SolidColorBrush x:Key="ButtonHoverBackground" Color="#2F2838"/>
+        <SolidColorBrush x:Key="AccentBrush" Color="#FF9E2323"/>
+        <SolidColorBrush x:Key="TitleBrush" Color="#F9FAFB"/>
 
-        <SolidColorBrush x:Key="AccentBrush"      Color="{StaticResource Accent}"/>
-        <SolidColorBrush x:Key="TitleBrush"       Color="{StaticResource TitleColor}"/>
-        <SolidColorBrush x:Key="CardBrush"        Color="#F2FFFFFF"/>
-        <SolidColorBrush x:Key="ButtonBgBrush"    Color="White"/>
-        <SolidColorBrush x:Key="ButtonFgBrush"    Color="#2C3E50"/>
-
-        <!-- Baggrund -->
-        <LinearGradientBrush x:Key="MainGradientBackground" StartPoint="0,0" EndPoint="1,1">
-            <GradientStop Color="{StaticResource AccentLight}" Offset="0"/>
-            <GradientStop Color="{StaticResource AccentDark}"  Offset="1"/>
-        </LinearGradientBrush>
-
-        <!-- Vinduer & sider -->
-        <Style TargetType="Window">
-            <Setter Property="Background" Value="{StaticResource MainGradientBackground}"/>
-            <Setter Property="Foreground" Value="{StaticResource TitleBrush}"/>
-            <Setter Property="FontFamily" Value="Segoe UI"/>
+        <!-- GLOBAL STANDARD BORDERBRUSH TIL ALLE KONTROLLER -->
+        <Style TargetType="Control">
+            <Setter Property="BorderBrush" Value="{StaticResource ButtonBorderBrush}" />
         </Style>
 
-        <!-- VIGTIGT: Pages skal være gennemsigtige -->
-        <Style TargetType="Page">
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Foreground" Value="{StaticResource TitleBrush}"/>
-            <Setter Property="FontFamily" Value="Segoe UI"/>
-        </Style>
-
-        <!-- Gør også Frame gennemsigtig -->
-        <Style TargetType="Frame">
-            <Setter Property="Background" Value="Transparent"/>
-        </Style>
-
-        <!-- Titel -->
+        <!-- Titel-tekst på dashboards -->
         <Style x:Key="DashboardTitleText" TargetType="TextBlock">
-            <Setter Property="Foreground" Value="{StaticResource TitleBrush}"/>
-            <Setter Property="FontSize" Value="28"/>
+            <Setter Property="Foreground" Value="White"/>
             <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="HorizontalAlignment" Value="Center"/>
         </Style>
 
-        <!-- Card -->
+        <!-- Card-style til paneler (venstre/højre bokse) -->
         <Style x:Key="CardStyle" TargetType="Border">
-            <Setter Property="Background" Value="{StaticResource CardBrush}"/>
-            <Setter Property="CornerRadius" Value="20"/>
-            <Setter Property="Padding" Value="40"/>
-            <Setter Property="SnapsToDevicePixels" Value="True"/>
-            <Setter Property="Effect">
-                <Setter.Value>
-                    <DropShadowEffect BlurRadius="20" ShadowDepth="6" Opacity="0.25" Color="#000000"/>
-                </Setter.Value>
-            </Setter>
+            <Setter Property="Background" Value="#1F1B2B"/>
+            <Setter Property="CornerRadius" Value="12"/>
         </Style>
 
-        <!-- Knap (ingen triggers/animationer) -->
-        <Style TargetType="Button" x:Key="DashboardButton">
-            <Setter Property="Background" Value="{StaticResource ButtonBgBrush}"/>
-            <Setter Property="Foreground" Value="{StaticResource ButtonFgBrush}"/>
+        <!-- Card til individuelle timere -->
+        <Style x:Key="TimerCardStyle"
+       TargetType="Border"
+       BasedOn="{StaticResource CardStyle}">
+            
+            <!-- Arver baggrund + CornerRadius fra CardStyle -->
             <Setter Property="BorderBrush" Value="{StaticResource AccentBrush}"/>
-            <Setter Property="BorderThickness" Value="3"/>
-            <Setter Property="Padding" Value="20,16"/>
-            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Padding" Value="20"/>
+            <Setter Property="Margin" Value="0,0,0,15"/>
+        </Style>
+
+        <!-- Fælles baggrund for alle Pages -->
+        <Style x:Key="BasePageStyle" TargetType="Page">
+            <Setter Property="Background" Value="{StaticResource WindowBackgroundBrush}" />
+        </Style>
+
+        <!-- Fælles border med corner radius til Page-indhold -->
+        <Style x:Key="RoundedPageBorderStyle" TargetType="Border">
+            <Setter Property="CornerRadius" Value="20"/>
+            <Setter Property="Background" Value="{StaticResource WindowBackgroundBrush}"/>
+            <Setter Property="Padding" Value="20"/>
+        </Style>
+
+        <!-- Basis knap-style -->
+        <Style x:Key="FlatRoundedButton" TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource WindowBackgroundBrush}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource ButtonBorderBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Foreground" Value="White"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Padding" Value="10,6"/>
             <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}"
+                        <Border x:Name="border"
+                                Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="12"
+                                CornerRadius="10"
                                 SnapsToDevicePixels="True">
                             <ContentPresenter HorizontalAlignment="Center"
-                                              VerticalAlignment="Center"/>
+                                              VerticalAlignment="Center"
+                                              RecognizesAccessKey="True"/>
                         </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource ButtonHoverBorderBrush}"/>
+                                <Setter TargetName="border" Property="Background" Value="{StaticResource ButtonHoverBackground}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#25212B"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.5"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
+        </Style>
+
+        <!-- Dashboard-knap: bredere/højere version af FlatRoundedButton -->
+        <Style x:Key="DashboardButton"
+               TargetType="Button"
+               BasedOn="{StaticResource FlatRoundedButton}">
+            <Setter Property="Width" Value="500"/>
+            <Setter Property="Height" Value="80"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="FontSize" Value="14"/>
         </Style>
 
     </Application.Resources>
