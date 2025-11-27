@@ -42,7 +42,7 @@ namespace _2SemesterEksamensProjekt.Views
 
             BackCommand = new RelayCommand(_ =>
             {
-                AppNavigationService.Navigate(new MainMenuPage());
+                AppNavigationService.GoBack();
             });
 
             // Hver gang der navigeres → tjek hvilken side man er på

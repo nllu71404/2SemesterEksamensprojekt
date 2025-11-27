@@ -190,8 +190,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
                 MessageBox.Show("Tidsregistrering gemt!", "Succes",
                     MessageBoxButton.OK, MessageBoxImage.Information);
 
-                AppNavigationService.Navigate(new TimerPage());
-                //AppNavigationService.GoBack();
+                AppNavigationService.GoBack();
             }
             catch (Exception ex)
             {
