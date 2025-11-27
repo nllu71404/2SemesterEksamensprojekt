@@ -68,6 +68,26 @@ namespace _2SemesterEksamensProjekt.Models
                 OnPropertyChanged();
             }
         }
+        private int _manualHours;
+        public int ManualHours
+        {
+            get => _manualHours;
+            set
+            {
+                _manualHours = value;
+                OnPropertyChanged();
+            }
+        }
+        private int _manualMinutes;
+        public int ManualMinutes
+        {
+            get => _manualMinutes;
+            set
+            {
+                _manualMinutes = value;
+                OnPropertyChanged();
+            }
+        }
 
         //Defulat properties til visning
         public string DisplayTime =>

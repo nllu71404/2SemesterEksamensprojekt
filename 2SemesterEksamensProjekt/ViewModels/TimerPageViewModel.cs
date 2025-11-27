@@ -38,6 +38,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
         public RelayCommand StartTimerCommand { get; }
         public RelayCommand StopTimerCommand { get; }
         public RelayCommand SaveTimerCommand { get; }
+        public RelayCommand AddManualTimeCommand { get; }
 
         
 
@@ -60,7 +61,9 @@ namespace _2SemesterEksamensProjekt.ViewModels
             StopTimerCommand = new RelayCommand(StopTimer);
             DeleteTimerCommand = new RelayCommand(DeleteTimer);
             SaveTimerCommand = new RelayCommand(SaveTimer);
+            AddManualTimeCommand = new RelayCommand(AddManualTime);
         }
+
         private bool CanCreateTimer(object parameter)
         {
             return !string.IsNullOrWhiteSpace(TimerName);
@@ -97,6 +100,17 @@ namespace _2SemesterEksamensProjekt.ViewModels
             if (parameter is Timer timer && timer.IsRunning)
             {
                 timer.IsRunning = false;
+            }
+        }
+        private void AddManualTime(object parameter)
+        {
+            if (parameter is Timer timer)
+            {
+                timer.ElapsedTime += TimeSpan.FromHours(timer.ManualHours)
+                    + TimeSpan.FromMinutes(timer.ManualMinutes);
+
+                timer.ManualHours = 0;
+                timer.ManualMinutes = 0;
             }
         }
 
