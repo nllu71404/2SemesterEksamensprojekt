@@ -305,3 +305,46 @@ BEGIN
     SELECT SCOPE_IDENTITY() AS NewTimeRecordId;
 END;
 
+ALTER TABLE dbo.TimeRecord
+ADD Note NVARCHAR(MAX) NULL;
+
+
+ALTER PROCEDURE [dbo].[uspCreateTimeRecord]
+    @TimerName NVARCHAR(100),
+    @ElapsedTime TIME,
+    @StartTime DATETIME,
+    @CompanyId INT = NULL,
+    @ProjectId INT = NULL,
+    @TopicId INT = NULL,
+    @Note NVARCHAR(MAX) = NULL  
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    INSERT INTO dbo.TimeRecord
+    (
+        TimerName,
+        ElapsedTime,
+        StartTime,
+        CompanyId,
+        ProjectId,
+        TopicId,
+        Note              
+    )
+    VALUES
+    (
+        @TimerName,
+        @ElapsedTime,
+        @StartTime,
+        @CompanyId,
+        @ProjectId,
+        @TopicId,
+        @Note            
+    );
+
+    SELECT SCOPE_IDENTITY() AS NewTimeRecordId;
+END;
+
+
+
+
