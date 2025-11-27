@@ -93,7 +93,7 @@
                                       Height="45"
                                       BorderThickness="0"
                                       Background="Transparent"
-                                      Foreground="White"/>
+                                      Foreground="Black"/>
                         </Border>
                     </StackPanel>
 
@@ -115,7 +115,7 @@
                                       Height="45"
                                       BorderThickness="0"
                                       Background="Transparent"
-                                      Foreground="White"/>
+                                      Foreground="Black"/>
                         </Border>
                     </StackPanel>
 
@@ -137,7 +137,7 @@
                                       Height="45"
                                       BorderThickness="0"
                                       Background="Transparent"
-                                      Foreground="White"/>
+                                      Foreground="Black"/>
                         </Border>
                     </StackPanel>
 
@@ -151,6 +151,13 @@
                             <ColumnDefinition Width="3*"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Column="0"
+                           Text="Eventuel bemærkning:"
+                           FontSize="14"
+                           FontWeight="SemiBold"
+                           Foreground="White"
+                           Margin="0,0,0,10"/>
 
                         <!-- Bemærkning textbox (større) -->
                         <Border Grid.Column="0"
