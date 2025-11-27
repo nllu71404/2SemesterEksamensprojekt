@@ -116,7 +116,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
             if (parameter is Timer timerToDelete)
             {
                 var result = MessageBox.Show(
-                    $"Er du sikker på, at du vil slette timeren '{timerToDelete.TimerName}'?",
+                    $"Er du sikker på, at du vil slette stopuret '{timerToDelete.TimerName}'?",
                     "Bekræft sletning",
                     MessageBoxButton.YesNo,
                     MessageBoxImage.Warning

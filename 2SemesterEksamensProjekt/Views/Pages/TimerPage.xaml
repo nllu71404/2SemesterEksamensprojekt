@@ -22,7 +22,7 @@
 
             <!-- Titel -->
             <TextBlock Grid.Row="0" 
-                       Text="Opret timer" 
+                       Text="Opret stopur" 
                        Style="{StaticResource DashboardTitleText}"
                        FontSize="22"
                        Margin="0,0,0,20"/>
@@ -53,7 +53,7 @@
                     </Border>
 
                     <!-- Opret timer knap -->
-                    <Button Content="Opret timer"
+                    <Button Content="Opret stopur"
                             Style="{StaticResource DashboardButton}"
                             Command="{Binding CreateTimerCommand}"
                             MinWidth="150"/>
@@ -73,7 +73,7 @@
 
                     <!-- Overskrift -->
                     <TextBlock Grid.Row="0"
-                               Text="Dine timere"
+                               Text="Dine stopure"
                                FontSize="20"
                                FontWeight="SemiBold"
                                Foreground="White"
