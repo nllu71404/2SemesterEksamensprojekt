@@ -176,7 +176,7 @@
 
                         <!-- Gem knap (mindre) -->
                         <Button Grid.Column="1"
-                                Content="Gem registrering"
+                                Content="Gem tidsregistrering"
                                 BorderBrush="{StaticResource AccentBrush}"
                                 Command="{Binding SaveTimeRecordCommand}"
                                 Width="160"

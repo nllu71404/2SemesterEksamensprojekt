@@ -25,7 +25,6 @@ namespace _2SemesterEksamensProjekt.Views.Pages
             InitializeComponent();
             DataContext = new ViewModels.MainMenuPageViewModel();
         }
-
     }
 
 

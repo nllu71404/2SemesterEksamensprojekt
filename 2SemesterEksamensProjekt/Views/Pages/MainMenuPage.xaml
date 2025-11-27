@@ -61,7 +61,7 @@
                 <Button Grid.Row="1" Grid.Column="1"
                         Style="{StaticResource DashboardButton}"
                         Margin="10"
-                        Content="Vis timeroversigt" />
+                        Content="Vis stopursoversigt" />
 
                 <Button Grid.Row="2" Grid.Column="0"
                         Style="{StaticResource DashboardButton}"

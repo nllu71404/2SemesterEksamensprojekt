@@ -14,7 +14,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
     {
         public class CompanyPageViewModel : BaseViewModel
     {
-        public readonly CompanyRepository _companyRepository;
+        public readonly ICompanyRepository _companyRepository;
         public ObservableCollection<Company> Companies { get; } = new ObservableCollection<Company>();
 
 
@@ -44,7 +44,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
 
         }
 
-        public CompanyPageViewModel(CompanyRepository companyRepository)
+        public CompanyPageViewModel(ICompanyRepository companyRepository)
         {
             this._companyRepository = companyRepository;
             foreach (var company in companyRepository.GetAllCompanies())
@@ -64,7 +64,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
         {
             if (string.IsNullOrWhiteSpace(CompanyName))
             {
-                MessageBox.Show("Udfyld venligst virksomhedsnavn");
+                ShowMessage("Udfyld venligst virksomhedsnavn");
                 return;
             }
             
@@ -78,7 +78,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
 
             Companies.Add(newCompany);
             CompanyName = "";
-            MessageBox.Show("Virksomhed oprettet");
+            ShowMessage("Virksomhed oprettet");
         }
 
         public void DeleteSelectedCompany()
@@ -109,7 +109,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
         {
             if (SelectedCompany == null) 
             {
-                MessageBox.Show("Vælg en virksomhed, der skal redigeres.");
+                ShowMessage("Vælg en virksomhed, der skal redigeres.");
                 return;
             }
             CompanyName = SelectedCompany.CompanyName;
@@ -119,13 +119,13 @@ namespace _2SemesterEksamensProjekt.ViewModels
         {
             if (SelectedCompany == null)
             {
-                MessageBox.Show("Vælg en virksomhed, der skal gemmes.");
+                ShowMessage("Vælg en virksomhed, der skal gemmes.");
                 return;
             }
 
             if (string.IsNullOrWhiteSpace(CompanyName))
             {
-                MessageBox.Show("Skriv et virksomhedsnavn");
+                ShowMessage("Skriv et virksomhedsnavn");
                 return;
             }
 
@@ -139,6 +139,11 @@ namespace _2SemesterEksamensProjekt.ViewModels
                 Companies.Add(c);
 
             CompanyName = string.Empty;
+        }
+        // TEST: Override metode for at vise beskeder (kan tilpasses i tests)
+        protected virtual void ShowMessage(string msg)
+        {
+            MessageBox.Show(msg);
         }
     }
 

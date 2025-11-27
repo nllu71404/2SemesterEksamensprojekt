@@ -166,6 +166,8 @@ namespace _2SemesterEksamensProjekt.ViewModels
             }
         }
 
+
+
         private void SaveTimeRecord()
         {
             if (SelectedCompany == null || SelectedProject == null || SelectedTopic == null)

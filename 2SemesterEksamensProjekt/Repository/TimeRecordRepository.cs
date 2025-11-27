@@ -88,8 +88,8 @@ namespace _2SemesterEksamensProjekt.Repository
                 cmd.Parameters.Add("@TopicId", SqlDbType.Int).Value =
                     timer.TopicId.HasValue ? timer.TopicId.Value : DBNull.Value;
 
-                cmd.Parameters.Add("@Notes", SqlDbType.NVarChar, 1000).Value =
-                    string.IsNullOrEmpty(timer.Note) ? (object)DBNull.Value : timer.Note;
+                cmd.Parameters.Add("@Note", SqlDbType.NVarChar).Value =
+                     string.IsNullOrEmpty(timer.Note) ? DBNull.Value : timer.Note;
                 object result = cmd.ExecuteScalar();
                 return Convert.ToInt32(result);
 
