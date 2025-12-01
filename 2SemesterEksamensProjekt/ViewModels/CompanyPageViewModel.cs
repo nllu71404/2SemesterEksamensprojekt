@@ -80,29 +80,20 @@ namespace _2SemesterEksamensProjekt.ViewModels
             CompanyName = "";
             ShowMessage("Virksomhed oprettet");
         }
-
         public void DeleteSelectedCompany()
         {
             if (SelectedCompany == null) return;
 
-            // Vis bekræftelsesdialog
-            var result = MessageBox.Show(
-                $"Er du sikker på, at du vil slette virksomheden '{SelectedCompany.CompanyName}' og alle tilknyttede projekter?",
-                "Bekræft sletning",
-                MessageBoxButton.YesNo,
-                MessageBoxImage.Warning
+            var result = ShowConfirmation(
+                $"Er du sikker på, at du vil slette virksomheden '{SelectedCompany.CompanyName}' og alle tilknyttede projekter?"
             );
 
-            // Brugeren trykkede "Ja"
             if (result == MessageBoxResult.Yes)
             {
                 _companyRepository.DeleteCompany(SelectedCompany.CompanyId);
                 Companies.Remove(SelectedCompany);
-
                 SelectedCompany = null;
-
             }
-            
         }
 
         public void EditSelectedCompany()
@@ -115,7 +106,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
             CompanyName = SelectedCompany.CompanyName;
         }
 
-        private void SaveSelectedCompany()
+        public void SaveSelectedCompany()
         {
             if (SelectedCompany == null)
             {
@@ -144,6 +135,17 @@ namespace _2SemesterEksamensProjekt.ViewModels
         protected virtual void ShowMessage(string msg)
         {
             MessageBox.Show(msg);
+        }
+
+        // TEST: Override metode for bekræftelses-popup (kan tilpasses i tests)
+        protected virtual MessageBoxResult ShowConfirmation(string message)
+        {
+            return MessageBox.Show(
+                message,
+                "Bekræft sletning",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Warning
+            );
         }
     }
 
