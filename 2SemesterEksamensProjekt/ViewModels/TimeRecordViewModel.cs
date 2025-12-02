@@ -24,10 +24,10 @@ namespace _2SemesterEksamensProjekt.ViewModels
         private readonly TimeRecord _timeRecord;
 
         //Fields
-        private readonly TimeRecordRepository _timeRecordRepo;
-        private readonly CompanyRepository _companyRepo;
-        private readonly ProjectRepository _projectRepo;
-        private readonly TopicRepository _topicRepo;
+        private readonly ITimeRecordRepository _timeRecordRepo;
+        private readonly ICompanyRepository _companyRepo;
+        private readonly IProjectRepository _projectRepo;
+        private readonly ITopicRepository _topicRepo;
 
         //Tager den gemte tid med over i ny Page
         //private TimerPageViewModel _timerPageViewModel;
@@ -89,7 +89,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
         //public RelayCommand CancelTimeRecordCommand { get; }
 
         //Constructor
-        public TimeRecordViewModel(TimeRecord timeRecord)
+        public TimeRecordViewModel(TimeRecord timeRecord, ITimeRecordRepository timeRecordRepository, ICompanyRepository companyRepository, IProjectRepository projectRepository, ITopicRepository topicRepository)
         {
 
             _timeRecord = timeRecord ?? throw new ArgumentNullException(nameof(timeRecord));
@@ -106,10 +106,10 @@ namespace _2SemesterEksamensProjekt.ViewModels
                     OnPropertyChanged(nameof(Note));    
             };
 
-            _timeRecordRepo = new TimeRecordRepository();
-            _companyRepo = new CompanyRepository();
-            _projectRepo = new ProjectRepository();
-            _topicRepo = new TopicRepository();
+            _timeRecordRepo = timeRecordRepository;
+            _companyRepo = companyRepository;
+            _projectRepo = projectRepository;
+            _topicRepo = topicRepository;
 
             Companies = new ObservableCollection<Company>();
             Projects = new ObservableCollection<Project>();

@@ -10,7 +10,7 @@ using Microsoft.Data.SqlClient;
 
 namespace _2SemesterEksamensProjekt.Repository
 {
-    public class TopicRepository : BaseRepository
+    public class TopicRepository : BaseRepository, ITopicRepository
     {
         public List<Topic> GetAllTopics()
         {

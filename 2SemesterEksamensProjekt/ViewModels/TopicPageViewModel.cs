@@ -15,7 +15,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
 {
     public class TopicPageViewModel : BaseViewModel
     {
-        public readonly TopicRepository _topicRepository;
+        public readonly ITopicRepository _topicRepository;
         public ObservableCollection<Topic> Topics { get; } = new ObservableCollection<Topic>();
 
         // Command properties
@@ -39,7 +39,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
             set => SetProperty(ref _selectedTopic, value);
         }
 
-        public TopicPageViewModel(TopicRepository topicRepository)
+        public TopicPageViewModel(ITopicRepository topicRepository)
         {
 
             foreach (var topic in topicRepository.GetAllTopics())
@@ -59,7 +59,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
         {
             if (string.IsNullOrWhiteSpace(TopicDescription))
             {
-                MessageBox.Show("Udfyld venligst emnebeskrivelse");
+                ShowMessage("Udfyld venligst emnebeskrivelse");
                 return;
             }
 
@@ -73,17 +73,14 @@ namespace _2SemesterEksamensProjekt.ViewModels
 
             Topics.Add(newTopic);
             TopicDescription = "";
-            MessageBox.Show("Emne oprettet");
+            ShowMessage("Emne oprettet");
         }
         public void DeleteSelectedTopic()
         {
             if (SelectedTopic == null) return;
 
-            var result = MessageBox.Show(
-                $"Er du sikker på, at du vil slette emne: '{SelectedTopic.TopicDescription}'?",
-                "Bekræft sletning",
-                MessageBoxButton.YesNo,
-                MessageBoxImage.Warning
+            var result = ShowConfirmation(
+                $"Er du sikker på, at du vil slette emne: '{SelectedTopic.TopicDescription}'?"
             );
 
             if (result == MessageBoxResult.Yes)
@@ -97,9 +94,9 @@ namespace _2SemesterEksamensProjekt.ViewModels
 
         public void EditSelectedTopic()
         {
-            if(SelectedTopic == null)
+            if (SelectedTopic == null)
             {
-                MessageBox.Show("Vælg emne du vil redigerer.");
+                ShowMessage("Vælg emne du vil redigerer.");
                 return;
             }
             TopicDescription = SelectedTopic.TopicDescription;
@@ -107,17 +104,17 @@ namespace _2SemesterEksamensProjekt.ViewModels
 
         public void SaveSelectedTopic()
         {
-            if(SelectedTopic == null)
+            if (SelectedTopic == null)
             {
-                MessageBox.Show("Vælg emne du vil gemme.");
+                ShowMessage("Vælg emne du vil gemme.");
                 return;
             }
             if (string.IsNullOrWhiteSpace(TopicDescription))
             {
-                MessageBox.Show("Skriv en emnebeskrivelse");
+                ShowMessage("Skriv en emnebeskrivelse");
                 return;
             }
-            
+
             SelectedTopic.TopicDescription = TopicDescription!;
 
             _topicRepository.UpdateTopic(SelectedTopic);
@@ -132,6 +129,22 @@ namespace _2SemesterEksamensProjekt.ViewModels
 
         }
 
+        // TEST: Override metode for at vise beskeder (kan tilpasses i tests)
+        protected virtual void ShowMessage(string msg)
+        {
+            MessageBox.Show(msg);
+        }
+
+        // TEST: Override metode for bekræftelses-popup (kan tilpasses i tests)
+        protected virtual MessageBoxResult ShowConfirmation(string message)
+        {
+            return MessageBox.Show(
+                message,
+                "Bekræft sletning",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Warning
+            );
+        }
 
     }
 }

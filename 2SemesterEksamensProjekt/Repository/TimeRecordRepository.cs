@@ -9,7 +9,7 @@ using Microsoft.Data.SqlClient;
 
 namespace _2SemesterEksamensProjekt.Repository
 {
-    public class TimeRecordRepository : BaseRepository
+    public class TimeRecordRepository : BaseRepository, ITimeRecordRepository
     {
         public List<TimeRecord> GetAllTimers()
         {
@@ -96,7 +96,7 @@ namespace _2SemesterEksamensProjekt.Repository
             });
         }
 
-        public List<TimeRecord> GetTimeRecordByCompanyId(int companyId)
+        public List<TimeRecord> GetTimeRecordByCompanyId(int companyId) //Bruges ikke endnu 
         {
             return ExecuteSafe(conn =>
             {
@@ -118,7 +118,7 @@ namespace _2SemesterEksamensProjekt.Repository
                 return projects;
             });
         }
-        public List<TimeRecord> GetProjectsByCompanyId(int companyId) //Skal vi bruge denne til noget?:-)
+        public List<TimeRecord> GetProjectsByCompanyId(int companyId) //Bruges ikke endnu
         {
             return ExecuteSafe(conn =>
             {

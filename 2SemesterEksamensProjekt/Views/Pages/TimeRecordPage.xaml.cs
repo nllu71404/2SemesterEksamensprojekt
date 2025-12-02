@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using _2SemesterEksamensProjekt.ViewModels;
 using _2SemesterEksamensProjekt.Models;
+using _2SemesterEksamensProjekt.Repository;
 
 namespace _2SemesterEksamensProjekt.Views.Pages
 {
@@ -34,8 +35,12 @@ namespace _2SemesterEksamensProjekt.Views.Pages
                 IsRunning = false
             };
 
-            DataContext = new TimeRecordViewModel(timeRecord);
-            //DataContext = new ProjectPageViewModel();
+            var timeRecordRepository = new TimeRecordRepository();
+            var companyRepository = new CompanyRepository();
+            var projectRepository = new ProjectRepository();
+            var topicRepository = new TopicRepository();
+            DataContext = new TimeRecordViewModel(timeRecord, timeRecordRepository, companyRepository, projectRepository, topicRepository);
+           
         }
     }
 }
