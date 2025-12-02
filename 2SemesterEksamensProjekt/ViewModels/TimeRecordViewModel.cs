@@ -86,7 +86,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
 
         //Commands
         public RelayCommand SaveTimeRecordCommand { get; }
-        public RelayCommand CancelTimeRecordCommand { get; }
+        //public RelayCommand CancelTimeRecordCommand { get; }
 
         //Constructor
         public TimeRecordViewModel(TimeRecord timeRecord)
@@ -119,7 +119,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
             LoadAllTopics();
 
             SaveTimeRecordCommand = new RelayCommand(_ => SaveTimeRecord());
-            CancelTimeRecordCommand = new RelayCommand(_ => CancelTimeRecord());
+            //CancelTimeRecordCommand = new RelayCommand(_ => CancelTimeRecord());
         }
 
         //Metoder
@@ -170,48 +170,68 @@ namespace _2SemesterEksamensProjekt.ViewModels
 
         private void SaveTimeRecord()
         {
+            // 1. Valider input
             if (SelectedCompany == null || SelectedProject == null || SelectedTopic == null)
             {
-                MessageBox.Show("Udfyld venligst alle felter", "Mangler information",
-                    MessageBoxButton.OK, MessageBoxImage.Warning);
+                ShowMessage("Udfyld venligst alle felter");
                 return;
             }
 
+            // 2. Bekræft gemning
+            var result = ShowConfirmation("Vil du gemme denne tidsregistrering?");
+            if (result != MessageBoxResult.Yes)
+                return;
+
+            // 3. Sæt værdier
             _timeRecord.CompanyId = SelectedCompany.CompanyId;
             _timeRecord.ProjectId = SelectedProject.ProjectId;
             _timeRecord.TopicId = SelectedTopic.TopicId;
             _timeRecord.Note = this.Note;
 
+            // 4. Gem og håndter fejl
             try
             {
                 int newId = _timeRecordRepo.SaveNewTimeRecord(_timeRecord);
-                
 
-                MessageBox.Show("Tidsregistrering gemt!", "Succes",
-                    MessageBoxButton.OK, MessageBoxImage.Information);
-
+                ShowMessage("Tidsregistrering gemt!");
                 AppNavigationService.GoBack();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Fejl ved gemning: {ex.Message}", "Fejl",
-                    MessageBoxButton.OK, MessageBoxImage.Error);
+                ShowMessage($"Fejl ved gemning: {ex.Message}");
             }
         }
 
-        private void CancelTimeRecord()
-        {
-            var result = MessageBox.Show(
-                "Er du sikker på, at du vil annullere? Tidsregistreringen gemmes ikke.",
-                "Bekræft annullering",
-                MessageBoxButton.YesNo,
-                MessageBoxImage.Question
-            );
+        //private void CancelTimeRecord()
+        //{
+        //    var result = MessageBox.Show(
+        //        "Er du sikker på, at du vil annullere? Tidsregistreringen gemmes ikke.",
+        //        "Bekræft annullering",
+        //        MessageBoxButton.YesNo,
+        //        MessageBoxImage.Question
+        //    );
 
-            if (result == MessageBoxResult.Yes)
-            {
-                AppNavigationService.Navigate(new TimerPage());
-            }
+        //    if (result == MessageBoxResult.Yes)
+        //    {
+        //        AppNavigationService.Navigate(new TimerPage());
+        //    }
+        //}
+
+        // TEST: Override metode for at vise beskeder (kan tilpasses i tests)
+        protected virtual void ShowMessage(string msg)
+        {
+            MessageBox.Show(msg);
+        }
+
+        // TEST: Override metode for bekræftelses-popup (kan tilpasses i tests)
+        protected virtual MessageBoxResult ShowConfirmation(string message)
+        {
+            return MessageBox.Show(
+                message,
+                "Bekræft sletning",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Warning
+            );
         }
     }
 }

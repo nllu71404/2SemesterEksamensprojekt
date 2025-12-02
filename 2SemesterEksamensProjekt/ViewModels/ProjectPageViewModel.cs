@@ -14,7 +14,8 @@ namespace _2SemesterEksamensProjekt.ViewModels
     public class ProjectPageViewModel : BaseViewModel
     {
         // Fields
-        private readonly ProjectRepository _projectRepo = new();
+        private readonly IProjectRepository _projectRepo;
+        private readonly ICompanyRepository _companyRepo;
 
         private Company? _selectedCompany;
         private Project? _selectedProject;
@@ -60,8 +61,11 @@ namespace _2SemesterEksamensProjekt.ViewModels
         public RelayCommand SaveSelectedProjectCommand { get; } // gemmer ændringer til valgt projekt
 
         // Constructor
-        public ProjectPageViewModel(CompanyRepository _companyRepo)
+        public ProjectPageViewModel(ICompanyRepository companyRepo, IProjectRepository projectRepo)
         {
+            _companyRepo = companyRepo;   // ✔ korrekt
+            _projectRepo = projectRepo;   // ✔ korrekt
+
             CreateProjectCommand = new RelayCommand(_ => CreateProject());
             EditSelectedProjectCommand = new RelayCommand(_ => EditSelectedProject());
             DeleteSelectedProjectCommand = new RelayCommand(_ => DeleteSelectedProject());
@@ -70,18 +74,19 @@ namespace _2SemesterEksamensProjekt.ViewModels
             foreach (var c in _companyRepo.GetAllCompanies())
                 Companies.Add(c);
         }
+        
         // Metoder
-
         private void CreateProject()
         {
             if (SelectedCompany is null)
             {
-                MessageBox.Show("Vælg en virksomhed først.");
+                ShowMessage("Vælg en virksomhed først.");
                 return;
             }
+
             if (string.IsNullOrWhiteSpace(Title))
             {
-                MessageBox.Show("Skriv en projekttitel.");
+                ShowMessage("Skriv en projekttitel.");
                 return;
             }
 
@@ -108,7 +113,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
         {
             if (SelectedProject == null)
             {
-                MessageBox.Show("Vælg et projekt, der skal redigeres.");
+                ShowMessage("Vælg et projekt, der skal redigeres.");
                 return;
             }
 
@@ -119,9 +124,23 @@ namespace _2SemesterEksamensProjekt.ViewModels
         }
         private void SaveSelectedProject()
         {
-            if (SelectedProject == null) { MessageBox.Show("Vælg et projekt, der skal gemmes."); return; }
-            if (SelectedCompany == null) { MessageBox.Show("Vælg en virksomhed."); return; }
-            if (string.IsNullOrWhiteSpace(Title)) { MessageBox.Show("Skriv en projekttitel."); return; }
+            if (SelectedProject == null)
+            {
+                ShowMessage("Vælg et projekt, der skal gemmes.");
+                return;
+            }
+
+            if (SelectedCompany == null)
+            {
+                ShowMessage("Vælg en virksomhed.");
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(Title))
+            {
+                ShowMessage("Skriv en projekttitel.");
+                return;
+            }
 
             SelectedProject.Title = Title!;
             SelectedProject.Description = Description;
@@ -147,6 +166,23 @@ namespace _2SemesterEksamensProjekt.ViewModels
 
             foreach (var p in projekter)
                 Projects.Add(p);
+        }
+
+        // TEST: Override metode for at vise beskeder (kan tilpasses i tests)
+        protected virtual void ShowMessage(string msg)
+        {
+            MessageBox.Show(msg);
+        }
+
+        // TEST: Override metode for bekræftelses-popup (kan tilpasses i tests)
+        protected virtual MessageBoxResult ShowConfirmation(string message)
+        {
+            return MessageBox.Show(
+                message,
+                "Bekræft sletning",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Warning
+            );
         }
     }
 }

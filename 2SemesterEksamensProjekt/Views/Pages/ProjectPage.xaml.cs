@@ -28,7 +28,8 @@ namespace _2SemesterEksamensProjekt.Views.Pages
         {
             InitializeComponent();
             var companyRepository = new CompanyRepository();
-            projectPageViewModel = new ProjectPageViewModel(companyRepository);
+            var projectRepository = new ProjectRepository();
+            projectPageViewModel = new ProjectPageViewModel(companyRepository, projectRepository);
             DataContext = projectPageViewModel;
 
         }

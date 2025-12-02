@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace _2SemesterEksamensProjekt.Repository
 {
-    public class ProjectRepository : BaseRepository
+    public class ProjectRepository : BaseRepository, IProjectRepository
     {
         public List<Project> GetAllProjects()
         {

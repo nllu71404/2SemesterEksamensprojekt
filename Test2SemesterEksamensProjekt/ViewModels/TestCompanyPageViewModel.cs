@@ -43,7 +43,7 @@ namespace Test2SemesterEksamensProjekt.ViewModels
         }
 
         [TestMethod]
-        public void CreateCompany_SavesToRepository_AndAddsCompanyToObservableCollection()
+        public void CreateCompany_SavesNewCompany_SavesToRepositoryAndAddsCompanyToObservableCollection()
         {
             // Arrange
             // Tom liste når ViewModel loades
@@ -80,7 +80,7 @@ namespace Test2SemesterEksamensProjekt.ViewModels
         }
 
         [TestMethod]
-        public void DeleteSelectedCompany_RemovesCompanyFromCollection()
+        public void DeleteSelectedCompany_CompanyIsSelected_RemovesCompanyFromObservableCollectionAndRepository()
         {
             // Arrange
             // En liste med én virksomhed ved load
@@ -112,7 +112,7 @@ namespace Test2SemesterEksamensProjekt.ViewModels
         }
 
         [TestMethod]
-        public void EditSelectedCompany_SetsCompanyNameToSelected()
+        public void EditSelectedCompany_CompanyIsSelected_SetsCompanyNameToSelected()
         {
             // Arrange
             // Mock repo returnerer én virksomhed
@@ -137,7 +137,7 @@ namespace Test2SemesterEksamensProjekt.ViewModels
         }
 
         [TestMethod]
-        public void SaveSelectedCompany_UpdatesRepositoryAndReloadsCompanies()
+        public void SaveSelectedCompany_CompanyIsSelected_UpdatesRepositoryAndReloadsCompanies()
         {
             // Arrange
             // Mock repo returnerer én virksomhed oprindeligt
