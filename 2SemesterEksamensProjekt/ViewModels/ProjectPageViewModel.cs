@@ -76,7 +76,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
         }
         
         // Metoder
-        private void CreateProject()
+        public void CreateProject()
         {
             if (SelectedCompany is null)
             {
@@ -101,7 +101,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
             Description = string.Empty;
         }
 
-        private void DeleteSelectedProject()
+        public void DeleteSelectedProject()
         {
             if (SelectedProject == null) return;
             _projectRepo.DeleteProject(SelectedProject.ProjectId);
@@ -109,7 +109,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
             Projects.Remove(SelectedProject);
             SelectedProject = null;
         }
-        private void EditSelectedProject()
+        public void EditSelectedProject()
         {
             if (SelectedProject == null)
             {
@@ -122,7 +122,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
             Description = SelectedProject.Description;
 
         }
-        private void SaveSelectedProject()
+        public void SaveSelectedProject()
         {
             if (SelectedProject == null)
             {

@@ -155,6 +155,7 @@ namespace Test2SemesterEksamensProjekt.ViewModels
             testingViewModel.CompanyName = "Nyt Navn";
 
             // Act
+
             testingViewModel.SaveSelectedCompany();
 
             // Assert
