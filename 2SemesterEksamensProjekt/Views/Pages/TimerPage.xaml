@@ -173,7 +173,7 @@
 
                                             <!-- Tilføj tid manuelt knap -->
                                             <Button Grid.Row="1" Grid.Column="3"
-                                                    Content="Tilføj/fratræk tid"
+                                                    Content="Tilføj"
                                                     Width="110"
                                                     Height="40"
                                                     Margin="5"
@@ -182,6 +182,17 @@
                                                     BorderBrush="#7C3AED"
                                                     Command="{Binding DataContext.AddManualTimeCommand, RelativeSource={RelativeSource AncestorType=Page}}"
                                                     CommandParameter="{Binding}"/>
+                                            <!-- Træk fra tid manuelt knap -->
+                                            <Button Grid.Row="1" Grid.Column="4"
+                                            Content="Træk fra"
+                                            Width="110"
+                                            Height="40"
+                                            Margin="5"
+                                            Background="#FBBF24"
+                                            Foreground="#7C2D12"
+                                            BorderBrush="#F59E0B"
+                                            Command="{Binding DataContext.SubtractManualTimeCommand, RelativeSource={RelativeSource AncestorType=Page}}"
+                                            CommandParameter="{Binding}"/>
 
                                             <!-- Start knap -->
                                             <Button Grid.Row="1" Grid.Column="5"

@@ -39,8 +39,9 @@ namespace _2SemesterEksamensProjekt.ViewModels
         public RelayCommand StopTimerCommand { get; }
         public RelayCommand SaveTimerCommand { get; }
         public RelayCommand AddManualTimeCommand { get; }
+        public RelayCommand SubtractManualTimeCommand { get; }
 
-        
+
 
         public TimerPageViewModel()
         {
@@ -62,6 +63,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
             DeleteTimerCommand = new RelayCommand(DeleteTimer);
             SaveTimerCommand = new RelayCommand(SaveTimer);
             AddManualTimeCommand = new RelayCommand(AddManualTime);
+            SubtractManualTimeCommand = new RelayCommand(SubtractManualTime);
         }
 
         private bool CanCreateTimer(object parameter)
@@ -109,6 +111,25 @@ namespace _2SemesterEksamensProjekt.ViewModels
                 timer.ElapsedTime += TimeSpan.FromHours(timer.ManualHours)
                     + TimeSpan.FromMinutes(timer.ManualMinutes);
 
+                timer.ManualHours = 0;
+                timer.ManualMinutes = 0;
+            }
+        }
+
+        private void SubtractManualTime(object parameter)
+        {
+            if (parameter is Timer timer)
+            {
+                var timeToSubtract = TimeSpan.FromHours(timer.ManualHours)
+                    + TimeSpan.FromMinutes(timer.ManualMinutes);
+                if (timer.ElapsedTime > timeToSubtract)
+                {
+                    timer.ElapsedTime -= timeToSubtract;
+                }
+                else
+                {
+                    timer.ElapsedTime = TimeSpan.Zero;
+                }
                 timer.ManualHours = 0;
                 timer.ManualMinutes = 0;
             }
