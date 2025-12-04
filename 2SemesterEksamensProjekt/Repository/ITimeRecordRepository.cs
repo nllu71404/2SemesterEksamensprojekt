@@ -9,10 +9,8 @@ namespace _2SemesterEksamensProjekt.Repository
 {
     public interface ITimeRecordRepository
     {
-        List<TimeRecord> GetAllTimers();
-        List<TimeRecord> GetTimersByTimerId(int timerId);
+        List<TimeRecord> GetAllTimeRecords();
+        List<TimeRecord> GetTimeRecordByFilter(int timerId);
         int SaveNewTimeRecord(TimeRecord timer);
-        List<TimeRecord> GetTimeRecordByCompanyId(int companyId);
-        List<TimeRecord> GetProjectsByCompanyId(int companyId);
     }
 }

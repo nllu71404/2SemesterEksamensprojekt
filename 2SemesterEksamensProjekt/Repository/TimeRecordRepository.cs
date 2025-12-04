@@ -11,7 +11,7 @@ namespace _2SemesterEksamensProjekt.Repository
 {
     public class TimeRecordRepository : BaseRepository, ITimeRecordRepository
     {
-        public List<TimeRecord> GetAllTimers()
+        public List<TimeRecord> GetAllTimeRecords()
         {
             return ExecuteSafe(conn =>
             {
@@ -93,51 +93,6 @@ namespace _2SemesterEksamensProjekt.Repository
                 object result = cmd.ExecuteScalar();
                 return Convert.ToInt32(result);
 
-            });
-        }
-
-        public List<TimeRecord> GetTimeRecordByCompanyId(int companyId) //Bruges ikke endnu 
-        {
-            return ExecuteSafe(conn =>
-            {
-                var projects = new List<TimeRecord>();
-                using var cmd = new SqlCommand("STOREDPROCEDURE FOR COMPANYID", conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@CompanyId", companyId);
-
-                using var reader = cmd.ExecuteReader();
-                while (reader.Read())
-                {
-                    projects.Add(new TimeRecord
-                    {
-                        TimerId = reader.GetInt32(0),
-                        CompanyId = reader.GetInt32(1)
-                    });
-                }
-
-                return projects;
-            });
-        }
-        public List<TimeRecord> GetProjectsByCompanyId(int companyId) //Bruges ikke endnu
-        {
-            return ExecuteSafe(conn =>
-            {
-                var projects = new List<TimeRecord>();
-                using var cmd = new SqlCommand("STOREDPROCEDURE FOR COMPANYID", conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@CompanyId", companyId);
-
-                using var reader = cmd.ExecuteReader();
-                while (reader.Read())
-                {
-                    projects.Add(new TimeRecord
-                    {
-                        TimerId = reader.GetInt32(0),
-                        CompanyId = reader.GetInt32(1)
-                    });
-                }
-
-                return projects;
             });
         }
     }
