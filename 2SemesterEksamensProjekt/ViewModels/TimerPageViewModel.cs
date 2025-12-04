@@ -24,8 +24,6 @@ namespace _2SemesterEksamensProjekt.ViewModels
         //Viser tiden der tæller ned
         private readonly DispatcherTimer _dispatcherTimer;
 
-        private TimeRecordViewModel _timeRecordViewModel;
-        private TimeRecord _timeRecord;
 
         //ObservableCollection som midlertidig liste med kørende timers 
         public ObservableCollection<Timer> Timers { get; set; }

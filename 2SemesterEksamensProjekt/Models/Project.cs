@@ -15,7 +15,7 @@ namespace _2SemesterEksamensProjekt.Models
         public string Title { get; set; }
         public string? Description { get; set; }
 
-        public Project(int companyId, string title, string? description)
+        public Project(int companyId, string title, string? description) //Description behøver ikke at være med i constructor, tror jeg, da den ikke behøver at være udfyldt?:-)
         {
             CompanyId = companyId;
             Title = title;

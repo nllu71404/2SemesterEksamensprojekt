@@ -15,6 +15,7 @@ namespace _2SemesterEksamensProjekt.Models
 
         //Fields
         public int TimerId { get; set; }
+
         private string _timerName;
         public string TimerName
         {

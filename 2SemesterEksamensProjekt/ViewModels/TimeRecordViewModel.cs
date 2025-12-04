@@ -30,7 +30,6 @@ namespace _2SemesterEksamensProjekt.ViewModels
         private readonly ITopicRepository _topicRepo;
 
         //Tager den gemte tid med over i ny Page
-        //private TimerPageViewModel _timerPageViewModel;
         
 
         //Properties
@@ -86,10 +85,10 @@ namespace _2SemesterEksamensProjekt.ViewModels
 
         //Commands
         public RelayCommand SaveTimeRecordCommand { get; }
-        //public RelayCommand CancelTimeRecordCommand { get; }
+      
 
         //Constructor
-        public TimeRecordViewModel(TimeRecord timeRecord, ITimeRecordRepository timeRecordRepository, ICompanyRepository companyRepository, IProjectRepository projectRepository, ITopicRepository topicRepository)
+        public TimeRecordViewModel(TimeRecord timeRecord, ITimeRecordRepository timeRecordRepo, ICompanyRepository companyRepo, IProjectRepository projectRepo, ITopicRepository topicRepo)
         {
 
             _timeRecord = timeRecord ?? throw new ArgumentNullException(nameof(timeRecord));
@@ -106,10 +105,10 @@ namespace _2SemesterEksamensProjekt.ViewModels
                     OnPropertyChanged(nameof(Note));    
             };
 
-            _timeRecordRepo = timeRecordRepository;
-            _companyRepo = companyRepository;
-            _projectRepo = projectRepository;
-            _topicRepo = topicRepository;
+            _timeRecordRepo = timeRecordRepo;
+            _companyRepo = companyRepo;
+            _projectRepo = projectRepo;
+            _topicRepo = topicRepo;
 
             Companies = new ObservableCollection<Company>();
             Projects = new ObservableCollection<Project>();
@@ -201,21 +200,6 @@ namespace _2SemesterEksamensProjekt.ViewModels
                 ShowMessage($"Fejl ved gemning: {ex.Message}");
             }
         }
-
-        //private void CancelTimeRecord()
-        //{
-        //    var result = MessageBox.Show(
-        //        "Er du sikker på, at du vil annullere? Tidsregistreringen gemmes ikke.",
-        //        "Bekræft annullering",
-        //        MessageBoxButton.YesNo,
-        //        MessageBoxImage.Question
-        //    );
-
-        //    if (result == MessageBoxResult.Yes)
-        //    {
-        //        AppNavigationService.Navigate(new TimerPage());
-        //    }
-        //}
 
         // TEST: Override metode for at vise beskeder (kan tilpasses i tests)
         protected virtual void ShowMessage(string msg)

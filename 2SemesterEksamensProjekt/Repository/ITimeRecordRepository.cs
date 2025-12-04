@@ -11,6 +11,6 @@ namespace _2SemesterEksamensProjekt.Repository
     {
         List<TimeRecord> GetAllTimeRecords();
         List<TimeRecord> GetTimeRecordByFilter(int? companyId, int? projectId, int? topicId, int? month, int? year);
-        int SaveNewTimeRecord(TimeRecord timer);
+        int SaveNewTimeRecord(TimeRecord timeRecord);
     }
 }

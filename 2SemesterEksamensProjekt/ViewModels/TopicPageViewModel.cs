@@ -15,7 +15,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
 {
     public class TopicPageViewModel : BaseViewModel
     {
-        public readonly ITopicRepository _topicRepository;
+        public readonly ITopicRepository _topicRepo;
         public ObservableCollection<Topic> Topics { get; } = new ObservableCollection<Topic>();
 
         // Command properties
@@ -39,10 +39,10 @@ namespace _2SemesterEksamensProjekt.ViewModels
             set => SetProperty(ref _selectedTopic, value);
         }
 
-        public TopicPageViewModel(ITopicRepository topicRepository)
+        public TopicPageViewModel(ITopicRepository topicRepo)
         {
 
-            foreach (var topic in topicRepository.GetAllTopics())
+            foreach (var topic in topicRepo.GetAllTopics())
             {
                 Topics.Add(topic);
             }
@@ -68,7 +68,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
                 TopicDescription = TopicDescription,
             };
 
-            int newTopicId = _topicRepository.SaveNewTopic(newTopic);
+            int newTopicId = _topicRepo.SaveNewTopic(newTopic);
             newTopic.TopicId = newTopicId;
 
             Topics.Add(newTopic);
@@ -85,7 +85,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
 
             if (result == MessageBoxResult.Yes)
             {
-                _topicRepository.DeleteTopic(SelectedTopic.TopicId);
+                _topicRepo.DeleteTopic(SelectedTopic.TopicId);
                 Topics.Remove(SelectedTopic);
 
                 SelectedTopic = null;
@@ -117,11 +117,11 @@ namespace _2SemesterEksamensProjekt.ViewModels
 
             SelectedTopic.TopicDescription = TopicDescription!;
 
-            _topicRepository.UpdateTopic(SelectedTopic);
+            _topicRepo.UpdateTopic(SelectedTopic);
 
             //Reload liste
             Topics.Clear();
-            foreach (var t in _topicRepository.GetAllTopics())
+            foreach (var t in _topicRepo.GetAllTopics())
                 Topics.Add(t);
 
             TopicDescription = string.Empty;

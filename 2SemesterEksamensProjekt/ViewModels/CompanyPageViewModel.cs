@@ -14,7 +14,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
     {
         public class CompanyPageViewModel : BaseViewModel
     {
-        public readonly ICompanyRepository _companyRepository;
+        public readonly ICompanyRepository _companyRepo;
         public ObservableCollection<Company> Companies { get; } = new ObservableCollection<Company>();
 
 
@@ -44,10 +44,10 @@ namespace _2SemesterEksamensProjekt.ViewModels
 
         }
 
-        public CompanyPageViewModel(ICompanyRepository companyRepository)
+        public CompanyPageViewModel(ICompanyRepository companyRepo)
         {
-            this._companyRepository = companyRepository;
-            foreach (var company in companyRepository.GetAllCompanies())
+            this._companyRepo = companyRepo;
+            foreach (var company in companyRepo.GetAllCompanies())
             {
                 Companies.Add(company);
             }
@@ -73,7 +73,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
                 CompanyName = _companyName
             };
 
-            int newCompanyId = _companyRepository.SaveNewCompany(newCompany);
+            int newCompanyId = _companyRepo.SaveNewCompany(newCompany);
             newCompany.CompanyId = newCompanyId;
 
             Companies.Add(newCompany);
@@ -90,7 +90,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
 
             if (result == MessageBoxResult.Yes)
             {
-                _companyRepository.DeleteCompany(SelectedCompany.CompanyId);
+                _companyRepo.DeleteCompany(SelectedCompany.CompanyId);
                 Companies.Remove(SelectedCompany);
                 SelectedCompany = null;
             }
@@ -122,11 +122,11 @@ namespace _2SemesterEksamensProjekt.ViewModels
 
             SelectedCompany.CompanyName = CompanyName!;
 
-            _companyRepository.UpdateCompany(SelectedCompany);
+            _companyRepo.UpdateCompany(SelectedCompany);
 
             // Reload så listen opdateres
             Companies.Clear();
-            foreach (var c in _companyRepository.GetAllCompanies())
+            foreach (var c in _companyRepo.GetAllCompanies())
                 Companies.Add(c);
 
             CompanyName = string.Empty;
