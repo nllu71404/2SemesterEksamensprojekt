@@ -345,6 +345,30 @@ BEGIN
     SELECT SCOPE_IDENTITY() AS NewTimeRecordId;
 END;
 
+CREATE OR ALTER   PROCEDURE [dbo].[uspFilterTimeRecords]
+    @CompanyId INT = NULL,
+    @ProjectId INT = NULL,
+    @TopicId INT = NULL,
+    @Month INT = NULL,
+    @Year INT = NULL
+AS
+BEGIN
+    SELECT  TimerId,
+            TimerName,
+            ElapsedTime,
+            StartTime,
+            CompanyId,
+            ProjectId,
+            TopicId,
+            Note
+    FROM dbo.TimeRecord
+    WHERE (@CompanyId IS NULL OR CompanyId = @CompanyId)
+      AND (@ProjectId IS NULL OR ProjectId = @ProjectId)
+      AND (@TopicId IS NULL OR TopicId = @TopicId)
+      AND (@Month IS NULL OR MONTH(StartTime) = @Month)
+      AND (@Year IS NULL OR YEAR(StartTime) = @Year);
+END;
+
 
 
 
