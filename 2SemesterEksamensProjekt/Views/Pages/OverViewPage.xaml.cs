@@ -12,25 +12,21 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using _2SemesterEksamensProjekt.Repository;
 
 namespace _2SemesterEksamensProjekt.Views.Pages
 {
     /// <summary>
-    /// Interaction logic for MainMenuPage.xaml
+    /// Interaction logic for OverViewPage.xaml
     /// </summary>
-    public partial class MainMenuPage : Page
+    public partial class OverViewPage : Page
     {
-        public MainMenuPage()
+        public OverViewPage()
         {
-            InitializeComponent();
-            DataContext = new ViewModels.MainMenuPageViewModel();
-        }
+            //InitializeComponent();
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
+            var TimeRecordRepository = new TimeRecordRepository();
 
         }
     }
-
-
 }

@@ -37,14 +37,14 @@ namespace _2SemesterEksamensProjekt.Repository
                 return timers;
             });
         }
-        public List<TimeRecord> GetTimersByTimerId(int timerId)
+        public List<TimeRecord> GetTimeRecordByFilter(string month)
         {
             return ExecuteSafe(conn =>
             {
                 var timers = new List<TimeRecord>();
                 using var cmd = new SqlCommand("SKRIV STORED PROCEDURES", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("SKRIV STORED PROCEDURES", timerId);
+                cmd.Parameters.AddWithValue("SKRIV STORED PROCEDURES", );
 
                 using var reader = cmd.ExecuteReader();
                 while (reader.Read())

@@ -15,6 +15,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
         public ICommand OpenProjectPageCommand { get; }                  // bindes i XAML
         public ICommand OpenTopicPageCommand { get; }
         public ICommand OpenTimerPageCommand { get; }
+        public ICommand OpenOverViewPageCommand { get; }
 
         public MainMenuPageViewModel()
         {
@@ -26,6 +27,8 @@ namespace _2SemesterEksamensProjekt.ViewModels
             AppNavigationService.Navigate(new TopicPage()));
             OpenTimerPageCommand = new RelayCommand(_ =>
             AppNavigationService.Navigate(new TimerPage()));
+            OpenOverViewPageCommand = new RelayCommand(_ =>
+            AppNavigationService.Navigate(new OverViewPage()));
         }
     }       
 }
