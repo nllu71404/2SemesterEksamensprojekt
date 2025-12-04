@@ -37,13 +37,13 @@
                     <!-- Timer navn -->
                     <StackPanel Margin="0,0,40,0">
                         <TextBlock Text="Stopurets navn"
-                                   FontSize="15"
-                                   Foreground="#A0A0A0"
-                                   Margin="0,0,0,5"/>
+               FontSize="15"
+               Foreground="#A0A0A0"
+               Margin="0,0,0,5"/>
                         <TextBlock Text="{Binding TimerName}"
-                                   FontSize="18"
-                                   FontWeight="Bold"
-                                   Foreground="White"/>
+               FontSize="18"
+               FontWeight="Bold"
+               Foreground="White"/>
                     </StackPanel>
 
                     <!-- Total tid -->
