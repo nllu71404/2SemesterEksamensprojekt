@@ -8,6 +8,11 @@ namespace Test2SemesterEksamensProjekt.ViewModels
     [TestClass]
     public sealed class TestCompanyPageViewModel
     {
+
+        // I denne klasse laver vi unit tests for CompanyPageViewModel
+        // VI har: Test af constructor, CreateCompany, DeleteSelectedCompany, EditSelectedCompany, SaveSelectedCompany
+
+
         // Et mock objekt som skal efterligne vores CompanyRepository
         private Mock<ICompanyRepository> companyRepositoryMock;
 

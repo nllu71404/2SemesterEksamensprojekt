@@ -144,7 +144,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
             }
         }
 
-        public void DeleteTimer(object parameter)
+        public virtual void DeleteTimer(object parameter)
         {
             if (parameter is Timer timerToDelete)
             {
@@ -163,7 +163,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
             }
         }
 
-        public void SaveTimer(object parameter)
+        public virtual void SaveTimer(object parameter)
         {
 
             if (parameter is Timer timer)

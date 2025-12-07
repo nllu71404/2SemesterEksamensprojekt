@@ -9,6 +9,11 @@ namespace Test2SemesterEksamensProjekt.ViewModels;
 [TestClass]
 public sealed class TestProjectPageViewModel
 {
+    // I denne klasse laver vi unit tests for ProjectPageViewModel
+    // Vi har: Test af GetProjectsByCompanyId, CreateProject, EditSelectedProject, SaveSelectedProject, DeleteSelectedProject
+
+
+
     // Et mock objekt som skal efterligne vores CompanyRepository
     private Mock<ICompanyRepository> companyRepositoryMock;
     private Mock<IProjectRepository> projectRepositoryMock;
@@ -82,7 +87,94 @@ public sealed class TestProjectPageViewModel
         )), Times.Once);
         Assert.AreEqual(1, vm.Projects.Count);
         Assert.AreEqual(55, vm.Projects[0].ProjectId);
-    } 
+    }
+
+    [TestMethod]
+    public void EditSelectedProject_ProjectIsSelected_SetsProjectNameToSelected()
+    {
+        // Arrange
+        companyRepositoryMock
+            .Setup(x => x.GetAllCompanies())
+            .Returns(new List<Company>
+            {
+            new Company { CompanyId = 10, CompanyName = "Firma X" }
+            });
+
+        projectRepositoryMock
+            .Setup(x => x.GetProjectsByCompanyId(10))
+            .Returns(new List<Project>
+            {
+            new Project { ProjectId = 5, CompanyId = 10, Title = "Original Titel", Description = "Original Desc" }
+            });
+
+        var vm = new TestableProjectPageViewModel(companyRepositoryMock.Object,
+                                                  projectRepositoryMock.Object);
+
+        vm.SelectedCompany = vm.Companies[0];
+        vm.SelectedProject = vm.Projects[0];
+
+        // Act
+        vm.EditSelectedProject();
+
+        // Assert
+        Assert.AreEqual("Original Titel", vm.Title);
+        Assert.AreEqual("Original Desc", vm.Description);
+        Assert.AreEqual(10, vm.SelectedCompany!.CompanyId);
+    }
+
+    [TestMethod]
+    public void SaveSelectedProject_UpdatesRepositoryAndReloadsProjects()
+    {
+        // Arrange
+        companyRepositoryMock
+            .Setup(x => x.GetAllCompanies())
+            .Returns(new List<Company>
+            {
+            new Company { CompanyId = 20, CompanyName = "Firma Y" }
+            });
+
+        // Oprindelige projekter
+        projectRepositoryMock
+            .Setup(x => x.GetProjectsByCompanyId(20))
+            .Returns(new List<Project>
+            {
+            new Project { ProjectId = 7, CompanyId = 20, Title = "Gammel Titel", Description = "Gammel Desc" }
+            });
+
+        var vm = new TestableProjectPageViewModel(companyRepositoryMock.Object,
+                                                  projectRepositoryMock.Object);
+
+        // Brugeren vælger firma + projekt
+        vm.SelectedCompany = vm.Companies[0];
+        vm.SelectedProject = vm.Projects[0];
+
+        // Brugeren ændrer titel og beskrivelse
+        vm.Title = "Ny Titel";
+        vm.Description = "Ny Desc";
+
+        // Act
+        vm.SaveSelectedProject();
+
+        // Assert – Repository skal være kaldt korrekt
+        projectRepositoryMock.Verify(x => x.UpdateProject(
+            It.Is<Project>(p =>
+                p.ProjectId == 7 &&
+                p.Title == "Ny Titel" &&
+                p.Description == "Ny Desc"
+            )
+        ), Times.Once);
+
+        // Projekter bliver reloadet, så listen indeholder projektet
+        Assert.AreEqual(1, vm.Projects.Count);
+
+        // Projektet skal stadig være valgt
+        Assert.AreEqual(7, vm.SelectedProject.ProjectId);
+
+        // Felter skal være nulstillet i UI
+        Assert.AreEqual(string.Empty, vm.Title);
+        Assert.AreEqual(string.Empty, vm.Description);
+    }
+
 
     [TestMethod]
     public void DeleteSelectedProject_ProjectIsSelected_DeletesProjectFromRepositoryAndRemovesFromObservableCollection()
@@ -111,5 +203,5 @@ public sealed class TestProjectPageViewModel
         Assert.AreEqual(0, vm.Projects.Count);
     }
 
-
+    
 }
