@@ -142,61 +142,63 @@
                     </StackPanel>
 
                     <!-- Spacer -->
-                    <Grid Grid.Row="3">
-                        <TextBlock
-                            FontSize="14"
-                            FontWeight="SemiBold"
-                            Foreground="White"
-                                   Margin="214,42,384,0"
-                                   Text="Tilføj bemærkning (valgfri)"
-                                   />
-                    </Grid>
+                    <Grid Grid.Row="3"/>
 
                     <!-- Gem registrering + bemærkning -->
                     <Grid Grid.Row="4" HorizontalAlignment="Center" Margin="0,8,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <!-- Titel ovenover -->
+                            <RowDefinition Height="Auto"/>
+                            <!-- Bemærkningsfelt -->
+                        </Grid.RowDefinitions>
+
                         <Grid.ColumnDefinitions>
-                            <!-- Give bemærkningsfeltet mere plads -->
-                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="14*"/>
+                            <ColumnDefinition Width="77*"/>
+                            <ColumnDefinition Width="365*"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock Grid.Column="0"
-                           Text="Eventuel bemærkning:"
-                           FontSize="14"
-                           FontWeight="SemiBold"
-                           Foreground="White"
-                           Margin="0,0,0,10"/>
+                        <!-- Tekst ovenover textbox -->
+                        <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"
+               Text="Tilføj bemærkning (valgfri)"
+               FontSize="14"
+               FontWeight="SemiBold"
+               Foreground="White"
+               Margin="0,0,0,4"/>
 
-                        <!-- Bemærkning textbox (større) -->
-                        <Border Grid.Column="0"
-                                Background="#322E40"
-                                BorderBrush="{StaticResource ButtonBorderBrush}"
-                                BorderThickness="2"
-                                CornerRadius="8"
-                                Height="80"
-                                Padding="10"
-                                Margin="0,0,12,0">
+                        <!-- Bemærkningsfelt -->
+                        <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
+            Background="#322E40"
+            BorderBrush="{StaticResource ButtonBorderBrush}"
+            BorderThickness="2"
+            CornerRadius="8"
+            Height="80"
+            Padding="10"
+            Margin="0,0,12,0"
+            MinWidth="420">
                             <TextBox Text="{Binding Note, Mode=TwoWay}"
-                                     Background="Transparent"
-                                     Foreground="White"
-                                     BorderThickness="0"
-                                     VerticalContentAlignment="Top"
-                                     FontSize="14"
-                                     AcceptsReturn="True"
-                                     TextWrapping="Wrap"
-                                     MinHeight="60"
-                                     MinWidth="420"/>
-
+                 Background="Transparent"
+                 Foreground="White"
+                 BorderThickness="0"
+                 VerticalContentAlignment="Top"
+                 FontSize="14"
+                 AcceptsReturn="True"
+                 TextWrapping="Wrap"
+                 MinHeight="60"
+                 MinWidth="420"/>
                         </Border>
 
-                        <!-- Gem knap (mindre) -->
-                        <Button Grid.Column="1"
-                                Content="Gem tidsregistrering"
-                                BorderBrush="{StaticResource AccentBrush}"
-                                Command="{Binding SaveTimeRecordCommand}"
-                                Width="160"
-                                Height="55"
-                                FontSize="16"/>
+                        <!-- Gem-knap -->
+                        <Button Grid.Row="1" Grid.Column="3"
+            Content="Gem tidsregistrering"
+            BorderBrush="{StaticResource AccentBrush}"
+            Command="{Binding SaveTimeRecordCommand}"
+            Width="160"
+            Height="55"
+            FontSize="16"
+            Margin="0,12,0,12"/>
                     </Grid>
 
                 </Grid>
