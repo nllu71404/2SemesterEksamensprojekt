@@ -142,7 +142,15 @@
                     </StackPanel>
 
                     <!-- Spacer -->
-                    <Grid Grid.Row="3"/>
+                    <Grid Grid.Row="3">
+                        <TextBlock
+                            FontSize="14"
+                            FontWeight="SemiBold"
+                            Foreground="White"
+                                   Margin="214,42,384,0"
+                                   Text="Tilføj bemærkning"
+                                   />
+                    </Grid>
 
                     <!-- Gem registrering + bemærkning -->
                     <Grid Grid.Row="4" HorizontalAlignment="Center" Margin="0,8,0,0">

@@ -172,7 +172,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
             // 1. Valider input
             if (SelectedCompany == null || SelectedProject == null || SelectedTopic == null)
             {
-                ShowMessage("Udfyld venligst alle felter");
+                ShowMessage("Udfyld venligst Virksomhed, Projekt og Emne");
                 return;
             }
 
