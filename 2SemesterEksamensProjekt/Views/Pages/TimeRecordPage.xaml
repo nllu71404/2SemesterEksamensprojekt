@@ -148,7 +148,7 @@
                             FontWeight="SemiBold"
                             Foreground="White"
                                    Margin="214,42,384,0"
-                                   Text="Tilføj bemærkning"
+                                   Text="Tilføj bemærkning (valgfri)"
                                    />
                     </Grid>
 
