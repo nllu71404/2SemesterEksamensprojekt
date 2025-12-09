@@ -188,10 +188,15 @@ namespace _2SemesterEksamensProjekt.ViewModels
 
         }
 
+        
+
 
 
         private void ApplyFilter()
         {
+            TimeRecords.Clear();
+
+            //Hent objekter via ID
 
         }
 
@@ -199,6 +204,37 @@ namespace _2SemesterEksamensProjekt.ViewModels
         {
             
         }
+
+        //Hjælpe metoder
+        private int? GetMonthNumber(string? monthName)
+        {
+            if (string.IsNullOrEmpty(monthName))
+                return null;
+
+            var danishMonths = new Dictionary<string, int>
+    {
+        {"januar", 1},
+        {"februar", 2},
+        {"marts", 3},
+        {"april", 4},
+        {"maj", 5},
+        {"juni", 6},
+        {"juli", 7},
+        {"august", 8},
+        {"september", 9},
+        {"oktober", 10},
+        {"november", 11},
+        {"december", 12}
+    };
+
+            // Case-insensitive lookup
+            string lowerMonth = monthName.ToLower();
+
+            return danishMonths.ContainsKey(lowerMonth)
+                ? danishMonths[lowerMonth]
+                : null;
+        }
+
 
 
 
