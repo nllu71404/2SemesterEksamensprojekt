@@ -31,8 +31,8 @@ namespace _2SemesterEksamensProjekt.Repository
                         ElapsedTime = reader.GetTimeSpan(2),
                         StartTime = reader.GetDateTime(3),
                         CompanyId = reader.IsDBNull(4) ? null : reader.GetInt32(4),    // ← Check for NULL
-                        ProjectId = reader.IsDBNull(4) ? null : reader.GetInt32(5),    // ← Check for NULL
-                        TopicId = reader.IsDBNull(5) ? null : reader.GetInt32(6),      // ← Check for NULL
+                        ProjectId = reader.IsDBNull(5) ? null : reader.GetInt32(5),    // ← Check for NULL
+                        TopicId = reader.IsDBNull(6) ? null : reader.GetInt32(6),      // ← Check for NULL
                         Note = reader.IsDBNull(7) ? null : reader.GetString(7)
                     });
                 }
