@@ -89,16 +89,21 @@ GO
 
 CREATE VIEW dbo.vwSelectAllTimeRecords AS
 SELECT 
-   tr.TimerId,
-   tr.TimerName,
-   tr.ElapsedTime,
-   tr.StartTime,
-   p.CompanyId,    -- hent CompanyId fra Project
-   tr.ProjectId,
-   tr.TopicId,
-   tr.Note
+    tr.TimerId,
+    tr.TimerName,
+    tr.ElapsedTime,
+    tr.StartTime,
+    p.CompanyId,
+    tr.ProjectId,
+    tr.TopicId,
+    tr.Note,
+    c.CompanyName,           -- Kolonne 8
+    p.Title AS ProjectTitle, -- Kolonne 9
+    t.TopicDescription       -- Kolonne 10
 FROM dbo.TimeRecord tr
-INNER JOIN dbo.Project p ON tr.ProjectId = p.ProjectId;
+LEFT JOIN dbo.Project p ON tr.ProjectId = p.ProjectId
+LEFT JOIN dbo.Company c ON p.CompanyId = c.CompanyId
+LEFT JOIN dbo.Topic t ON tr.TopicId = t.TopicId;
 GO
 
 
@@ -139,6 +144,35 @@ INSERT INTO dbo.Project (ProjectId, CompanyId, Title, Description) VALUES
 (10,4, N'User Authentication Rewrite', N'Implementering af OAuth2 + MFA.');
 
 SET IDENTITY_INSERT dbo.Project OFF;
+GO
+
+------------------------------------------------------------
+-- 7. SEED TOPICS
+------------------------------------------------------------
+
+INSERT INTO dbo.Topic (TopicDescription)
+VALUES
+    ('DSU'),
+    ('Sprint Planning'),
+    ('Refinement'),
+    ('Retrospective'),
+    ('Code Review'),
+    ('IO Weekly'),
+    ('Diff. DSU'),
+    ('Bugfixes'),
+    ('Map Availability'),
+    ('Status Meeting'),
+    ('Support tickets'),
+    ('Testing'),
+    ('Onboarding');
+GO
+
+-- TimeRecords
+INSERT INTO dbo.TimeRecord (TimerName, ElapsedTime, StartTime, ProjectId, TopicId, Note)
+VALUES
+    ('Sprint planning', '02:30:00', '2025-01-15 10:00:00', 1, 2, 'Q1 sprint planning møde'),
+    ('Bug fixing', '03:45:00', '2025-01-16 09:00:00', 4, 8, 'Fix kritisk bug i data migration'),
+    ('Code review', '01:15:00', '2025-01-17 14:00:00', 7, 5, 'Review af solar app features');
 GO
 
 
@@ -259,26 +293,7 @@ BEGIN
 END;
 GO
 
-------------------------------------------------------------
--- 7. SEED TOPICS
-------------------------------------------------------------
-
-INSERT INTO dbo.Topic (TopicDescription)
-VALUES
-    ('DSU'),
-    ('Sprint Planning'),
-    ('Refinement'),
-    ('Retrospective'),
-    ('Code Review'),
-    ('IO Weekly'),
-    ('Diff. DSU'),
-    ('Bugfixes'),
-    ('Map Availability'),
-    ('Status Meeting'),
-    ('Support tickets'),
-    ('Testing'),
-    ('Onboarding');
-GO
+-- TimeRecord Stored Procedures
 
 CREATE PROCEDURE [dbo].[uspCreateTimeRecord]
     @TimerName NVARCHAR(100),
@@ -331,9 +346,16 @@ BEGIN
           p.CompanyId,   -- hent CompanyId via Project
           tr.ProjectId,
           tr.TopicId,
-           tr.Note
+           tr.Note,
+           c.CompanyName,
+           p.Title AS ProjectTitle,
+           t.TopicDescription
+
+           
    FROM dbo.TimeRecord tr
-   INNER JOIN dbo.Project p ON tr.ProjectId = p.ProjectId
+   LEFT JOIN dbo.Project p ON tr.ProjectId = p.ProjectId
+   LEFT JOIN dbo.Company c ON p.CompanyId = c.CompanyId
+   LEFT JOIN dbo.Topic t ON tr.TopicId = t.TopicId
    WHERE (@CompanyId IS NULL OR p.CompanyId = @CompanyId)   -- filter på virksomhed først
      AND (@ProjectId IS NULL OR tr.ProjectId = @ProjectId)  -- filter på projekt
      AND (@TopicId IS NULL OR tr.TopicId = @TopicId)        -- filter på emne
