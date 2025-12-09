@@ -305,13 +305,13 @@
                                                     Binding="{Binding DisplayTime}" 
                                                     Width="1*"/>
                                 <DataGridTextColumn Header="Virksomhed" 
-                                                    Binding="{Binding Companies}" 
+                                                    Binding="{Binding CompanyName}" 
                                                     Width="1.5*"/>
                                 <DataGridTextColumn Header="Projekt" 
-                                                    Binding="{Binding Projects}" 
+                                                    Binding="{Binding ProjectTitle}" 
                                                     Width="1.5*"/>
                                 <DataGridTextColumn Header="Emner" 
-                                                    Binding="{Binding Topics}" 
+                                                    Binding="{Binding TopicDescription}" 
                                                     Width="1.2*"/>
                                 <DataGridTextColumn Header="Bemærkninger" 
                                                     Binding="{Binding Note}" 

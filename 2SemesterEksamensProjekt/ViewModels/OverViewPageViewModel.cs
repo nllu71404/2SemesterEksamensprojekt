@@ -69,6 +69,12 @@ namespace _2SemesterEksamensProjekt.ViewModels
             get => _selectedTopic;
             set => SetProperty(ref _selectedTopic, value);
         }
+        private TimeRecord? _selectedTimeRecord;
+        public TimeRecord? SelectedTimeRecord
+        {
+            get => _selectedTimeRecord;
+            set => SetProperty(ref _selectedTimeRecord, value);
+        }
 
 
         //Commands
@@ -99,11 +105,20 @@ namespace _2SemesterEksamensProjekt.ViewModels
 
             // Tilføjer metode til at loade all data
             LoadAllTimeRecords();
+            Console.WriteLine($"TimeRecords count: {TimeRecords.Count}");
+            Console.WriteLine($"FilteredTimeRecords count: {FilteredTimeRecords.Count}");
+
             LoadCompanies();
             LoadProjectsForSelectedCompany();
             LoadAllTopics();
             LoadMonths();
+            Console.WriteLine($"Months count: {Months.Count}");
+            foreach (var month in Months)
+                Console.WriteLine($"  - {month}");
+
             LoadYears();
+            Console.WriteLine($"Years count: {Years.Count}");
+
 
             //Commands
             ApplyFilterCommand = new RelayCommand(_ => ApplyFilter());
@@ -213,8 +228,6 @@ namespace _2SemesterEksamensProjekt.ViewModels
         }
         private void ApplyFilter()
         {
-            TimeRecords.Clear();
-
             //Hent objekter via ID
             int? companyId = SelectedCompany?.CompanyId;
             int? projectId = SelectedProject?.ProjectId;
@@ -230,15 +243,16 @@ namespace _2SemesterEksamensProjekt.ViewModels
                 month,
                 year);
 
-            //Opdater Observablecollection
             FilteredTimeRecords.Clear();
+            //Opdater Observablecollection
             if(filteredRecords != null)
             {
                 foreach (var records in filteredRecords)
                 {
-                    TimeRecords.Add(records);
+                    FilteredTimeRecords.Add(records);
                 }
             }
+            //OnPropertyChanged(nameof(TotalHours));
         }
 
         private void ExportToCSV()

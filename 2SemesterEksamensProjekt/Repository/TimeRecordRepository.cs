@@ -33,7 +33,10 @@ namespace _2SemesterEksamensProjekt.Repository
                         CompanyId = reader.IsDBNull(4) ? null : reader.GetInt32(4),    // ← Check for NULL
                         ProjectId = reader.IsDBNull(5) ? null : reader.GetInt32(5),    // ← Check for NULL
                         TopicId = reader.IsDBNull(6) ? null : reader.GetInt32(6),      // ← Check for NULL
-                        Note = reader.IsDBNull(7) ? null : reader.GetString(7)
+                        Note = reader.IsDBNull(7) ? null : reader.GetString(7),
+                        CompanyName = reader.IsDBNull(8) ? null : reader.GetString(8),
+                        ProjectTitle = reader.IsDBNull(9) ? null : reader.GetString(9),
+                        TopicDescription = reader.IsDBNull(10) ? null : reader.GetString(10)
                     });
                 }
                 return timeRecords;
@@ -68,6 +71,9 @@ namespace _2SemesterEksamensProjekt.Repository
                         timeRecord.ProjectId = reader.IsDBNull(5) ? null : reader.GetInt32(5);
                         timeRecord.TopicId = reader.IsDBNull(6) ? null : reader.GetInt32(6);
                         timeRecord.Note = reader.IsDBNull(7) ? null : reader.GetString(7);
+                        timeRecord.CompanyName = reader.IsDBNull(8) ? null : reader.GetString(8);
+                        timeRecord.ProjectTitle = reader.IsDBNull(9) ? null : reader.GetString(9);
+                        timeRecord.TopicDescription = reader.IsDBNull(9) ? null : reader.GetString(9);
 
                         result.Add(timeRecord);
                     }

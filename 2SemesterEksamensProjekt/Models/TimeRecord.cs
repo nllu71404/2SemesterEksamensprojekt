@@ -56,8 +56,11 @@ namespace _2SemesterEksamensProjekt.Models
 
         public DateTime StartTime { get; set; }
         public int? CompanyId { get; set; }
+        public string? CompanyName { get; set; }
         public int? ProjectId { get; set; }
+        public string? ProjectTitle { get; set; }
         public int? TopicId { get; set; }
+        public string? TopicDescription { get; set; }
 
         private string? _note;
         public string? Note
