@@ -72,7 +72,8 @@
                 <Button Grid.Row="2" Grid.Column="1"
                         Style="{StaticResource DashboardButton}"
                         Margin="10"
-                        Content="Vis månedlig oversigt" />
+                        Content="Vis månedlig oversigt" 
+                        Command="{Binding OpenOverViewPageCommand}"/>
             </Grid>
 
         </Grid>
