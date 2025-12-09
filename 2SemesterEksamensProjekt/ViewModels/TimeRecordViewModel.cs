@@ -28,14 +28,16 @@ namespace _2SemesterEksamensProjekt.ViewModels
         private readonly ICompanyRepository _companyRepo;
         private readonly IProjectRepository _projectRepo;
         private readonly ITopicRepository _topicRepo;
+      
 
         //Tager den gemte tid med over i ny Page
-        
+
 
         //Properties
         public ObservableCollection<Company> Companies { get; set; }
         public ObservableCollection<Project> Projects { get; set; }
         public ObservableCollection<Topic> Topics { get; set; }
+      
 
         private Company? _selectedCompany;
         public Company? SelectedCompany
