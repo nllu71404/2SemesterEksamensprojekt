@@ -31,6 +31,7 @@ namespace _2SemesterEksamensProjekt.Views.Pages
             var companyRepository = new CompanyRepository();
             var projectRepository = new ProjectRepository();
             var topicRepository = new TopicRepository();
+            
 
             DataContext = new OverViewPageViewModel(
                 timeRecordRepository, 

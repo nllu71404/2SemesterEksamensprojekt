@@ -23,7 +23,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
 
 
         //Observablecollection
-        public ObservableCollection<TimeRecord> TimeRecords {get; set;}
+        public ObservableCollection<TimeRecord> TimeRecords { get; set; }
         public ObservableCollection<Company> Companies { get; set; }
         public ObservableCollection<Project> Projects { get; set; }
         public ObservableCollection<Topic> Topics { get; set; }
@@ -75,10 +75,10 @@ namespace _2SemesterEksamensProjekt.ViewModels
         public RelayCommand CsvCommand { get; }
 
         //Constructor
-        public OverViewPageViewModel(ITimeRecordRepository timeRecordRepo, 
+        public OverViewPageViewModel(ITimeRecordRepository timeRecordRepo,
             ICompanyRepository companyRepo, IProjectRepository projectRepo, ITopicRepository topicRepo, ICsvExportService csvExportService)
         {
-            
+
             _timeRecordRepo = timeRecordRepo;
             _companyRepo = companyRepo;
             _projectRepo = projectRepo;
@@ -213,7 +213,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
                 year);
 
             //Opdater Observablecollection
-            if(filteredRecords != null)
+            if (filteredRecords != null)
             {
                 foreach (var records in filteredRecords)
                 {
@@ -222,17 +222,12 @@ namespace _2SemesterEksamensProjekt.ViewModels
             }
         }
 
-        private void ExportToCSV()
+        public void ExportToCSV()
         {
-            var dialog = new Microsoft.Win32.SaveFileDialog
-            {
-                Filter = "CSV Files (*.csv)|*.csv",
-                FileName = "TimeRecords.csv"
-            };
 
-            if (dialog.ShowDialog() == true)
+            if (ShowDialog(out string fileName) == true)
             {
-                _csvExportService.ExportTimeRecords(TimeRecords, dialog.FileName);
+                _csvExportService.ExportTimeRecords(TimeRecords, fileName);
             }
         }
 
@@ -263,6 +258,18 @@ namespace _2SemesterEksamensProjekt.ViewModels
                 : null;
         }
 
+        public bool? ShowDialog(out string fileName) //Til ExportToCsv metoden, så den kan unit testes 
+        {
+            var dialog = new Microsoft.Win32.SaveFileDialog
+            {
+                Filter = "CSV Files (*.csv)|*.csv",
+                FileName = "TimeRecords.csv"
+            };
+
+            var result = dialog.ShowDialog();
+            fileName = dialog.FileName;
+            return result;
+        }
 
 
 
