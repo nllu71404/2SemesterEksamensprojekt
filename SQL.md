@@ -59,13 +59,9 @@ CREATE TABLE dbo.TimeRecord
     TimerName NVARCHAR(100) NOT NULL,
     ElapsedTime TIME NOT NULL,
     StartTime DATETIME NOT NULL DEFAULT(GETDATE()),
-
-    CompanyId INT NULL,
+    Note NVARCHAR(200),
     ProjectId INT NULL,
     TopicId INT NULL,
-
-    CONSTRAINT FK_TimeRecord_Company FOREIGN KEY (CompanyId)
-        REFERENCES Company(CompanyId),
 
     CONSTRAINT FK_TimeRecord_Project FOREIGN KEY (ProjectId)
         REFERENCES Project(ProjectId),
@@ -89,6 +85,20 @@ GO
 
 CREATE VIEW dbo.vwSelectAllTopics AS
 SELECT TopicId, TopicDescription FROM dbo.Topic;
+GO
+
+CREATE VIEW dbo.vwSelectAllTimeRecords AS
+SELECT 
+   tr.TimerId,
+   tr.TimerName,
+   tr.ElapsedTime,
+   tr.StartTime,
+   p.CompanyId,    -- hent CompanyId fra Project
+   tr.ProjectId,
+   tr.TopicId,
+   tr.Note
+FROM dbo.TimeRecord tr
+INNER JOIN dbo.Project p ON tr.ProjectId = p.ProjectId;
 GO
 
 
@@ -270,50 +280,10 @@ VALUES
     ('Onboarding');
 GO
 
-
-CREATE OR ALTER   PROCEDURE [dbo].[uspCreateTimeRecord]
+CREATE PROCEDURE [dbo].[uspCreateTimeRecord]
     @TimerName NVARCHAR(100),
     @ElapsedTime TIME,
     @StartTime DATETIME,
-    @CompanyId INT = NULL,
-    @ProjectId INT = NULL,
-    @TopicId INT = NULL
-AS
-BEGIN
-    SET NOCOUNT ON;
-
-    INSERT INTO dbo.TimeRecord
-    (
-        TimerName,
-        ElapsedTime,
-        StartTime,
-        CompanyId,
-        ProjectId,
-        TopicId
-    )
-    VALUES
-    (
-        @TimerName,
-        @ElapsedTime,
-        @StartTime,
-        @CompanyId,
-        @ProjectId,
-        @TopicId
-    );
-
-    -- Returner den nye identity-værdi
-    SELECT SCOPE_IDENTITY() AS NewTimeRecordId;
-END;
-
-ALTER TABLE dbo.TimeRecord
-ADD Note NVARCHAR(MAX) NULL;
-
-
-ALTER PROCEDURE [dbo].[uspCreateTimeRecord]
-    @TimerName NVARCHAR(100),
-    @ElapsedTime TIME,
-    @StartTime DATETIME,
-    @CompanyId INT = NULL,
     @ProjectId INT = NULL,
     @TopicId INT = NULL,
     @Note NVARCHAR(MAX) = NULL  
@@ -326,7 +296,6 @@ BEGIN
         TimerName,
         ElapsedTime,
         StartTime,
-        CompanyId,
         ProjectId,
         TopicId,
         Note              
@@ -336,38 +305,43 @@ BEGIN
         @TimerName,
         @ElapsedTime,
         @StartTime,
-        @CompanyId,
         @ProjectId,
         @TopicId,
         @Note            
     );
 
     SELECT SCOPE_IDENTITY() AS NewTimeRecordId;
-END;
+    END;
+GO
 
-CREATE OR ALTER   PROCEDURE [dbo].[uspFilterTimeRecords]
-    @CompanyId INT = NULL,
-    @ProjectId INT = NULL,
-    @TopicId INT = NULL,
-    @Month INT = NULL,
-    @Year INT = NULL
+CREATE PROCEDURE [dbo].[uspFilterTimeRecords]
+   @CompanyId INT = NULL,   -- filter på virksomhed
+   @ProjectId INT = NULL,   -- filter på projekt
+   @TopicId INT = NULL,     -- filter på emne
+   @Month INT = NULL,
+   @Year INT = NULL
 AS
 BEGIN
-    SELECT  TimerId,
-            TimerName,
-            ElapsedTime,
-            StartTime,
-            CompanyId,
-            ProjectId,
-            TopicId,
-            Note
-    FROM dbo.TimeRecord
-    WHERE (@CompanyId IS NULL OR CompanyId = @CompanyId)
-      AND (@ProjectId IS NULL OR ProjectId = @ProjectId)
-      AND (@TopicId IS NULL OR TopicId = @TopicId)
-      AND (@Month IS NULL OR MONTH(StartTime) = @Month)
-      AND (@Year IS NULL OR YEAR(StartTime) = @Year);
+   SET NOCOUNT ON;
+ 
+   SELECT  tr.TimerId,
+          tr.TimerName,
+          tr.ElapsedTime,
+          tr.StartTime,
+          p.CompanyId,   -- hent CompanyId via Project
+          tr.ProjectId,
+          tr.TopicId,
+           tr.Note
+   FROM dbo.TimeRecord tr
+   INNER JOIN dbo.Project p ON tr.ProjectId = p.ProjectId
+   WHERE (@CompanyId IS NULL OR p.CompanyId = @CompanyId)   -- filter på virksomhed først
+     AND (@ProjectId IS NULL OR tr.ProjectId = @ProjectId)  -- filter på projekt
+     AND (@TopicId IS NULL OR tr.TopicId = @TopicId)        -- filter på emne
+     AND (@Month IS NULL OR MONTH(tr.StartTime) = @Month)
+     AND (@Year IS NULL OR YEAR(tr.StartTime) = @Year)
+   ORDER BY tr.StartTime DESC;
 END;
+GO
 
 
 

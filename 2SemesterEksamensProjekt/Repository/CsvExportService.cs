@@ -19,19 +19,25 @@ namespace _2SemesterEksamensProjekt.Repository
             _timeRecordRepo = timeRecordRepo;
         }
 
-        public void ExportTimeRecords(string filePath)
+        public void ExportTimeRecords<T>(IEnumerable<T> data, string filePath)
         {
-            var timeRecords = _timeRecordRepo.GetAllTimeRecords();
+            if (data == null || !data.Any())
+                return;
 
+            var properties = typeof(T).GetProperties();
             var sb = new StringBuilder();
-            sb.AppendLine("TimerId,TimerName,ElapsedTime,StartTime,CompanyId,ProjectId,TopicId,Note");
 
-            foreach (var t in timeRecords)
+            // Header
+            sb.AppendLine(string.Join(";", properties.Select(p => p.Name)));
+
+            // Rækker
+            foreach (var item in data)
             {
-                sb.AppendLine($"{t.TimerId},{t.TimerName},{t.ElapsedTime},{t.StartTime},{t.CompanyId},{t.ProjectId},{t.TopicId},{t.Note}");
+                var values = properties.Select(p => p.GetValue(item)?.ToString() ?? "");
+                sb.AppendLine(string.Join(";", values));
             }
 
-            File.WriteAllText(filePath, sb.ToString());
+            File.WriteAllText(filePath, sb.ToString(), Encoding.UTF8);
         }
     }
 }

@@ -19,6 +19,8 @@ namespace _2SemesterEksamensProjekt.ViewModels
         private readonly ICompanyRepository _companyRepo;
         private readonly IProjectRepository _projectRepo;
         private readonly ITopicRepository _topicRepo;
+        private readonly ICsvExportService _csvExportService;
+
 
         //Observablecollection
         public ObservableCollection<TimeRecord> TimeRecords {get; set;}
@@ -74,7 +76,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
 
         //Constructor
         public OverViewPageViewModel(ITimeRecordRepository timeRecordRepo, 
-            ICompanyRepository companyRepo, IProjectRepository projectRepo, ITopicRepository topicRepo)
+            ICompanyRepository companyRepo, IProjectRepository projectRepo, ITopicRepository topicRepo, ICsvExportService csvExportService)
         {
             
             
@@ -82,6 +84,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
             _companyRepo = companyRepo;
             _projectRepo = projectRepo;
             _topicRepo = topicRepo;
+            _csvExportService = csvExportService;
 
             //Initialisere collection
             TimeRecords = new ObservableCollection<TimeRecord>();
@@ -90,6 +93,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
             Topics = new ObservableCollection<Topic>();
             Months = new ObservableCollection<string>();
             Years = new ObservableCollection<int>();
+
 
             // Tilføjer metode til at loade all data
             LoadAllTimeRecords();
@@ -101,7 +105,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
 
             //Commands
             ApplyFilterCommand = new RelayCommand(_ => ApplyFilter());
-            CsvCommand = new RelayCommand(_ => ConvertToCSV());
+            CsvCommand = new RelayCommand(_ => ExportToCSV());
         }
 
         //Methode
@@ -221,9 +225,18 @@ namespace _2SemesterEksamensProjekt.ViewModels
             }
         }
 
-        private void ConvertToCSV()
+        private void ExportToCSV()
         {
-            
+            var dialog = new Microsoft.Win32.SaveFileDialog
+            {
+                Filter = "CSV Files (*.csv)|*.csv",
+                FileName = "TimeRecords.csv"
+            };
+
+            if (dialog.ShowDialog() == true)
+            {
+                _csvExportService.ExportTimeRecords(TimeRecords, dialog.FileName);
+            }
         }
 
         //Hjælpe metoder
