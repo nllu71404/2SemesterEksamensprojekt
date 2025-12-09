@@ -8,6 +8,6 @@ namespace _2SemesterEksamensProjekt.Repository
 {
     public interface ICsvExportService
     {
-        void ExportTimeRecords<T>(IEnumerable<T> data, string filePath);
+        void ExportTimeRecords<T>(IEnumerable<T> data, string filePath, params string[] selectedProperties);
     }
 }

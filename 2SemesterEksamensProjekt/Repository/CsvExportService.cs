@@ -19,12 +19,15 @@ namespace _2SemesterEksamensProjekt.Repository
             _timeRecordRepo = timeRecordRepo;
         }
 
-        public void ExportTimeRecords<T>(IEnumerable<T> data, string filePath)
+        public void ExportTimeRecords<T>(IEnumerable<T> data, string filePath, params string[] selectedProperties)
         {
             if (data == null || !data.Any())
                 return;
 
-            var properties = typeof(T).GetProperties();
+            var properties = typeof(T).GetProperties()
+                .Where(p => selectedProperties.Contains(p.Name))
+                .ToList();
+
             var sb = new StringBuilder();
 
             // Header
