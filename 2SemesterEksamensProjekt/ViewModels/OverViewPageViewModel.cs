@@ -62,6 +62,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
 
         //Commands
         public RelayCommand ApplyFilterCommand { get; }
+        public RelayCommand CsvCommand { get; }
 
         //Constructor
         public OverViewPageViewModel(TimeRecord timeRecord, ITimeRecordRepository timeRecordRepository, 
@@ -85,11 +86,17 @@ namespace _2SemesterEksamensProjekt.ViewModels
             Topics = new ObservableCollection<Topic>();
 
             ApplyFilterCommand = new RelayCommand(_ => ApplyFilter());
+            CsvCommand = new RelayCommand(_ => ConvertToCSV());
         }
 
         //Methode
 
         private void ApplyFilter()
+        {
+
+        }
+
+        private void ConvertToCSV()
         {
 
         }
