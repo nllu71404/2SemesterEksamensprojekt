@@ -272,7 +272,7 @@
                             Width="200"
                             HorizontalAlignment="Right"
                             Margin="0,15,0,0"
-                            Command="{Binding ExportToCsvCommand}"/>
+                            Command="{Binding CsvCommand}"/>
                 </Grid>
             </Border>
         </Grid>
