@@ -19,7 +19,7 @@ namespace _2SemesterEksamensProjekt.Repository
                 var timeRecords = new List<TimeRecord>();
 
                 using var cmd = new SqlCommand(
-                        "SELECT * FROM dbo.vwSelectAllTimeRecord", conn);
+                        "SELECT * FROM dbo.vwSelectAllTimeRecords", conn);
 
                 using var reader = cmd.ExecuteReader();
                 while (reader.Read())
@@ -31,8 +31,8 @@ namespace _2SemesterEksamensProjekt.Repository
                         ElapsedTime = reader.GetTimeSpan(2),
                         StartTime = reader.GetDateTime(3),
                         CompanyId = reader.IsDBNull(4) ? null : reader.GetInt32(4),    // ← Check for NULL
-                        ProjectId = reader.IsDBNull(5) ? null : reader.GetInt32(5),    // ← Check for NULL
-                        TopicId = reader.IsDBNull(6) ? null : reader.GetInt32(6),      // ← Check for NULL
+                        ProjectId = reader.IsDBNull(4) ? null : reader.GetInt32(5),    // ← Check for NULL
+                        TopicId = reader.IsDBNull(5) ? null : reader.GetInt32(6),      // ← Check for NULL
                         Note = reader.IsDBNull(7) ? null : reader.GetString(7)
                     });
                 }
@@ -91,8 +91,8 @@ namespace _2SemesterEksamensProjekt.Repository
                 cmd.Parameters.Add("@StartTime", SqlDbType.DateTime).Value =
                     timeRecord.StartTime != default ? timeRecord.StartTime : DateTime.Now;
 
-                cmd.Parameters.Add("@CompanyId", SqlDbType.Int).Value =
-                    timeRecord.CompanyId.HasValue ? timeRecord.CompanyId.Value : DBNull.Value;
+                //cmd.Parameters.Add("@CompanyId", SqlDbType.Int).Value =
+                //    timeRecord.CompanyId.HasValue ? timeRecord.CompanyId.Value : DBNull.Value;
 
                 cmd.Parameters.Add("@ProjectId", SqlDbType.Int).Value =
                         timeRecord.ProjectId.HasValue ? timeRecord.ProjectId.Value : DBNull.Value;
