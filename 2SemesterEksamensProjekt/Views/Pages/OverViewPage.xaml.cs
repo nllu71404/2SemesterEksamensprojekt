@@ -24,17 +24,19 @@ namespace _2SemesterEksamensProjekt.Views.Pages
     {
         public OverViewPage()
         {
-            var TimeRecordRepository = new TimeRecordRepository();
-            var CompanyRepository = new CompanyRepository();
-            var ProjectRepository = new ProjectRepository();
-            var TopicRepository = new TopicRepository();
+
+            InitializeComponent();
+
+            var timeRecordRepository = new TimeRecordRepository();
+            var companyRepository = new CompanyRepository();
+            var projectRepository = new ProjectRepository();
+            var topicRepository = new TopicRepository();
 
             DataContext = new OverViewPageViewModel(
-                TimeRecordRepository,
-                CompanyRepository,
-                ProjectRepository,
-                TopicRepository
-                );
+                timeRecordRepository, 
+                companyRepository, 
+                projectRepository, 
+                topicRepository);
 
         }
     }
