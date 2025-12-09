@@ -22,6 +22,7 @@ namespace _2SemesterEksamensProjekt.Views.Pages
     /// </summary>
     public partial class OverViewPage : Page
     {
+        public OverViewPageViewModel overViewPageViewModel;
         public OverViewPage()
         {
 
@@ -31,6 +32,8 @@ namespace _2SemesterEksamensProjekt.Views.Pages
             var companyRepository = new CompanyRepository();
             var projectRepository = new ProjectRepository();
             var topicRepository = new TopicRepository();
+
+            overViewPageViewModel = new OverViewPageViewModel(timeRecordRepository, companyRepository, projectRepository, topicRepository);
 
             DataContext = new OverViewPageViewModel(
                 timeRecordRepository, 

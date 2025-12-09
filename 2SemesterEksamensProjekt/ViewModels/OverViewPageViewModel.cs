@@ -77,6 +77,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
             ICompanyRepository companyRepo, IProjectRepository projectRepo, ITopicRepository topicRepo)
         {
             
+            
             _timeRecordRepo = timeRecordRepo;
             _companyRepo = companyRepo;
             _projectRepo = projectRepo;
@@ -106,6 +107,8 @@ namespace _2SemesterEksamensProjekt.ViewModels
         //Methode
         private void LoadAllTimeRecords()
         {
+            TimeRecords.Clear();
+
             foreach (var timeRecord in _timeRecordRepo.GetAllTimeRecords())
             {
                 TimeRecords.Add(timeRecord);
@@ -144,7 +147,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
         private void LoadAllTopics()
         {
             Topics.Clear();
-
+            var allTopics = _topicRepo.GetAllTopics() ?? new List<Topic>();
             foreach (var topic in _topicRepo.GetAllTopics())
             {
                 Topics.Add(topic);

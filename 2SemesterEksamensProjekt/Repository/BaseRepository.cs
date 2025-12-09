@@ -53,30 +53,30 @@ namespace _2SemesterEksamensProjekt.Repository
 
         //                                                                      Melindas connection string
 
-        //protected readonly string _connectionString = new SqlConnectionStringBuilder
-        //{
-        //    DataSource = @"(localdb)\MSSQLLocalDB",
-        //    InitialCatalog = "StackhouseDB",
-        //    IntegratedSecurity = true,           // Windows login
-        //    TrustServerCertificate = true,       // undgår certifikatfejl
-        //    Encrypt = false,                     // Express kræver det ikke
-        //    MultipleActiveResultSets = true,
-        //    ConnectTimeout = 30
-        //}.ConnectionString;
-
-
-        //                                                                          Ninnas connection string
-        protected readonly string _connectionString =
-        new SqlConnectionStringBuilder
+        protected readonly string _connectionString = new SqlConnectionStringBuilder
         {
             DataSource = @"(localdb)\MSSQLLocalDB",
             InitialCatalog = "StackhouseDB",
-            IntegratedSecurity = true,
-            TrustServerCertificate = true,
-            Encrypt = false,
+            IntegratedSecurity = true,           // Windows login
+            TrustServerCertificate = true,       // undgår certifikatfejl
+            Encrypt = false,                     // Express kræver det ikke
             MultipleActiveResultSets = true,
             ConnectTimeout = 30
         }.ConnectionString;
+
+
+        //                                                                          Ninnas connection string
+        //protected readonly string _connectionString =
+        //new SqlConnectionStringBuilder
+        //{
+        //    DataSource = @"(localdb)\MSSQLLocalDB",
+        //    InitialCatalog = "StackhouseDB",
+        //    IntegratedSecurity = true,
+        //    TrustServerCertificate = true,
+        //    Encrypt = false,
+        //    MultipleActiveResultSets = true,
+        //    ConnectTimeout = 30
+        //}.ConnectionString;
 
         //                                                                        Rebeccas connection string     
         //protected readonly string _connectionString =
