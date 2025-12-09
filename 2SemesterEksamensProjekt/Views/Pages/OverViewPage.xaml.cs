@@ -29,8 +29,6 @@ namespace _2SemesterEksamensProjekt.Views.Pages
 
             InitializeComponent();
 
-
-
             var timeRecordRepository = new TimeRecordRepository();
             var companyRepository = new CompanyRepository();
             var projectRepository = new ProjectRepository();
