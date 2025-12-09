@@ -29,6 +29,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
         public ObservableCollection<Topic> Topics { get; set; }
         public ObservableCollection<string> Months { get; set; }
         public ObservableCollection<int> Years { get; set; }
+        public ObservableCollection<TimeRecord> FilteredTimeRecords { get; set; }
 
         //Properties til søgekriterier
         private string? _selectedMonth;
@@ -88,6 +89,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
 
             //Initialisere collection
             TimeRecords = new ObservableCollection<TimeRecord>();
+            FilteredTimeRecords = new ObservableCollection<TimeRecord>();
             Companies = new ObservableCollection<Company>();
             Projects = new ObservableCollection<Project>();
             Topics = new ObservableCollection<Topic>();
@@ -113,9 +115,18 @@ namespace _2SemesterEksamensProjekt.ViewModels
         {
             TimeRecords.Clear();
 
-            foreach (var timeRecord in _timeRecordRepo.GetAllTimeRecords())
+            var allTimeRecords = _timeRecordRepo.GetAllTimeRecords() ?? new List<TimeRecord>();
+
+            foreach (var timeRecord in allTimeRecords)
             {
                 TimeRecords.Add(timeRecord);
+            }
+
+            //Vise alt på listen til at starte med
+            FilteredTimeRecords.Clear();
+            foreach (var timerecord in TimeRecords)
+            {
+                FilteredTimeRecords.Add(timerecord);
             }
         }
         private void LoadCompanies()
@@ -137,6 +148,8 @@ namespace _2SemesterEksamensProjekt.ViewModels
         }
         private void LoadProjectsForSelectedCompany()
         {
+            Projects.Clear();
+            
             if (SelectedCompany == null)
                 return;
 
@@ -159,15 +172,16 @@ namespace _2SemesterEksamensProjekt.ViewModels
         }
         private void LoadMonths()
         {
-            Months.Clear();
-
+            if(TimeRecords == null ||  TimeRecords.Count == 0) return;
+            
             //Default så vi kan hente danske måneder
             var danishCulture = new CultureInfo("da-DK");
+
             //Liste fra databasen databasen
-            var allTimeRecords = _timeRecordRepo.GetAllTimeRecords() ?? new List<TimeRecord>();
+            //var allTimeRecords = _timeRecordRepo.GetAllTimeRecords() ?? new List<TimeRecord>();
 
             //Henter kun måneder med data tilknyttet
-            var allMonths = allTimeRecords
+            var allMonths = TimeRecords
                 .Select(tr => tr.StartTime.Month)
                 .Distinct()
                 .OrderBy(month => month); //sorterer i årlig rækkefølge
@@ -182,11 +196,12 @@ namespace _2SemesterEksamensProjekt.ViewModels
         }
         private void LoadYears()
         {
-            Years.Clear();
+            if (TimeRecords == null || TimeRecords.Count == 0)
+                return;
 
-            var allTimeRecords = _timeRecordRepo.GetAllTimeRecords() ?? new List<TimeRecord>();
+            //var allTimeRecords = _timeRecordRepo.GetAllTimeRecords() ?? new List<TimeRecord>();
 
-            var allYears = allTimeRecords
+            var allYears = TimeRecords
                 .Select(tr => tr.StartTime.Year)
                 .Distinct()
                 .OrderByDescending(Year => Year);
@@ -216,6 +231,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
                 year);
 
             //Opdater Observablecollection
+            FilteredTimeRecords.Clear();
             if(filteredRecords != null)
             {
                 foreach (var records in filteredRecords)
