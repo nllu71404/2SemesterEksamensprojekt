@@ -76,13 +76,14 @@ namespace _2SemesterEksamensProjekt.ViewModels
 
         //Constructor
         public OverViewPageViewModel(ITimeRecordRepository timeRecordRepo, 
-            ICompanyRepository companyRepo, IProjectRepository projectRepo, ITopicRepository topicRepo)
+            ICompanyRepository companyRepo, IProjectRepository projectRepo, ITopicRepository topicRepo, ICsvExportService csvExportService)
         {
             
             _timeRecordRepo = timeRecordRepo;
             _companyRepo = companyRepo;
             _projectRepo = projectRepo;
             _topicRepo = topicRepo;
+            _csvExportService = csvExportService;
 
             //Initialisere collection
             TimeRecords = new ObservableCollection<TimeRecord>();
@@ -92,10 +93,6 @@ namespace _2SemesterEksamensProjekt.ViewModels
             Months = new ObservableCollection<string>();
             Years = new ObservableCollection<int>();
 
-            _timeRecordRepo = timeRecordRepository;
-            _companyRepo = companyRepository;
-            _projectRepo = projectRepository;
-            _topicRepo = topicRepository;
 
             // Tilføjer metode til at loade all data
             LoadAllTimeRecords();
