@@ -25,7 +25,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
         public ObservableCollection<Company> Companies { get; set; }
         public ObservableCollection<Project> Projects { get; set; }
         public ObservableCollection<Topic> Topics { get; set; }
-        public ObservableCollection<string> Months { get; }
+        public ObservableCollection<string> Months { get; set; }
         public ObservableCollection<int> Years { get; set; }
 
         //Properties til søgekriterier
@@ -73,9 +73,15 @@ namespace _2SemesterEksamensProjekt.ViewModels
         public RelayCommand CsvCommand { get; }
 
         //Constructor
-        public OverViewPageViewModel(ITimeRecordRepository timeRecordRepository, 
-            ICompanyRepository companyRepository, IProjectRepository projectRepository, ITopicRepository topicRepository)
+        public OverViewPageViewModel(ITimeRecordRepository timeRecordRepo, 
+            ICompanyRepository companyRepo, IProjectRepository projectRepo, ITopicRepository topicRepo)
         {
+            
+            _timeRecordRepo = timeRecordRepo;
+            _companyRepo = companyRepo;
+            _projectRepo = projectRepo;
+            _topicRepo = topicRepo;
+
             //Initialisere collection
             TimeRecords = new ObservableCollection<TimeRecord>();
             Companies = new ObservableCollection<Company>();
@@ -83,11 +89,6 @@ namespace _2SemesterEksamensProjekt.ViewModels
             Topics = new ObservableCollection<Topic>();
             Months = new ObservableCollection<string>();
             Years = new ObservableCollection<int>();
-
-            _timeRecordRepo = timeRecordRepository;
-            _companyRepo = companyRepository;
-            _projectRepo = projectRepository;
-            _topicRepo = topicRepository;
 
             // Tilføjer metode til at loade all data
             LoadAllTimeRecords();

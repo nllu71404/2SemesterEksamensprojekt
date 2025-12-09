@@ -88,7 +88,8 @@ namespace _2SemesterEksamensProjekt.ViewModels
       
 
         //Constructor
-        public TimeRecordViewModel(TimeRecord timeRecord, ITimeRecordRepository timeRecordRepo, ICompanyRepository companyRepo, IProjectRepository projectRepo, ITopicRepository topicRepo)
+        public TimeRecordViewModel(TimeRecord timeRecord, ITimeRecordRepository timeRecordRepo, 
+            ICompanyRepository companyRepo, IProjectRepository projectRepo, ITopicRepository topicRepo)
         {
 
             _timeRecord = timeRecord ?? throw new ArgumentNullException(nameof(timeRecord));
