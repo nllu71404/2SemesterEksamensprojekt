@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using _2SemesterEksamensProjekt.Repository;
+using _2SemesterEksamensProjekt.ViewModels;
 
 namespace _2SemesterEksamensProjekt.Views.Pages
 {
@@ -23,9 +24,17 @@ namespace _2SemesterEksamensProjekt.Views.Pages
     {
         public OverViewPage()
         {
-            //InitializeComponent();
-
             var TimeRecordRepository = new TimeRecordRepository();
+            var CompanyRepository = new CompanyRepository();
+            var ProjectRepository = new ProjectRepository();
+            var TopicRepository = new TopicRepository();
+
+            DataContext = new OverViewPageViewModel(
+                TimeRecordRepository,
+                CompanyRepository,
+                ProjectRepository,
+                TopicRepository
+                );
 
         }
     }

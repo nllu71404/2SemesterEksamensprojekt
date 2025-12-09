@@ -28,11 +28,12 @@ namespace _2SemesterEksamensProjekt.Repository
                     {
                         TimerId = reader.GetInt32(0),
                         TimerName = reader.GetString(1),
-                        ElapsedTime = TimeSpan.FromSeconds(reader.GetInt32(2)),
+                        ElapsedTime = reader.GetTimeSpan(2),
                         StartTime = reader.GetDateTime(3),
-                        CompanyId = reader.GetInt32(4),
-                        ProjectId = reader.GetInt32(5),
-                        TopicId = reader.GetInt32(6),
+                        CompanyId = reader.IsDBNull(4) ? null : reader.GetInt32(4),    // ← Check for NULL
+                        ProjectId = reader.IsDBNull(5) ? null : reader.GetInt32(5),    // ← Check for NULL
+                        TopicId = reader.IsDBNull(6) ? null : reader.GetInt32(6),      // ← Check for NULL
+                        Note = reader.IsDBNull(7) ? null : reader.GetString(7)
                     });
                 }
                 return timeRecords;

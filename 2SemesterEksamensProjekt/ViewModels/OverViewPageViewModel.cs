@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Configuration;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,8 +25,8 @@ namespace _2SemesterEksamensProjekt.ViewModels
         public ObservableCollection<Company> Companies { get; set; }
         public ObservableCollection<Project> Projects { get; set; }
         public ObservableCollection<Topic> Topics { get; set; }
-        public ObservableCollection<string> Month { get; set; }
-        public ObservableCollection<int> Year { get; set; }
+        public ObservableCollection<string> Months { get; }
+        public ObservableCollection<int> Years { get; set; }
 
         //Properties til søgekriterier
         private string? _selectedMonth;
@@ -40,23 +41,30 @@ namespace _2SemesterEksamensProjekt.ViewModels
             get => _selectedYear;
             set => SetProperty(ref _selectedYear, value);
         }
-        private string? _selectedCompany;
-        public string? SelectedCompany
+        private Company? _selectedCompany;
+        public Company? SelectedCompany
         {
             get => _selectedCompany;
-            set => SetProperty(ref _selectedCompany, value);
+            set
+            {
+                if (SetProperty(ref _selectedCompany, value))
+                {
+                    LoadProjectsForSelectedCompany();
+                    SelectedProject = null;
+                }
+            }
         }
-        private string? _selectedProject;
-        public string? SelectedProject
+        private Project? _selectedProject;
+        public Project? SelectedProject
         {
             get => _selectedProject;
             set => SetProperty(ref _selectedProject, value);
         }
-        private string? _selectedTopic;
-        public string? SelectedTopic
+        private Topic? _selectedTopic;
+        public Topic? SelectedTopic
         {
-            get => _selectedProject;
-            set => SetProperty(ref _selectedProject, value);
+            get => _selectedTopic;
+            set => SetProperty(ref _selectedTopic, value);
         }
 
 
@@ -65,31 +73,122 @@ namespace _2SemesterEksamensProjekt.ViewModels
         public RelayCommand CsvCommand { get; }
 
         //Constructor
-        public OverViewPageViewModel(TimeRecord timeRecord, ITimeRecordRepository timeRecordRepository, 
+        public OverViewPageViewModel(ITimeRecordRepository timeRecordRepository, 
             ICompanyRepository companyRepository, IProjectRepository projectRepository, ITopicRepository topicRepository)
         {
-            this._timeRecordRepo = timeRecordRepository;
-            foreach (var timeRecords in timeRecordRepository.GetAllTimeRecords())
-            {
-                TimeRecords.Add(timeRecord);
-            }
+            //Initialisere collection
+            TimeRecords = new ObservableCollection<TimeRecord>();
+            Companies = new ObservableCollection<Company>();
+            Projects = new ObservableCollection<Project>();
+            Topics = new ObservableCollection<Topic>();
+            Months = new ObservableCollection<string>();
+            Years = new ObservableCollection<int>();
 
             _timeRecordRepo = timeRecordRepository;
             _companyRepo = companyRepository;
             _projectRepo = projectRepository;
             _topicRepo = topicRepository;
 
+            // Tilføjer metode til at loade all data
+            LoadAllTimeRecords();
+            LoadCompanies();
+            LoadProjectsForSelectedCompany();
+            LoadAllTopics();
+            LoadMonths();
+            LoadYears();
 
-            TimeRecords = new ObservableCollection<TimeRecord>();
-            Companies = new ObservableCollection<Company>();
-            Projects = new ObservableCollection<Project>();
-            Topics = new ObservableCollection<Topic>();
-
+            //Commands
             ApplyFilterCommand = new RelayCommand(_ => ApplyFilter());
             CsvCommand = new RelayCommand(_ => ConvertToCSV());
         }
 
         //Methode
+        private void LoadAllTimeRecords()
+        {
+            foreach (var timeRecord in _timeRecordRepo.GetAllTimeRecords())
+            {
+                TimeRecords.Add(timeRecord);
+            }
+        }
+        private void LoadCompanies()
+        {
+
+            Companies.Clear();
+
+            var allCompanies = _companyRepo.GetAllCompanies() ?? new List<Company>();
+            var allProjects = _projectRepo.GetAllProjects() ?? new List<Project>();
+
+            // Kun de virksomheder, der har mindst ét projekt
+            var companiesWithProjects = allCompanies
+                .Where(c => allProjects.Any(p => p.CompanyId == c.CompanyId));
+
+            foreach (var company in companiesWithProjects)
+            {
+                Companies.Add(company);
+            }
+        }
+        private void LoadProjectsForSelectedCompany()
+        {
+            if (SelectedCompany == null)
+                return;
+
+            var projekter = _projectRepo.GetProjectsByCompanyId(SelectedCompany.CompanyId)
+                            ?? new List<Project>();
+
+            Projects.Clear();
+
+            foreach (var p in projekter)
+                Projects.Add(p);
+        }
+        private void LoadAllTopics()
+        {
+            Topics.Clear();
+
+            foreach (var topic in _topicRepo.GetAllTopics())
+            {
+                Topics.Add(topic);
+            }
+        }
+        private void LoadMonths()
+        {
+            Months.Clear();
+
+            //Default så vi kan hente danske måneder
+            var danishCulture = new CultureInfo("da-DK");
+            //Liste fra databasen databasen
+            var allTimeRecords = _timeRecordRepo.GetAllTimeRecords() ?? new List<TimeRecord>();
+
+            //Henter kun måneder med data tilknyttet
+            var allMonths = allTimeRecords
+                .Select(tr => tr.StartTime.Month)
+                .Distinct()
+                .OrderBy(month => month); //sorterer i årlig rækkefølge
+
+            foreach (var monthNumber in allMonths)
+            {
+                string monthName = danishCulture.DateTimeFormat.GetMonthName(monthNumber);
+                Months.Add(monthName);
+            }
+        }
+        private void LoadYears()
+        {
+            Years.Clear();
+
+            var allTimeRecords = _timeRecordRepo.GetAllTimeRecords() ?? new List<TimeRecord>();
+
+            var allYears = allTimeRecords
+                .Select(tr => tr.StartTime.Year)
+                .Distinct()
+                .OrderByDescending(Year => Year);
+
+            foreach (var year in allYears)
+            {
+                Years.Add(year);
+            }
+
+        }
+
+
 
         private void ApplyFilter()
         {
@@ -98,7 +197,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
 
         private void ConvertToCSV()
         {
-
+            
         }
 
 
