@@ -167,6 +167,8 @@ namespace _2SemesterEksamensProjekt.ViewModels
             foreach (var monthNumber in allMonths)
             {
                 string monthName = danishCulture.DateTimeFormat.GetMonthName(monthNumber);
+                //Gør første bogstav stort
+                monthName = char.ToUpper(monthName[0]) + monthName.Substring(1);
                 Months.Add(monthName);
             }
         }
@@ -185,19 +187,34 @@ namespace _2SemesterEksamensProjekt.ViewModels
             {
                 Years.Add(year);
             }
-
         }
-
-        
-
-
-
         private void ApplyFilter()
         {
             TimeRecords.Clear();
 
             //Hent objekter via ID
+            int? companyId = SelectedCompany?.CompanyId;
+            int? projectId = SelectedProject?.ProjectId;
+            int? topicId = SelectedTopic?.TopicId;
+            int? month = GetMonthNumber(SelectedMonth);
+            int? year = SelectedYear;
 
+            // Kald repo for at kalde database
+            var filteredRecords = _timeRecordRepo.GetTimeRecordByFilter(
+                companyId,
+                projectId,
+                topicId,
+                month,
+                year);
+
+            //Opdater Observablecollection
+            if(filteredRecords != null)
+            {
+                foreach (var records in filteredRecords)
+                {
+                    TimeRecords.Add(records);
+                }
+            }
         }
 
         private void ConvertToCSV()
@@ -212,26 +229,23 @@ namespace _2SemesterEksamensProjekt.ViewModels
                 return null;
 
             var danishMonths = new Dictionary<string, int>
-    {
-        {"januar", 1},
-        {"februar", 2},
-        {"marts", 3},
-        {"april", 4},
-        {"maj", 5},
-        {"juni", 6},
-        {"juli", 7},
-        {"august", 8},
-        {"september", 9},
-        {"oktober", 10},
-        {"november", 11},
-        {"december", 12}
-    };
+            {
+                {"Januar", 1},
+                {"Februar", 2},
+                {"Marts", 3},
+                {"April", 4},
+                {"Maj", 5},
+                {"Juni", 6},
+                {"Juli", 7},
+                {"August", 8},
+                {"September", 9},
+                {"Oktober", 10},
+                {"November", 11},
+                {"December", 12}
+            };
 
-            // Case-insensitive lookup
-            string lowerMonth = monthName.ToLower();
-
-            return danishMonths.ContainsKey(lowerMonth)
-                ? danishMonths[lowerMonth]
+            return danishMonths.ContainsKey(monthName)
+                ? danishMonths[monthName]
                 : null;
         }
 
