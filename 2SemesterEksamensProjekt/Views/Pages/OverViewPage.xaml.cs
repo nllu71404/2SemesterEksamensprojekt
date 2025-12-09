@@ -37,13 +37,7 @@ namespace _2SemesterEksamensProjekt.Views.Pages
 
             overViewPageViewModel = new OverViewPageViewModel(timeRecordRepository, companyRepository, projectRepository, topicRepository, csvExportService);
 
-            DataContext = new OverViewPageViewModel(
-                timeRecordRepository, 
-                companyRepository, 
-                projectRepository, 
-                topicRepository,
-                csvExportService
-                );
+            DataContext = overViewPageViewModel;
 
         }
     }
