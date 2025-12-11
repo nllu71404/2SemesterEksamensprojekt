@@ -62,6 +62,11 @@ namespace _2SemesterEksamensProjekt.Models
         public int? TopicId { get; set; }
         public string? TopicDescription { get; set; }
 
+        //Navigations proterties
+        public Company Company { get; set; }
+        public Project Project { get; set; }
+        public Topic Topic { get; set; }
+
         private string? _note;
         public string? Note
         {
