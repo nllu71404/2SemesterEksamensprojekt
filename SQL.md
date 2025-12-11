@@ -173,6 +173,46 @@ VALUES
     ('Sprint planning', '02:30:00', '2025-01-15 10:00:00', 1, 2, 'Q1 sprint planning møde'),
     ('Bug fixing', '03:45:00', '2025-01-16 09:00:00', 4, 8, 'Fix kritisk bug i data migration'),
     ('Code review', '01:15:00', '2025-01-17 14:00:00', 7, 5, 'Review af solar app features');
+
+    -- Nordic Web Solutions ApS (Company 1) - Website Redesign (Project 1)
+    ('Morgen standup', '00:15:00', '2024-11-15 09:00:00', 1, 1, 'Daily standup møde'),
+    ('Sprint planning', '02:30:00', '2024-11-18 10:00:00', 1, 2, 'Q4 sprint planning'),
+    ('Bug fixing header', '03:45:00', '2024-11-20 09:00:00', 1, 8, 'Fix navigation bug i header'),
+    ('Code review', '01:15:00', '2024-11-22 14:00:00', 1, 5, 'Review af homepage redesign'),
+    ('Testing responsive', '02:00:00', '2024-11-25 13:00:00', 1, 12, 'Test på mobile enheder'),
+    
+    -- Nordic Web Solutions ApS - E-commerce Platform (Project 2)
+    ('Refinement session', '02:00:00', '2024-12-02 10:00:00', 2, 3, 'Refinement af payment flow'),
+    ('Implementering stripe', '04:30:00', '2024-12-05 08:30:00', 2, 8, 'Stripe integration'),
+    ('Support tickets', '01:45:00', '2024-12-10 15:00:00', 2, 11, 'Håndtering af kunde support'),
+    
+    -- DataVision Consulting (Company 2) - Data Warehouse Migration (Project 4)
+    ('Daily standup', '00:15:00', '2024-12-03 09:00:00', 4, 1, 'Team sync'),
+    ('Migration script', '05:00:00', '2024-12-04 10:00:00', 4, 8, 'Udvikling af migration scripts'),
+    ('Status meeting', '01:00:00', '2024-12-06 14:00:00', 4, 10, 'Status med kunde'),
+    ('Testing migration', '03:30:00', '2024-12-09 09:00:00', 4, 12, 'Test af data integrity'),
+    
+    -- DataVision Consulting - BI Dashboard Setup (Project 5)
+    ('Retrospective', '01:30:00', '2025-01-08 13:00:00', 5, 4, 'Sprint retrospektiv'),
+    ('Dashboard design', '04:00:00', '2025-01-10 09:00:00', 5, 8, 'Power BI dashboard setup'),
+    ('Code review', '01:00:00', '2025-01-13 15:00:00', 5, 5, 'Review af DAX queries'),
+    
+    -- GreenTech Innovations (Company 3) - Solar Monitoring App (Project 7)
+    ('Sprint planning', '02:15:00', '2025-01-15 10:00:00', 7, 2, 'Sprint 3 planning'),
+    ('Onboarding', '03:00:00', '2025-01-16 09:00:00', 7, 13, 'Onboarding af ny udvikler'),
+    ('Feature udvikling', '05:30:00', '2025-01-20 08:00:00', 7, 8, 'Real-time monitoring feature'),
+    ('Testing app', '02:45:00', '2025-01-22 13:00:00', 7, 12, 'Integration tests'),
+    
+    -- BlueWave Software (Company 4) - CRM System Upgrade (Project 8)
+    ('Daily standup', '00:15:00', '2025-02-03 09:00:00', 8, 1, 'Quick team sync'),
+    ('Refinement', '02:00:00', '2025-02-05 10:00:00', 8, 3, 'User story refinement'),
+    ('Upgrade implementation', '06:00:00', '2025-02-07 08:00:00', 8, 8, 'CRM version upgrade'),
+    ('Support tickets', '02:30:00', '2025-02-10 14:00:00', 8, 11, 'Post-upgrade support'),
+    
+    -- BlueWave Software - Subscription Billing Module (Project 9)
+    ('IO Weekly', '01:00:00', '2025-02-12 15:00:00', 9, 6, 'Ugentligt IO møde'),
+    ('Billing logic', '04:45:00', '2025-02-14 09:00:00', 9, 8, 'Implementering af billing logic'),
+    ('Code review', '01:30:00', '2025-02-17 14:00:00', 9, 5, 'Review billing module');    
 GO
 
 
