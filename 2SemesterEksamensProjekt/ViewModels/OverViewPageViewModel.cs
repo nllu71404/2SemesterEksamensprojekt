@@ -119,6 +119,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
 
             LoadYears();
             Console.WriteLine($"Years count: {Years.Count}");
+            CurrentMonthAndYear();
 
 
             //Commands
@@ -228,6 +229,36 @@ namespace _2SemesterEksamensProjekt.ViewModels
                 Years.Add(year);
             }
         }
+
+        private void CurrentMonthAndYear()
+        {
+            var now = DateTime.Now;
+
+            var danishCulture = new CultureInfo("da-DK");
+
+            string currentMonthName = danishCulture.DateTimeFormat.GetMonthName(now.Month);
+            currentMonthName = char.ToUpper(currentMonthName[0]) + currentMonthName.Substring(1);
+
+            if (Months.Contains(currentMonthName))
+            {
+                SelectedMonth = currentMonthName;
+            }
+            else if (Months.Any())
+            {
+                SelectedMonth = Months.First();
+            }
+
+            // Sæt nuværende år
+            if (Years.Contains(now.Year))
+            {
+                SelectedYear = now.Year;
+            }
+            else if (Years.Any())
+            {
+                SelectedYear = Years.First();
+            }
+
+        }
         private void ApplyFilter()
         {
             //Hent objekter via ID
@@ -263,6 +294,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
             LoadCompanies();
             LoadProjectsForSelectedCompany();
             LoadAllTopics();
+            CurrentMonthAndYear();
         }
 
         public void ExportToCSV()
