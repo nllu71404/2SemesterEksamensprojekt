@@ -132,14 +132,14 @@ namespace _2SemesterEksamensProjekt.Repository
 
             var type = typeof(T);
             var hoursProp = type.GetProperty("ElapsedTime");
-            var companyProp = type.GetProperty("CompanyId");
-            var projectProp = type.GetProperty("ProjectId");
-            var subjectProp = type.GetProperty("TopicId");
+            var companyNameProp = type.GetProperty("CompanyName");
+            var projectTitleProp = type.GetProperty("ProjectTitle");
+            var topicDescProp = type.GetProperty("TopicDescription");
 
-            if (hoursProp == null || companyProp == null || projectProp == null || subjectProp == null)
-                throw new Exception("ElapsedTime, Company, Project, Subject must exist.");
+            if (hoursProp == null || companyNameProp == null || projectTitleProp == null || topicDescProp == null)
+                throw new Exception("ElapsedTime, CompanyName, ProjectTitle, TopicDescription must exist.");
 
-            // Helper to convert hours
+            // Helper til at konvertere timer
             TimeSpan ToTimeSpan(object v)
             {
                 if (v is TimeSpan ts) return ts;
@@ -148,78 +148,75 @@ namespace _2SemesterEksamensProjekt.Repository
                 throw new Exception("Unknown time format");
             }
 
-            // --- TOTALS (unique summaries) ---
-
+            // --- TOTALS (unikke summer) ---
             var byCompany = data
-                .GroupBy(x => companyProp.GetValue(x))
+                .GroupBy(x => companyNameProp.GetValue(x)?.ToString())
                 .Select(g => new
                 {
-                    Company = g.Key?.ToString(),
-                    Total = g.Aggregate(TimeSpan.Zero, (sum, item) =>
-                        sum + ToTimeSpan(hoursProp.GetValue(item)))
+                    Company = g.Key ?? "",
+                    Total = g.Aggregate(TimeSpan.Zero, (sum, item) => sum + ToTimeSpan(hoursProp.GetValue(item)))
                 })
                 .ToList();
 
             var byProject = data
-                .GroupBy(x => projectProp.GetValue(x))
+                .GroupBy(x => projectTitleProp.GetValue(x)?.ToString())
                 .Select(g => new
                 {
-                    Project = g.Key?.ToString(),
-                    Total = g.Aggregate(TimeSpan.Zero, (sum, item) =>
-                        sum + ToTimeSpan(hoursProp.GetValue(item)))
+                    Project = g.Key ?? "",
+                    Total = g.Aggregate(TimeSpan.Zero, (sum, item) => sum + ToTimeSpan(hoursProp.GetValue(item)))
                 })
                 .ToList();
 
-            var bySubject = data
-                .GroupBy(x => subjectProp.GetValue(x))
+            var byTopic = data
+                .GroupBy(x => topicDescProp.GetValue(x)?.ToString())
                 .Select(g => new
                 {
-                    Subject = g.Key?.ToString(),
-                    Total = g.Aggregate(TimeSpan.Zero, (sum, item) =>
-                        sum + ToTimeSpan(hoursProp.GetValue(item)))
+                    Topic = g.Key ?? "",
+                    Total = g.Aggregate(TimeSpan.Zero, (sum, item) => sum + ToTimeSpan(hoursProp.GetValue(item)))
                 })
                 .ToList();
 
             // --- CSV ---
             var sb = new StringBuilder();
 
-            // 1) Original data (no totals per row)
-            var props = type.GetProperties()
-                .Where(p => selectedProperties.Contains(p.Name))
-                .ToList();
-
+            // 1) Original data
             sb.AppendLine("DATA");
-            sb.AppendLine(string.Join(";", props.Select(p => p.Name)));
+            sb.AppendLine("CompanyName;ProjectTitle;TopicDescription;ElapsedTime");
 
             foreach (var item in data)
             {
-                var values = props.Select(p => p.GetValue(item)?.ToString() ?? "");
-                sb.AppendLine(string.Join(";", values));
+                var hours = ToTimeSpan(hoursProp.GetValue(item));
+                var company = companyNameProp.GetValue(item)?.ToString() ?? "";
+                var project = projectTitleProp.GetValue(item)?.ToString() ?? "";
+                var topic = topicDescProp.GetValue(item)?.ToString() ?? "";
+
+                sb.AppendLine($"{company};{project};{topic};{hours:hh\\:mm}");
             }
 
+            // Company totals
             sb.AppendLine();
             sb.AppendLine("COMPANY TOTALS");
             sb.AppendLine("CompanyName;TotalHours");
-
             foreach (var c in byCompany)
                 sb.AppendLine($"{c.Company};{c.Total:hh\\:mm}");
 
+            // Project totals
             sb.AppendLine();
             sb.AppendLine("PROJECT TOTALS");
-            sb.AppendLine("Project;TotalHours");
-
+            sb.AppendLine("ProjectTitle;TotalHours");
             foreach (var p in byProject)
                 sb.AppendLine($"{p.Project};{p.Total:hh\\:mm}");
 
+            // Topic totals
             sb.AppendLine();
-            sb.AppendLine("SUBJECT TOTALS");
-            sb.AppendLine("Subject;TotalHours");
-
-            foreach (var s in bySubject)
-                sb.AppendLine($"{s.Subject};{s.Total:hh\\:mm}");
+            sb.AppendLine("TOPIC TOTALS");
+            sb.AppendLine("TopicDescription;TotalHours");
+            foreach (var t in byTopic)
+                sb.AppendLine($"{t.Topic};{t.Total:hh\\:mm}");
 
             File.WriteAllText(filePath, sb.ToString(), Encoding.UTF8);
         }
+
 
         private TimeSpan GetHoursAsTimeSpan(object value)
         {

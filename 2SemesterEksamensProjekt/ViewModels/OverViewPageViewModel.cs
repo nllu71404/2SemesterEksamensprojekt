@@ -302,6 +302,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
 
             if (ShowDialog(out string fileName) == true)
             {
+                
                 _csvExportService.ExportTimeRecords(TimeRecords, fileName, "TimerName", "CompanyId", "ProjectId", "TopicId",
     "ElapsedTime",
     "StartTime",
