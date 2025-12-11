@@ -13,117 +13,13 @@ namespace _2SemesterEksamensProjekt.Repository
     {
 
         private readonly ITimeRecordRepository _timeRecordRepo;
-        //private readonly ICompanyRepository _companyRepo;
-        //private readonly IProjectRepository _projectRepo;
-        //private readonly ITopicRepository _topicRepo;
 
 
-        public CsvExportService(ITimeRecordRepository timeRecordRepo/*, ICompanyRepository companyRepo, IProjectRepository projectRepo, ITopicRepository topicRepo*/)
+        public CsvExportService(ITimeRecordRepository timeRecordRepo)
         {
             _timeRecordRepo = timeRecordRepo;
-            //_companyRepo = companyRepo;
-            //_projectRepo = projectRepo;
-            //_topicRepo = topicRepo;
+            
         }
-
-        //public void ExportTimeRecords<T>(IEnumerable<T> data, IEnumerable<T> companydata, string filePath, params string[] selectedProperties)
-        //{
-        //    if (data == null || !data.Any())
-        //        return;
-
-        //    var type = typeof(T);
-
-        //    var properties = type.GetProperties()
-        //        .Where(p => selectedProperties.Contains(p.Name))
-        //        .ToList();
-
-        //    var elapsedTimeProp = type.GetProperty("ElapsedTime");
-        //    var companyProp = type.GetProperty("CompanyId");
-        //    var projectProp = type.GetProperty("ProjectId");
-        //    var subjectProp = type.GetProperty("TopicId");
-
-
-        //    //if (elapsedTimeProp == null || companyProp == null || projectProp == null || subjectProp == null)
-        //    //    throw new Exception("Properties Hours, Project, Subject must exist.");
-
-        //    // --------------------------------------------------------
-        //    // 1) Udregn total time pr. virksomhed
-        //    // --------------------------------------------------------
-        //    var byCompany = data
-        //        .GroupBy(x => companyProp.GetValue(x))
-        //        .ToDictionary(
-        //            g => g.Key,
-        //            g => g.Aggregate(TimeSpan.Zero, (sum, item) =>
-        //                sum + GetHoursAsTimeSpan(elapsedTimeProp.GetValue(item)))
-        //        );
-
-        //    // --------------------------------------------------------
-        //    // 2) Udregn total time pr. projekt
-        //    // --------------------------------------------------------
-        //    var byProject = data
-        //        .GroupBy(x => projectProp.GetValue(x))
-        //        .ToDictionary(
-        //            g => g.Key,
-        //            g => g.Aggregate(TimeSpan.Zero, (sum, item) =>
-        //                sum + GetHoursAsTimeSpan(elapsedTimeProp.GetValue(item)))
-        //        );
-
-        //    // --------------------------------------------------------
-        //    // 2) Udregn total time pr. emne
-        //    // --------------------------------------------------------
-        //    var bySubject = data
-        //        .GroupBy(x => subjectProp.GetValue(x))
-        //        .ToDictionary(
-        //            g => g.Key,
-        //            g => g.Aggregate(TimeSpan.Zero, (sum, item) =>
-        //                sum + GetHoursAsTimeSpan(elapsedTimeProp.GetValue(item)))
-        //        );
-
-
-        //    var sb = new StringBuilder();
-
-
-        //    // Header1
-        //    sb.AppendLine(string.Join(";", properties.Select(p => p.Name)));
-
-
-        //    // Rækker
-        //    foreach (var item in data)
-        //    {
-        //        var values = properties.Select(p => p.GetValue(item)?.ToString() ?? "");
-        //        sb.AppendLine(string.Join(";", values));
-        //    }
-
-
-        //    File.WriteAllText(filePath, sb.ToString(), Encoding.UTF8);
-
-
-        //    // Header2
-        //    sb.AppendLine(string.Join(";", "TotalHoursForCompany"/*, "TotalHoursForProject", "TotalHoursForTopic"*/));
-
-
-        //    // Rækker
-        //    foreach (var item in companydata)
-        //    {
-        //        var company = companyProp.GetValue(item);
-        //        //var project = projectProp.GetValue(item);
-        //        //var subject = subjectProp.GetValue(item);
-
-
-
-        //        var row = new[]
-        //        {
-        //            byCompany[company].ToString(@"hh\:mm"),
-        //            //byProject[project].ToString(@"hh\:mm"),
-        //            //bySubject[subject].ToString(@"hh\:mm")
-
-        //            };
-        //        sb.AppendLine(string.Join(";", row));
-        //    }
-
-
-        //    File.WriteAllText(filePath, sb.ToString(), Encoding.UTF8);
-        //}
 
         public void ExportTimeRecords<T>(IEnumerable<T> data, string filePath, params string[] selectedProperties)
         {
@@ -132,12 +28,13 @@ namespace _2SemesterEksamensProjekt.Repository
 
             var type = typeof(T);
             var hoursProp = type.GetProperty("ElapsedTime");
+            var startTimeProp = type.GetProperty("StartTime");
+            var timerNameProp = type.GetProperty("TimerName");
             var companyNameProp = type.GetProperty("CompanyName");
             var projectTitleProp = type.GetProperty("ProjectTitle");
             var topicDescProp = type.GetProperty("TopicDescription");
+            var noteProp = type.GetProperty("Note");
 
-            if (hoursProp == null || companyNameProp == null || projectTitleProp == null || topicDescProp == null)
-                throw new Exception("ElapsedTime, CompanyName, ProjectTitle, TopicDescription must exist.");
 
             // Helper til at konvertere timer
             TimeSpan ToTimeSpan(object v)
@@ -181,7 +78,7 @@ namespace _2SemesterEksamensProjekt.Repository
 
             // 1) Original data
             sb.AppendLine("DATA");
-            sb.AppendLine("CompanyName;ProjectTitle;TopicDescription;ElapsedTime");
+            sb.AppendLine("Date;Timer Name;Company;Project;Topic;Note;Hours");
 
             foreach (var item in data)
             {
@@ -189,28 +86,32 @@ namespace _2SemesterEksamensProjekt.Repository
                 var company = companyNameProp.GetValue(item)?.ToString() ?? "";
                 var project = projectTitleProp.GetValue(item)?.ToString() ?? "";
                 var topic = topicDescProp.GetValue(item)?.ToString() ?? "";
+                var startTime = startTimeProp.GetValue(item)?.ToString() ?? "";
+                var timerName = timerNameProp.GetValue(item)?.ToString() ?? "";
+                var note = noteProp.GetValue(item)?.ToString() ?? "";
 
-                sb.AppendLine($"{company};{project};{topic};{hours:hh\\:mm}");
+
+                sb.AppendLine($"{startTime};{timerName};{company};{project};{topic};{note};{hours:hh\\:mm}");
             }
 
             // Company totals
             sb.AppendLine();
             sb.AppendLine("COMPANY TOTALS");
-            sb.AppendLine("CompanyName;TotalHours");
+            sb.AppendLine("Company;Total Hours");
             foreach (var c in byCompany)
                 sb.AppendLine($"{c.Company};{c.Total:hh\\:mm}");
 
             // Project totals
             sb.AppendLine();
             sb.AppendLine("PROJECT TOTALS");
-            sb.AppendLine("ProjectTitle;TotalHours");
+            sb.AppendLine("Project;Total Hours");
             foreach (var p in byProject)
                 sb.AppendLine($"{p.Project};{p.Total:hh\\:mm}");
 
             // Topic totals
             sb.AppendLine();
             sb.AppendLine("TOPIC TOTALS");
-            sb.AppendLine("TopicDescription;TotalHours");
+            sb.AppendLine("Topic;Total Hours");
             foreach (var t in byTopic)
                 sb.AppendLine($"{t.Topic};{t.Total:hh\\:mm}");
 
