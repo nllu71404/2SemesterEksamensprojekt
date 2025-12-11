@@ -24,14 +24,61 @@ namespace _2SemesterEksamensProjekt.Repository
             if (data == null || !data.Any())
                 return;
 
-            var properties = typeof(T).GetProperties()
+            var type = typeof(T);
+
+            var properties = type.GetProperties()
                 .Where(p => selectedProperties.Contains(p.Name))
                 .ToList();
 
+            var elapsedTimeProp = type.GetProperty("ElapsedTime");
+            var companyProp = type.GetProperty("CompanyId");
+            var projectProp = type.GetProperty("ProjectId");
+            var subjectProp = type.GetProperty("TopicId");
+
+
+            //if (elapsedTimeProp == null || companyProp == null || projectProp == null || subjectProp == null)
+            //    throw new Exception("Properties Hours, Project, Subject must exist.");
+
+            // --------------------------------------------------------
+            // 1) Udregn total time pr. virksomhed
+            // --------------------------------------------------------
+            var byCompany = data
+                .GroupBy(x => companyProp.GetValue(x))
+                .ToDictionary(
+                    g => g.Key,
+                    g => g.Aggregate(TimeSpan.Zero, (sum, item) =>
+                        sum + GetHoursAsTimeSpan(elapsedTimeProp.GetValue(item)))
+                );
+
+            // --------------------------------------------------------
+            // 2) Udregn total time pr. projekt
+            // --------------------------------------------------------
+            var byProject = data
+                .GroupBy(x => projectProp.GetValue(x))
+                .ToDictionary(
+                    g => g.Key,
+                    g => g.Aggregate(TimeSpan.Zero, (sum, item) =>
+                        sum + GetHoursAsTimeSpan(elapsedTimeProp.GetValue(item)))
+                );
+
+            // --------------------------------------------------------
+            // 2) Udregn total time pr. emne
+            // --------------------------------------------------------
+            var bySubject = data
+                .GroupBy(x => subjectProp.GetValue(x))
+                .ToDictionary(
+                    g => g.Key,
+                    g => g.Aggregate(TimeSpan.Zero, (sum, item) =>
+                        sum + GetHoursAsTimeSpan(elapsedTimeProp.GetValue(item)))
+                );
+
+
             var sb = new StringBuilder();
 
-            // Header
+
+            // Header1
             sb.AppendLine(string.Join(";", properties.Select(p => p.Name)));
+
 
             // Rækker
             foreach (var item in data)
@@ -40,7 +87,49 @@ namespace _2SemesterEksamensProjekt.Repository
                 sb.AppendLine(string.Join(";", values));
             }
 
+
             File.WriteAllText(filePath, sb.ToString(), Encoding.UTF8);
+
+
+            // Header2
+            sb.AppendLine(string.Join(";", "TotalHoursForCompany"/*, "TotalHoursForProject", "TotalHoursForTopic"*/));
+
+
+            // Rækker
+            foreach (var item in data)
+            {
+                var company = companyProp.GetValue(item);
+                var project = projectProp.GetValue(item);
+                var subject = subjectProp.GetValue(item);
+
+               
+
+                var row = new[]
+                {
+                    byCompany[company].ToString(@"hh\:mm"),
+                    //byProject[project].ToString(@"hh\:mm"),
+                    //bySubject[subject].ToString(@"hh\:mm")
+
+                    };
+                sb.AppendLine(string.Join(";", row));
+            }
+
+
+            File.WriteAllText(filePath, sb.ToString(), Encoding.UTF8);
+        }
+
+        private TimeSpan GetHoursAsTimeSpan(object value)
+        {
+            if (value is TimeSpan ts)
+                return ts;
+
+            if (value is double d)
+                return TimeSpan.FromHours(d);
+
+            if (value is string s)
+                return TimeSpan.Parse(s);
+
+            throw new InvalidCastException("Unknown Hours format.");
         }
     }
 }
