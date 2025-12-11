@@ -170,7 +170,7 @@ GO
 -- TimeRecords
 INSERT INTO dbo.TimeRecord (TimerName, ElapsedTime, StartTime, ProjectId, TopicId, Note)
 VALUES
-    ('Sprint planning', '02:30:00', '2025-01-15 10:00:00', 1, 2, ''),
+    ('Sprint planning', '02:30:00', '2025-12-15 10:00:00', 1, 2, ''),
     ('Bug fixing', '03:45:00', '2025-01-16 09:00:00', 4, 8, ''),
     ('Code review', '01:15:00', '2025-01-17 14:00:00', 7, 5, ''),
 
@@ -187,32 +187,32 @@ VALUES
     ('Support tickets', '01:45:00', '2024-12-10 15:00:00', 2, 11, ''),
     
     -- DataVision Consulting (Company 2) - Data Warehouse Migration (Project 4)
-    ('Daily standup', '00:15:00', '2024-12-03 09:00:00', 4, 1, 'Team sync'),
+    ('Daily standup', '00:15:00', '2025-12-03 09:00:00', 4, 1, 'Team sync'),
     ('Migration script', '05:00:00', '2024-12-04 10:00:00', 4, 8, ''),
     ('Status meeting', '01:00:00', '2024-12-06 14:00:00', 4, 1, 'Status med kunde'),
-    ('Testing migration', '03:30:00', '2024-12-09 09:00:00', 4, 12, 'Arbejd videre'),
+    ('Testing migration', '03:30:00', '2025-12-09 09:00:00', 4, 12, 'Arbejd videre'),
     
     -- DataVision Consulting - BI Dashboard Setup (Project 5)
     ('Retrospective', '01:30:00', '2025-01-08 13:00:00', 5, 4, 'Sprint retrospektiv'),
-    ('Dashboard design', '04:00:00', '2025-01-10 09:00:00', 5, 8, 'Power BI dashboard setup'),
+    ('Dashboard design', '04:00:00', '2025-12-10 09:00:00', 5, 8, 'Power BI dashboard setup'),
     ('Code review', '01:00:00', '2025-01-13 15:00:00', 5, 5, 'Review af DAX queries'),
     
     -- GreenTech Innovations (Company 3) - Solar Monitoring App (Project 7)
     ('Sprint planning', '02:15:00', '2025-01-15 10:00:00', 7, 2, 'Sprint 3 planning'),
     ('Onboarding', '03:00:00', '2025-01-16 09:00:00', 7, 13, 'Onboarding af ny udvikler'),
-    ('Feature udvikling', '05:30:00', '2025-01-20 08:00:00', 7, 8, ''),
+    ('Feature udvikling', '05:30:00', '2025-12-20 08:00:00', 7, 8, ''),
     ('Testing app', '02:45:00', '2025-01-22 13:00:00', 7, 12, 'Integration tests'),
     
     -- BlueWave Software (Company 4) - CRM System Upgrade (Project 8)
     ('Daily standup', '00:15:00', '2025-02-03 09:00:00', 8, 1, 'Quick team sync'),
-    ('Refinement', '02:00:00', '2025-02-05 10:00:00', 8, 3, 'User story refinement'),
+    ('Refinement', '02:00:00', '2025-12-05 10:00:00', 8, 3, 'User story refinement'),
     ('Upgrade implementation', '06:00:00', '2025-02-07 08:00:00', 8, 8, 'CRM version upgrade'),
-    ('Support tickets', '02:30:00', '2025-02-10 14:00:00', 8, 11, 'Post-upgrade support'),
+    ('Support tickets', '02:30:00', '2025-12-10 14:00:00', 8, 11, 'Post-upgrade support'),
     
     -- BlueWave Software - Subscription Billing Module (Project 9)
     ('IO Weekly', '01:00:00', '2025-02-12 15:00:00', 9, 6, 'Sank med Henrik'),
     ('Billing logic', '04:45:00', '2025-02-14 09:00:00', 9, 8, ''),
-    ('Code review', '01:30:00', '2025-02-17 14:00:00', 9, 5, '');    
+    ('Code review', '01:30:00', '2025-12-17 14:00:00', 9, 5, '');    
 GO
 
 
