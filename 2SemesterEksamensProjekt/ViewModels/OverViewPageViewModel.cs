@@ -135,17 +135,41 @@ namespace _2SemesterEksamensProjekt.ViewModels
 
             var allTimeRecords = _timeRecordRepo.GetAllTimeRecords() ?? new List<TimeRecord>();
 
-            foreach (var timeRecord in allTimeRecords)
+            var alltheTimeRecords = allTimeRecords
+                .OrderBy(tr => tr.StartTime);
+
+            foreach (var timeRecord in alltheTimeRecords)
             {
                 TimeRecords.Add(timeRecord);
             }
 
-            //Vise alt på listen til at starte med
             FilteredTimeRecords.Clear();
-            foreach (var timerecord in TimeRecords)
+
+            if (TimeRecords.Any())
             {
-                FilteredTimeRecords.Add(timerecord);
+                // Find den seneste måned i data
+                var latestDate = TimeRecords.Max(tr => tr.StartTime);
+                var latestMonth = latestDate.Month;
+                var latestYear = latestDate.Year;
+
+                // Filtrer records fra seneste måned og sorter efter dato (stigende)
+                var latestMonthRecords = TimeRecords
+                    .Where(tr => tr.StartTime.Month == latestMonth && tr.StartTime.Year == latestYear)
+                    .OrderBy(tr => tr.StartTime)  // Første dag øverst
+                    .ToList();
+
+                foreach (var record in latestMonthRecords)
+                {
+                    FilteredTimeRecords.Add(record);
+                }
             }
+
+                //Vise alt på listen til at starte med
+                //FilteredTimeRecords.Clear();
+                //foreach (var timerecord in TimeRecords)
+                //{
+                //    FilteredTimeRecords.Add(timerecord);
+                //}
         }
         private void LoadCompanies()
         {
@@ -202,7 +226,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
             var allMonths = TimeRecords
                 .Select(tr => tr.StartTime.Month)
                 .Distinct()
-                .OrderBy(month => month); //sorterer i årlig rækkefølge
+                .OrderByDescending(month => month); //sorterer i årlig rækkefølge
 
             foreach (var monthNumber in allMonths)
             {

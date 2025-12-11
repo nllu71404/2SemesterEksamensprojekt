@@ -73,7 +73,7 @@ namespace _2SemesterEksamensProjekt.Repository
                         timeRecord.Note = reader.IsDBNull(7) ? null : reader.GetString(7);
                         timeRecord.CompanyName = reader.IsDBNull(8) ? null : reader.GetString(8);
                         timeRecord.ProjectTitle = reader.IsDBNull(9) ? null : reader.GetString(9);
-                        timeRecord.TopicDescription = reader.IsDBNull(9) ? null : reader.GetString(9);
+                        timeRecord.TopicDescription = reader.IsDBNull(10) ? null : reader.GetString(10);
 
                         result.Add(timeRecord);
                     }
