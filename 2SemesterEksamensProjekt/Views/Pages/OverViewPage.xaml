@@ -51,7 +51,11 @@
                             <ColumnDefinition Width="15"/>
                             <!-- Projekt -->
                             <ColumnDefinition Width="350"/>
-                            
+                            <!-- Spacing -->
+                            <ColumnDefinition Width="15"/>
+                            <!-- Søg knap -->
+                            <ColumnDefinition Width="*"/>
+
                         </Grid.ColumnDefinitions>
 
                         <!-- Måned ComboBox -->
@@ -118,6 +122,15 @@
                                           FontSize="13"/>
                             </Border>
                         </StackPanel>
+
+                        <StackPanel Grid.Column="8">
+                                    <Button Content="Søg"
+                                    Style="{StaticResource DashboardButton}"
+                                    Command="{Binding ApplyFilterCommand}"
+                                            Height="50"
+                                            Width="120"
+                                    FontSize="13"/>
+                        </StackPanel>
                     </Grid>
 
                     <!-- Række 2: År + Projekt -->
@@ -129,7 +142,11 @@
                             <ColumnDefinition Width="15"/>
                             <!-- Emne -->
                             <ColumnDefinition Width="565"/>
-                            
+                            <!-- Spacing -->
+                            <ColumnDefinition Width="15"/>
+                            <!-- Clear -->
+                            <ColumnDefinition Width="*"/>
+
                         </Grid.ColumnDefinitions>
 
                         <!-- År ComboBox -->
@@ -174,17 +191,17 @@
                                           FontSize="13"/>
                             </Border>
                         </StackPanel>
+                        <StackPanel Grid.Column="6">
+                            <Button Content="Nulstil"
+                                    Style="{StaticResource DashboardButton}"
+                                    Command="{Binding ClearFilterCommand}"
+                                        Height="50"
+                                        Width="120"
+                                    HorizontalAlignment="Center"
+                                    FontSize="13"/>
+
+                        </StackPanel>
                     </Grid>
-
-                    <!-- Række 3: Søg knap -->
-                    <Button Content="Søg"
-                            Style="{StaticResource DashboardButton}"
-                            Command="{Binding ApplyFilterCommand}"
-                            Width="120"
-                            Height="40"
-                            HorizontalAlignment="Left"
-                            FontSize="13"/>
-
                 </StackPanel>
             </Border>
 

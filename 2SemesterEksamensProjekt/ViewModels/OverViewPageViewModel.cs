@@ -80,6 +80,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
         //Commands
         public RelayCommand ApplyFilterCommand { get; }
         public RelayCommand CsvCommand { get; }
+        public RelayCommand ClearFilterCommand { get; }
 
         //Constructor
         public OverViewPageViewModel(ITimeRecordRepository timeRecordRepo,
@@ -123,6 +124,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
             //Commands
             ApplyFilterCommand = new RelayCommand(_ => ApplyFilter());
             CsvCommand = new RelayCommand(_ => ExportToCSV());
+            ClearFilterCommand = new RelayCommand(_ => ClearFilter());
         }
 
         //Methode
@@ -253,6 +255,14 @@ namespace _2SemesterEksamensProjekt.ViewModels
                 }
             }
             //OnPropertyChanged(nameof(TotalHours));
+        }
+
+        public void ClearFilter()
+        {
+            LoadAllTimeRecords();
+            LoadCompanies();
+            LoadProjectsForSelectedCompany();
+            LoadAllTopics();
         }
 
         public void ExportToCSV()
