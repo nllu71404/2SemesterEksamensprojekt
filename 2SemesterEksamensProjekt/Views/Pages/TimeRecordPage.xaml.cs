@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,9 +13,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using _2SemesterEksamensProjekt.ViewModels;
 using _2SemesterEksamensProjekt.Models;
 using _2SemesterEksamensProjekt.Repository;
+using _2SemesterEksamensProjekt.ViewModels;
 
 namespace _2SemesterEksamensProjekt.Views.Pages
 {
@@ -24,7 +25,7 @@ namespace _2SemesterEksamensProjekt.Views.Pages
     public partial class TimeRecordPage : Page
     {
 
-        public TimeRecordPage(string timerName, TimeSpan elapsedTime)
+        public TimeRecordPage(string timerName, TimeSpan elapsedTime, ObservableCollection<TimeRecord> timers)
         {
             InitializeComponent();
 
@@ -39,7 +40,7 @@ namespace _2SemesterEksamensProjekt.Views.Pages
             var companyRepository = new CompanyRepository();
             var projectRepository = new ProjectRepository();
             var topicRepository = new TopicRepository();
-            DataContext = new TimeRecordViewModel(timeRecord, timeRecordRepository, companyRepository, projectRepository, topicRepository);
+            DataContext = new TimeRecordViewModel(timeRecord, timeRecordRepository, timers, companyRepository, projectRepository, topicRepository);
            
         }
     }

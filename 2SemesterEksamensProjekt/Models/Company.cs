@@ -13,14 +13,12 @@ namespace _2SemesterEksamensProjekt.Models
         public string CompanyName { get; set; }
         public int CompanyId { get; set; }
 
-        public int? ProjectId { get; set; }
 
         public Company (string companyName, int companyId)
         {
             CompanyName = companyName;
             CompanyId = companyId;
-            ProjectId = null;
-
+           
         }
 
         public Company() //parameterløs constructor

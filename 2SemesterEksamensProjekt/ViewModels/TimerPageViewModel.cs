@@ -114,7 +114,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
             }
         }
 
-        private void SubtractManualTime(object parameter)
+        public void SubtractManualTime(object parameter)
         {
             if (parameter is Timer timer)
             {
@@ -133,7 +133,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
             }
         }
 
-        private void DispatcherTimer_Tick(object sender, EventArgs e)
+        public void DispatcherTimer_Tick(object sender, EventArgs e)
         {
             foreach (var timer in Timers)
             {
@@ -170,9 +170,10 @@ namespace _2SemesterEksamensProjekt.ViewModels
             {
                 AppNavigationService.Navigate(new TimeRecordPage(
                 timer.TimerName,
-                timer.ElapsedTime
+                timer.ElapsedTime,
+                Timers
                 ));
-                Timers.Remove(timer);
+                
             }
 
         }

@@ -28,7 +28,8 @@ namespace _2SemesterEksamensProjekt.ViewModels
         private readonly ICompanyRepository _companyRepo;
         private readonly IProjectRepository _projectRepo;
         private readonly ITopicRepository _topicRepo;
-      
+        private readonly ObservableCollection<TimeRecord> _timers;
+
 
         //Tager den gemte tid med over i ny Page
 
@@ -90,7 +91,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
       
 
         //Constructor
-        public TimeRecordViewModel(TimeRecord timeRecord, ITimeRecordRepository timeRecordRepo, 
+        public TimeRecordViewModel(TimeRecord timeRecord, ITimeRecordRepository timeRecordRepo, ObservableCollection<TimeRecord> timers,
             ICompanyRepository companyRepo, IProjectRepository projectRepo, ITopicRepository topicRepo)
         {
 
@@ -105,10 +106,11 @@ namespace _2SemesterEksamensProjekt.ViewModels
                 if (e.PropertyName == nameof(TimeRecord.TimerName))
                     OnPropertyChanged(nameof(TimerName));
                 if (e.PropertyName == nameof(TimeRecord.Note))
-                    OnPropertyChanged(nameof(Note));    
+                    OnPropertyChanged(nameof(Note));
             };
 
             _timeRecordRepo = timeRecordRepo;
+            _timers = timers;
             _companyRepo = companyRepo;
             _projectRepo = projectRepo;
             _topicRepo = topicRepo;
@@ -121,11 +123,11 @@ namespace _2SemesterEksamensProjekt.ViewModels
             LoadAllTopics();
 
             SaveTimeRecordCommand = new RelayCommand(_ => SaveTimeRecord());
-            //CancelTimeRecordCommand = new RelayCommand(_ => CancelTimeRecord());
+           
         }
 
         //Metoder
-        private void LoadCompanies()
+        public void LoadCompanies()
         {
             
             Companies.Clear();
@@ -144,7 +146,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
         }
         
 
-        private void LoadProjectsForSelectedCompany()
+        public void LoadProjectsForSelectedCompany()
         {
             if (SelectedCompany == null)
                 return;
@@ -170,7 +172,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
 
 
 
-        private void SaveTimeRecord()
+        public void SaveTimeRecord()
         {
             // 1. Valider input
             if (SelectedCompany == null || SelectedProject == null || SelectedTopic == null)
@@ -195,6 +197,11 @@ namespace _2SemesterEksamensProjekt.ViewModels
             {
                 int newId = _timeRecordRepo.SaveNewTimeRecord(_timeRecord);
 
+                // 2. Fjern den tilhørende timer fra ObservableCollection
+                var timerToRemove = _timers.FirstOrDefault(t => t.TimerId == _timeRecord.TimerId);
+                if (timerToRemove != null)
+                    _timers.Remove(timerToRemove);
+
                 ShowMessage("Tidsregistrering gemt!");
                 AppNavigationService.GoBack();
             }
@@ -202,6 +209,8 @@ namespace _2SemesterEksamensProjekt.ViewModels
             {
                 ShowMessage($"Fejl ved gemning: {ex.Message}");
             }
+
+            
         }
 
         // TEST: Override metode for at vise beskeder (kan tilpasses i tests)

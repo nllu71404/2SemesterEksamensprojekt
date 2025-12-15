@@ -62,10 +62,6 @@ namespace _2SemesterEksamensProjekt.Models
         public int? TopicId { get; set; }
         public string? TopicDescription { get; set; }
 
-        //Navigations proterties
-        public Company Company { get; set; }
-        public Project Project { get; set; }
-        public Topic Topic { get; set; }
 
         private string? _note;
         public string? Note
@@ -98,7 +94,7 @@ namespace _2SemesterEksamensProjekt.Models
             }
         }
 
-        //Defulat properties til visning
+        //Default properties til visning
         public string DisplayTime =>
             $"{(int)ElapsedTime.TotalHours:00}:{ElapsedTime.Minutes:00}:{ElapsedTime.Seconds:00}";
 
