@@ -118,19 +118,5 @@ namespace _2SemesterEksamensProjekt.Repository
             File.WriteAllText(filePath, sb.ToString(), Encoding.UTF8);
         }
 
-
-        private TimeSpan GetHoursAsTimeSpan(object value)
-        {
-            if (value is TimeSpan ts)
-                return ts;
-
-            if (value is double d)
-                return TimeSpan.FromHours(d);
-
-            if (value is string s)
-                return TimeSpan.Parse(s);
-
-            throw new InvalidCastException("Unknown Hours format.");
-        }
     }
 }

@@ -97,9 +97,6 @@ namespace _2SemesterEksamensProjekt.Repository
                 cmd.Parameters.Add("@StartTime", SqlDbType.DateTime).Value =
                     timeRecord.StartTime != default ? timeRecord.StartTime : DateTime.Now;
 
-                //cmd.Parameters.Add("@CompanyId", SqlDbType.Int).Value =
-                //    timeRecord.CompanyId.HasValue ? timeRecord.CompanyId.Value : DBNull.Value;
-
                 cmd.Parameters.Add("@ProjectId", SqlDbType.Int).Value =
                         timeRecord.ProjectId.HasValue ? timeRecord.ProjectId.Value : DBNull.Value;
 
