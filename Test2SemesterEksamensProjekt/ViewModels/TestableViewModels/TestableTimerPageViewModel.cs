@@ -9,7 +9,7 @@ using System.Windows;
 using System.Windows.Threading;
 using Timer = _2SemesterEksamensProjekt.Models.TimeRecord;
 
-namespace Test2SemesterEksamensProjekt.ViewModels
+namespace Test2SemesterEksamensProjekt.ViewModels.TestableViewModels
 {
     public class TestableTimerPageViewModel : TimerPageViewModel
     {
@@ -24,17 +24,26 @@ namespace Test2SemesterEksamensProjekt.ViewModels
         // ---------------------------------------------------------
         private void DisableDispatcherTimer()
         {
+            // Finder det private felt _dispatcherTimer via reflection,
+            // da det ikke er direkte tilgængeligt fra ViewModel
             var timerField = typeof(TimerPageViewModel)
                 .GetField("_dispatcherTimer",
                     System.Reflection.BindingFlags.NonPublic |
                     System.Reflection.BindingFlags.Instance);
 
+            // Tjekker om feltet findes, og om værdien er en DispatcherTimer
             if (timerField?.GetValue(this) is DispatcherTimer dt)
             {
-                dt.Stop(); // vigtigt for deterministiske tests
+                // Stopper timeren, så der ikke kører baggrundslogik under unit tests
+                // Dette sikrer, at tests er deterministiske  og ikke afhænger af tid
+                dt.Stop();
             }
         }
 
+        // ---------------------------------------------------------
+        //                 OVERRIDES TIL UNIT TESTS
+        //     Fjerner UI-dialoger så tests ikke viser popups
+        // ---------------------------------------------------------
         public override void DeleteTimer(object parameter)
         {
             if (parameter is Timer timer)

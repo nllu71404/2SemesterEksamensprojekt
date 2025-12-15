@@ -7,12 +7,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace Test2SemesterEksamensProjekt.ViewModels
+namespace Test2SemesterEksamensProjekt.ViewModels.TestableViewModels
 {
     public class TestableCompanyPageViewModel : CompanyPageViewModel
     {
-        public TestableCompanyPageViewModel(ICompanyRepository repo)
-            : base(repo)
+        public TestableCompanyPageViewModel(ICompanyRepository companyRepository)
+            : base(companyRepository)
         {
         }
 

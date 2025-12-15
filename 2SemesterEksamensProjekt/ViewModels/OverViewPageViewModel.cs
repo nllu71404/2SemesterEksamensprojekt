@@ -361,7 +361,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
                 : null;
         }
 
-        public bool? ShowDialog(out string fileName) //Til ExportToCsv metoden, så den kan unit testes 
+        protected virtual bool? ShowDialog(out string fileName) //Til ExportToCsv metoden, så den kan unit testes 
         {
             var dialog = new Microsoft.Win32.SaveFileDialog
             {
@@ -373,8 +373,5 @@ namespace _2SemesterEksamensProjekt.ViewModels
             fileName = dialog.FileName;
             return result;
         }
-
-
-
     }
 }

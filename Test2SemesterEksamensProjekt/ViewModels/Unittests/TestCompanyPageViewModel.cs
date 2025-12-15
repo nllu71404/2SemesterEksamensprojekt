@@ -1,9 +1,9 @@
 ﻿
 using _2SemesterEksamensProjekt.Repository;
-using _2SemesterEksamensProjekt.ViewModels;
+using Test2SemesterEksamensProjekt.ViewModels.TestableViewModels;
 using Moq;
 
-namespace Test2SemesterEksamensProjekt.ViewModels
+namespace Test2SemesterEksamensProjekt.ViewModels.Unittests
 {
     [TestClass]
     public sealed class TestCompanyPageViewModel
