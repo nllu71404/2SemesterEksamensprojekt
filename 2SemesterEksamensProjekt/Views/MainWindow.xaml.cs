@@ -15,9 +15,7 @@ using _2SemesterEksamensProjekt.Views.Pages;
 
 namespace _2SemesterEksamensProjekt.Views
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
+ 
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
         private Visibility _backButtonVisibility = Visibility.Collapsed;
@@ -54,7 +52,7 @@ namespace _2SemesterEksamensProjekt.Views
 
         private void OnNavigated(object sender, NavigationEventArgs e)
         {
-            // Er vi på main menu?
+            
             if (e.Content is MainMenuPage)
                 BackButtonVisibility = Visibility.Collapsed;
             else

@@ -9,12 +9,13 @@ namespace _2SemesterEksamensProjekt.Models
     public class Project
     {
 
-        // Auto-Properties (Indkapsler også!) 
+        // --Auto-Properties-- 
         public int ProjectId { get; set; }
         public int CompanyId { get; set; }
         public string Title { get; set; }
         public string? Description { get; set; }
 
+        //--Constructor--
         public Project(int companyId, string title, string description) 
         {
             CompanyId = companyId;
@@ -22,7 +23,8 @@ namespace _2SemesterEksamensProjekt.Models
             Description = description;
         }
 
-        public Project() //parameterløs constructor
+        //--Parameterløs constructor--
+        public Project() 
         {
 
         }

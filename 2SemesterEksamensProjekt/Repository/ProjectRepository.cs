@@ -11,6 +11,8 @@ namespace _2SemesterEksamensProjekt.Repository
 {
     public class ProjectRepository : BaseRepository, IProjectRepository
     {
+       
+        //--Metoder--
         public List<Project> GetAllProjects()
         {
             return ExecuteSafe(conn =>
@@ -18,7 +20,7 @@ namespace _2SemesterEksamensProjekt.Repository
                 var projects = new List<Project>();
 
                 using var cmd = new SqlCommand(
-                    "SELECT ProjectId, CompanyId, Title, Description FROM dbo.vwSelectAllProjects;", conn);
+                    "SELECT * FROM dbo.vwSelectAllProjects;", conn);
 
                 using var reader = cmd.ExecuteReader();
                 while (reader.Read())
@@ -75,6 +77,20 @@ namespace _2SemesterEksamensProjekt.Repository
             });
         }
 
+        public void DeleteProject(int projectId)
+        {
+            ExecuteSafe(conn =>
+            {
+                using var cmd = new SqlCommand("uspDeleteProject", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@ProjectId", projectId);
+
+                cmd.ExecuteNonQuery();
+                return true;
+            });
+        }
+
         public void UpdateProject(Project project)
         {
             ExecuteSafe(conn =>
@@ -91,18 +107,6 @@ namespace _2SemesterEksamensProjekt.Repository
                 return true; 
             });
         }
-        public void DeleteProject(int projectId)
-        {
-            ExecuteSafe(conn =>
-            {
-                using var cmd = new SqlCommand("uspDeleteProject", conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                cmd.Parameters.AddWithValue("@ProjectId", projectId);
-
-                cmd.ExecuteNonQuery();
-                return true; 
-            });
-        }
+       
     }
     }

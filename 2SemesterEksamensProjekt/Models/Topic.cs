@@ -8,15 +8,14 @@ namespace _2SemesterEksamensProjekt.Models
 {
     public class Topic
     {
+        //--Auto-properties--
         public int TopicId { get; set; }
         public string TopicDescription { get; set; }
 
-        public Topic(string topicdescription)
-        {
-
-            TopicDescription = topicdescription;
+        //--Parameterløs constructor--
+        public Topic()
+        { 
         }
 
-        public Topic() { }
     }
 }

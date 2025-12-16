@@ -19,16 +19,13 @@ using _2SemesterEksamensProjekt.ViewModels;
 
 namespace _2SemesterEksamensProjekt.Views.Pages
 {
-    /// <summary>
-    /// Interaction logic for TimeRecordPage.xaml
-    /// </summary>
+ 
     public partial class TimeRecordPage : Page
     {
-
+        //--Constructor--
         public TimeRecordPage(string timerName, TimeSpan elapsedTime, ObservableCollection<TimeRecord> timers)
         {
             InitializeComponent();
-
             var timeRecord = new TimeRecord
             {
                 TimerName = timerName,

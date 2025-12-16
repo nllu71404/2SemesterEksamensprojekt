@@ -11,16 +11,20 @@ namespace _2SemesterEksamensProjekt.ViewModels
 {
     public class MainMenuPageViewModel : BaseViewModel
     {
-        public ICommand OpenCompanyPageCommand { get; }                  // bindes i XAML
-        public ICommand OpenProjectPageCommand { get; }                  // bindes i XAML
+
+        //--Command properties--
+        public ICommand OpenCompanyPageCommand { get; }                  
+        public ICommand OpenProjectPageCommand { get; }                  
         public ICommand OpenTopicPageCommand { get; }
         public ICommand OpenTimerPageCommand { get; }
         public ICommand OpenOverViewPageCommand { get; }
 
+
+        //--Constructor--
         public MainMenuPageViewModel()
         {
-            OpenCompanyPageCommand = new RelayCommand(_ =>               // ved klik på knap:
-            AppNavigationService.Navigate(new CompanyPage()));          // navigér til CompanyPage
+            OpenCompanyPageCommand = new RelayCommand(_ =>               
+            AppNavigationService.Navigate(new CompanyPage()));          
             OpenProjectPageCommand = new RelayCommand(_ =>
             AppNavigationService.Navigate(new ProjectPage()));
             OpenTopicPageCommand = new RelayCommand(_ => 

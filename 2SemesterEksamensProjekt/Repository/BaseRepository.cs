@@ -92,11 +92,11 @@ namespace _2SemesterEksamensProjekt.Repository
         //}.ConnectionString;
 
 
-        //Opretter en ny sqlConnection
+       //--Metoder--
         protected SqlConnection GetConnection() => new SqlConnection(_connectionString);
 
-        // Metode til at udføre SQL-kode sikkert, oprette forbindelse og lukke forbindelsen igen
-        protected T ExecuteSafe<T>(Func<SqlConnection, T> action)
+        // Metode til at administrere SQL-forbindelsen
+        protected T ExecuteSafe<T>(Func<SqlConnection, T> action) 
         {
             try
             {

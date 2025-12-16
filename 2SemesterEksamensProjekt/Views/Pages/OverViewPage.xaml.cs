@@ -13,30 +13,29 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using _2SemesterEksamensProjekt.Models;
+using _2SemesterEksamensProjekt.Services;
 using _2SemesterEksamensProjekt.Repository;
 using _2SemesterEksamensProjekt.ViewModels;
 
 namespace _2SemesterEksamensProjekt.Views.Pages
 {
-    /// <summary>
-    /// Interaction logic for OverViewPage.xaml
-    /// </summary>
+  
     public partial class OverViewPage : Page
     {
-        public OverViewPageViewModel overViewPageViewModel;
+        //--Fields--
+        private OverViewPageViewModel overViewPageViewModel;
+
+        //--Constructor--
         public OverViewPage()
         {
-
             InitializeComponent();
-
             var timeRecordRepository = new TimeRecordRepository();
             var companyRepository = new CompanyRepository();
             var projectRepository = new ProjectRepository();
             var topicRepository = new TopicRepository();
-            var csvExportService = new CsvExportService(timeRecordRepository);
+            var csvExportService = new CsvExportService();
 
             overViewPageViewModel = new OverViewPageViewModel(timeRecordRepository, companyRepository, projectRepository, topicRepository, csvExportService);
-
             DataContext = overViewPageViewModel;
 
         }

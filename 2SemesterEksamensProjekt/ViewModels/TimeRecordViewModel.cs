@@ -20,27 +20,29 @@ namespace _2SemesterEksamensProjekt.ViewModels
 {
     public class TimeRecordViewModel : BaseViewModel
     {
-        //Underliggende model
+        
+        //--Fields--
         private readonly TimeRecord _timeRecord;
-
-        //Fields
         private readonly ITimeRecordRepository _timeRecordRepo;
         private readonly ICompanyRepository _companyRepo;
         private readonly IProjectRepository _projectRepo;
         private readonly ITopicRepository _topicRepo;
         private readonly ObservableCollection<TimeRecord> _timers;
+        private Company? _selectedCompany;
+        private Project? _selectedproject;
+        private Topic? _selectedTopic;
+        private string? _note;
 
 
-        //Tager den gemte tid med over i ny Page
+        //--Properties--
 
-
-        //Properties
+        //Auto-properties
         public ObservableCollection<Company> Companies { get; set; }
         public ObservableCollection<Project> Projects { get; set; }
         public ObservableCollection<Topic> Topics { get; set; }
       
 
-        private Company? _selectedCompany;
+        
         public Company? SelectedCompany
         {
             get => _selectedCompany;
@@ -54,14 +56,14 @@ namespace _2SemesterEksamensProjekt.ViewModels
             }
         }
 
-        private Project? _selectedproject;
+        
         public Project? SelectedProject
         {
             get => _selectedproject;
             set => SetProperty(ref _selectedproject, value);
         }
 
-        private Topic? _selectedTopic;
+       
         public Topic? SelectedTopic
         {
             get => _selectedTopic;
@@ -72,7 +74,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
         public string ElapsedTimeDisplay => _timeRecord.DisplayTime;
 
         
-        private string? _note;
+        
         public string? Note
         {
             get => _note;
@@ -86,11 +88,11 @@ namespace _2SemesterEksamensProjekt.ViewModels
             }
         }
 
-        //Commands
+        //--Command properties--
         public RelayCommand SaveTimeRecordCommand { get; }
       
 
-        //Constructor
+        //--Constructor--
         public TimeRecordViewModel(TimeRecord timeRecord, ITimeRecordRepository timeRecordRepo, ObservableCollection<TimeRecord> timers,
             ICompanyRepository companyRepo, IProjectRepository projectRepo, ITopicRepository topicRepo)
         {
@@ -105,8 +107,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
 
                 if (e.PropertyName == nameof(TimeRecord.TimerName))
                     OnPropertyChanged(nameof(TimerName));
-                if (e.PropertyName == nameof(TimeRecord.Note))
-                    OnPropertyChanged(nameof(Note));
+               
             };
 
             _timeRecordRepo = timeRecordRepo;
@@ -126,7 +127,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
            
         }
 
-        //Metoder
+        //--Metoder--
         public void LoadCompanies()
         {
             
@@ -160,7 +161,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
                 Projects.Add(p);
         }
 
-        private void LoadAllTopics()
+        public void LoadAllTopics()
         {
             Topics.Clear();
 
@@ -197,7 +198,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
             {
                 int newId = _timeRecordRepo.SaveNewTimeRecord(_timeRecord);
 
-                // 2. Fjern den tilhørende timer fra ObservableCollection
+                // Fjern den tilhørende timer fra ObservableCollection
                 var timerToRemove = _timers.FirstOrDefault(t => t.TimerId == _timeRecord.TimerId);
                 if (timerToRemove != null)
                     _timers.Remove(timerToRemove);
@@ -212,14 +213,11 @@ namespace _2SemesterEksamensProjekt.ViewModels
 
             
         }
-
-        // TEST: Override metode for at vise beskeder (kan tilpasses i tests)
         protected virtual void ShowMessage(string msg)
         {
             MessageBox.Show(msg);
         }
 
-        // TEST: Override metode for bekræftelses-popup (kan tilpasses i tests)
         protected virtual MessageBoxResult ShowConfirmation(string message)
         {
             return MessageBox.Show(

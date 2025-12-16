@@ -11,142 +11,142 @@ using System.Windows;
 using System.Windows.Input;
 
 namespace _2SemesterEksamensProjekt.ViewModels
-    {
+{
         public class CompanyPageViewModel : BaseViewModel
-    {
-        public readonly ICompanyRepository _companyRepo;
-        public ObservableCollection<Company> Companies { get; } = new ObservableCollection<Company>();
+          {
+            //--Fields--
+            private readonly ICompanyRepository _companyRepo;
+            private string _companyName;
+            private Company? _selectedCompany;
+            
+            //--Properties--
+            public ObservableCollection<Company> Companies { get; } = new ObservableCollection<Company>();
 
 
-        // Command properties
-        public RelayCommand CreateCompanyCommand { get; }
-        public RelayCommand DeleteSelectedCompanyCommand { get; }
-        public RelayCommand EditSelectedCompanyCommand { get; }
-
-        public RelayCommand SaveSelectedCompanyCommand { get; } 
-
-        
-        
-
-        // Inputs til virksomhed
-        private string _companyName;
-        public string CompanyName
-        {
-            get => _companyName;
-            set => SetProperty(ref _companyName, value);
-        }
-
-        private Company? _selectedCompany;
-        public Company? SelectedCompany
-        {
-            get => _selectedCompany;
-            set => SetProperty(ref _selectedCompany, value);
-
-        }
-
-        public CompanyPageViewModel(ICompanyRepository companyRepo)
-        {
-            this._companyRepo = companyRepo;
-            foreach (var company in companyRepo.GetAllCompanies())
+            // Command properties
+            public RelayCommand CreateCompanyCommand { get; }
+            public RelayCommand DeleteSelectedCompanyCommand { get; }
+            public RelayCommand EditSelectedCompanyCommand { get; }
+            public RelayCommand SaveSelectedCompanyCommand { get; } 
+           
+            public string CompanyName
             {
-                Companies.Add(company);
+                get => _companyName;
+                set => SetProperty(ref _companyName, value);
             }
-            SelectedCompany = Companies.FirstOrDefault();
 
-            // Commands initialiseres og kalder de eksisterende metoder
-            CreateCompanyCommand = new RelayCommand(_ => CreateCompany());
-            DeleteSelectedCompanyCommand = new RelayCommand(_ => DeleteSelectedCompany());
-            EditSelectedCompanyCommand = new RelayCommand(_ => EditSelectedCompany());
-            SaveSelectedCompanyCommand = new RelayCommand(_ => SaveSelectedCompany());
-        }
-
-        public void CreateCompany()
-        {
-            if (string.IsNullOrWhiteSpace(CompanyName))
+            
+            public Company? SelectedCompany
             {
-                ShowMessage("Udfyld venligst virksomhedsnavn");
-                return;
+                get => _selectedCompany;
+                set => SetProperty(ref _selectedCompany, value);
+
+            }
+
+            //--Constructor--
+            public CompanyPageViewModel(ICompanyRepository companyRepo)
+            {
+                this._companyRepo = companyRepo;
+                foreach (var company in companyRepo.GetAllCompanies())
+                {
+                    Companies.Add(company);
+                }
+                SelectedCompany = Companies.FirstOrDefault();
+
+                // Commands initialiseres og kalder de eksisterende metoder
+                CreateCompanyCommand = new RelayCommand(_ => CreateCompany());
+                DeleteSelectedCompanyCommand = new RelayCommand(_ => DeleteSelectedCompany());
+                EditSelectedCompanyCommand = new RelayCommand(_ => EditSelectedCompany());
+                SaveSelectedCompanyCommand = new RelayCommand(_ => SaveSelectedCompany());
             }
             
-            var newCompany = new Company
+            //--Metoder--
+            public void CreateCompany()
             {
-                CompanyName = _companyName
-            };
+                if (string.IsNullOrWhiteSpace(CompanyName))
+                {
+                    ShowMessage("Udfyld venligst virksomhedsnavn");
+                    return;
+                }
+            
+                var newCompany = new Company
+                {
+                    CompanyName = _companyName
+                };
 
-            int newCompanyId = _companyRepo.SaveNewCompany(newCompany);
-            newCompany.CompanyId = newCompanyId;
+                int newCompanyId = _companyRepo.SaveNewCompany(newCompany);
+                newCompany.CompanyId = newCompanyId;
 
-            Companies.Add(newCompany);
-            CompanyName = "";
-            ShowMessage("Virksomhed oprettet");
-        }
-        public void DeleteSelectedCompany()
-        {
-            if (SelectedCompany == null) return;
-
-            var result = ShowConfirmation(
-                $"Er du sikker på, at du vil slette virksomheden '{SelectedCompany.CompanyName}' og alle tilknyttede projekter?"
-            );
-
-            if (result == MessageBoxResult.Yes)
-            {
-                _companyRepo.DeleteCompany(SelectedCompany.CompanyId);
-                Companies.Remove(SelectedCompany);
-                SelectedCompany = null;
+                Companies.Add(newCompany);
+                CompanyName = "";
+                ShowMessage("Virksomhed oprettet");
             }
-        }
-
-        public void EditSelectedCompany()
-        {
-            if (SelectedCompany == null) 
+            public void DeleteSelectedCompany()
             {
-                ShowMessage("Vælg en virksomhed, der skal redigeres.");
-                return;
-            }
-            CompanyName = SelectedCompany.CompanyName;
-        }
+                if (SelectedCompany == null) return;
 
-        public void SaveSelectedCompany()
-        {
-            if (SelectedCompany == null)
-            {
-                ShowMessage("Vælg en virksomhed, der skal gemmes.");
-                return;
+                var result = ShowConfirmation(
+                    $"Er du sikker på, at du vil slette virksomheden '{SelectedCompany.CompanyName}' og alle tilknyttede projekter?"
+                );
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    _companyRepo.DeleteCompany(SelectedCompany.CompanyId);
+                    Companies.Remove(SelectedCompany);
+                    SelectedCompany = null;
+                }
             }
 
-            if (string.IsNullOrWhiteSpace(CompanyName))
+            public void EditSelectedCompany()
             {
-                ShowMessage("Skriv et virksomhedsnavn");
-                return;
+                if (SelectedCompany == null) 
+                {
+                    ShowMessage("Vælg en virksomhed, der skal redigeres.");
+                    return;
+                }
+                CompanyName = SelectedCompany.CompanyName;
             }
 
-            SelectedCompany.CompanyName = CompanyName!;
+            public void SaveSelectedCompany()
+            {
+                if (SelectedCompany == null)
+                {
+                    ShowMessage("Vælg en virksomhed, der skal gemmes.");
+                    return;
+                }
 
-            _companyRepo.UpdateCompany(SelectedCompany);
+                if (string.IsNullOrWhiteSpace(CompanyName))
+                {
+                    ShowMessage("Skriv et virksomhedsnavn");
+                    return;
+                }
 
-            // Reload så listen opdateres
-            Companies.Clear();
-            foreach (var c in _companyRepo.GetAllCompanies())
-                Companies.Add(c);
+                SelectedCompany.CompanyName = CompanyName!;
 
-            CompanyName = string.Empty;
-        }
-        // TEST: Override metode for at vise beskeder (kan tilpasses i tests)
-        protected virtual void ShowMessage(string msg)
-        {
-            MessageBox.Show(msg);
-        }
+                _companyRepo.UpdateCompany(SelectedCompany);
 
-        // TEST: Override metode for bekræftelses-popup (kan tilpasses i tests)
-        protected virtual MessageBoxResult ShowConfirmation(string message)
-        {
-            return MessageBox.Show(
-                message,
-                "Bekræft sletning",
-                MessageBoxButton.YesNo,
-                MessageBoxImage.Warning
-            );
-        }
+                // Reload så listen opdateres
+                Companies.Clear();
+                foreach (var c in _companyRepo.GetAllCompanies())
+                    Companies.Add(c);
+
+                CompanyName = string.Empty;
+            }
+            
+            protected virtual void ShowMessage(string msg)
+            {
+                MessageBox.Show(msg);
+            }
+
+            protected virtual MessageBoxResult ShowConfirmation(string message)
+            {
+                return MessageBox.Show(
+                    message,
+                    "Bekræft sletning",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Warning
+                );
+            }
     }
 
 

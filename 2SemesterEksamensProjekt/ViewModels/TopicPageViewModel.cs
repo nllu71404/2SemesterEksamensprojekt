@@ -15,30 +15,33 @@ namespace _2SemesterEksamensProjekt.ViewModels
 {
     public class TopicPageViewModel : BaseViewModel
     {
-        public readonly ITopicRepository _topicRepo;
-        public ObservableCollection<Topic> Topics { get; } = new ObservableCollection<Topic>();
-
-        // Command properties
-        public RelayCommand CreateTopicCommand { get; }
-        public RelayCommand DeleteTopicCommand { get; }
-        public RelayCommand EditSelectedTopicCommand { get; }
-        public RelayCommand SaveSelectedTopicCommand { get; }
-
-
-        // Inputs til topics
+        //--Fields--
+        private readonly ITopicRepository _topicRepo;
         private string _topicDescription;
+        private Topic? _selectedTopic;
+
+        //--Properties--
+        public ObservableCollection<Topic> Topics { get; } = new ObservableCollection<Topic>();
         public string TopicDescription
         {
             get => _topicDescription;
             set => SetProperty(ref _topicDescription, value);
         }
-        private Topic? _selectedTopic;
+
         public Topic? SelectedTopic
         {
             get => _selectedTopic;
             set => SetProperty(ref _selectedTopic, value);
         }
 
+        // Command properties
+        public RelayCommand CreateTopicCommand { get; }
+        public RelayCommand DeleteTopicCommand { get; }
+        public RelayCommand EditSelectedTopicCommand { get; }
+        public RelayCommand SaveSelectedTopicCommand { get; }
+        
+        
+        //--Constructor--
         public TopicPageViewModel(ITopicRepository topicRepo)
         {
 
@@ -56,6 +59,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
             SaveSelectedTopicCommand = new RelayCommand(_ => SaveSelectedTopic());
         }
 
+        //--Metoder--
         public void CreateTopic()
         {
             if (string.IsNullOrWhiteSpace(TopicDescription))
@@ -129,14 +133,11 @@ namespace _2SemesterEksamensProjekt.ViewModels
 
 
         }
-
-        // TEST: Override metode for at vise beskeder (kan tilpasses i tests)
         protected virtual void ShowMessage(string msg)
         {
             MessageBox.Show(msg);
         }
 
-        // TEST: Override metode for bekræftelses-popup (kan tilpasses i tests)
         protected virtual MessageBoxResult ShowConfirmation(string message)
         {
             return MessageBox.Show(

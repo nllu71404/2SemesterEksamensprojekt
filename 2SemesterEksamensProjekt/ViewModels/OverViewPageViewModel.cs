@@ -20,9 +20,17 @@ namespace _2SemesterEksamensProjekt.ViewModels
         private readonly IProjectRepository _projectRepo;
         private readonly ITopicRepository _topicRepo;
         private readonly ICsvExportService _csvExportService;
+        private string? _selectedMonth;
+        private int? _selectedYear;
+        private Company? _selectedCompany;
+        private Project? _selectedProject;
+        private Topic? _selectedTopic;
+        private TimeRecord? _selectedTimeRecord;
 
 
-        //Observablecollection
+        //--Properties--
+
+        //Auto properties
         public ObservableCollection<TimeRecord> TimeRecords { get; set; }
         public ObservableCollection<Company> Companies { get; set; }
         public ObservableCollection<Project> Projects { get; set; }
@@ -31,20 +39,19 @@ namespace _2SemesterEksamensProjekt.ViewModels
         public ObservableCollection<int> Years { get; set; }
         public ObservableCollection<TimeRecord> FilteredTimeRecords { get; set; }
 
-        //Properties til søgekriterier
-        private string? _selectedMonth;
+        
         public string? SelectedMonth
         {
             get => _selectedMonth;
             set => SetProperty(ref _selectedMonth, value);
         }
-        private int? _selectedYear;
+        
         public int? SelectedYear
         {
             get => _selectedYear;
             set => SetProperty(ref _selectedYear, value);
         }
-        private Company? _selectedCompany;
+        
         public Company? SelectedCompany
         {
             get => _selectedCompany;
@@ -57,19 +64,19 @@ namespace _2SemesterEksamensProjekt.ViewModels
                 }
             }
         }
-        private Project? _selectedProject;
+        
         public Project? SelectedProject
         {
             get => _selectedProject;
             set => SetProperty(ref _selectedProject, value);
         }
-        private Topic? _selectedTopic;
+        
         public Topic? SelectedTopic
         {
             get => _selectedTopic;
             set => SetProperty(ref _selectedTopic, value);
         }
-        private TimeRecord? _selectedTimeRecord;
+        
         public TimeRecord? SelectedTimeRecord
         {
             get => _selectedTimeRecord;
@@ -77,24 +84,21 @@ namespace _2SemesterEksamensProjekt.ViewModels
         }
 
 
-        //Commands
+        //Command properties
         public RelayCommand ApplyFilterCommand { get; }
         public RelayCommand CsvCommand { get; }
         public RelayCommand ClearFilterCommand { get; }
 
-        //Constructor
+        //--Constructor--
         public OverViewPageViewModel(ITimeRecordRepository timeRecordRepo,
             ICompanyRepository companyRepo, IProjectRepository projectRepo, ITopicRepository topicRepo, ICsvExportService csvExportService)
         {
-            
-            
             _timeRecordRepo = timeRecordRepo;
             _companyRepo = companyRepo;
             _projectRepo = projectRepo;
             _topicRepo = topicRepo;
             _csvExportService = csvExportService;
 
-            //Initialisere collection
             TimeRecords = new ObservableCollection<TimeRecord>();
             FilteredTimeRecords = new ObservableCollection<TimeRecord>();
             Companies = new ObservableCollection<Company>();
@@ -103,32 +107,20 @@ namespace _2SemesterEksamensProjekt.ViewModels
             Months = new ObservableCollection<string>();
             Years = new ObservableCollection<int>();
 
-
-            // Tilføjer metode til at loade all data
             LoadAllTimeRecords();
-            Console.WriteLine($"TimeRecords count: {TimeRecords.Count}");
-            Console.WriteLine($"FilteredTimeRecords count: {FilteredTimeRecords.Count}");
-
             LoadCompanies();
             LoadProjectsForSelectedCompany();
             LoadAllTopics();
             LoadMonths();
-            Console.WriteLine($"Months count: {Months.Count}");
-            foreach (var month in Months)
-                Console.WriteLine($"  - {month}");
-
             LoadYears();
-            Console.WriteLine($"Years count: {Years.Count}");
             CurrentMonthAndYear();
 
-
-            //Commands
             ApplyFilterCommand = new RelayCommand(_ => ApplyFilter());
             CsvCommand = new RelayCommand(_ => ExportToCSV());
             ClearFilterCommand = new RelayCommand(_ => ClearFilter());
         }
 
-        //Methode
+        //--Metoder--
         private void LoadAllTimeRecords()
         {
             TimeRecords.Clear();
@@ -155,7 +147,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
                 // Filtrer records fra seneste måned og sorter efter dato (stigende)
                 var latestMonthRecords = TimeRecords
                     .Where(tr => tr.StartTime.Month == latestMonth && tr.StartTime.Year == latestYear)
-                    .OrderBy(tr => tr.StartTime)  // Første dag øverst
+                    .OrderBy(tr => tr.StartTime) 
                     .ToList();
 
                 foreach (var record in latestMonthRecords)
@@ -164,12 +156,6 @@ namespace _2SemesterEksamensProjekt.ViewModels
                 }
             }
 
-                //Vise alt på listen til at starte med
-                //FilteredTimeRecords.Clear();
-                //foreach (var timerecord in TimeRecords)
-                //{
-                //    FilteredTimeRecords.Add(timerecord);
-                //}
         }
         private void LoadCompanies()
         {
@@ -219,14 +205,10 @@ namespace _2SemesterEksamensProjekt.ViewModels
             //Default så vi kan hente danske måneder
             var danishCulture = new CultureInfo("da-DK");
 
-            //Liste fra databasen databasen
-            //var allTimeRecords = _timeRecordRepo.GetAllTimeRecords() ?? new List<TimeRecord>();
-
             //Henter kun måneder med data tilknyttet
             var allMonths = TimeRecords
                 .Select(tr => tr.StartTime.Month)
-                .Distinct()
-                .OrderByDescending(month => month); //sorterer i årlig rækkefølge
+                .Distinct();
 
             foreach (var monthNumber in allMonths)
             {
@@ -240,8 +222,6 @@ namespace _2SemesterEksamensProjekt.ViewModels
         {
             if (TimeRecords == null || TimeRecords.Count == 0)
                 return;
-
-            //var allTimeRecords = _timeRecordRepo.GetAllTimeRecords() ?? new List<TimeRecord>();
 
             var allYears = TimeRecords
                 .Select(tr => tr.StartTime.Year)
@@ -301,7 +281,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
                 year);
 
             FilteredTimeRecords.Clear();
-            //Opdater Observablecollection
+           
             if(filteredRecords != null)
             {
                 foreach (var records in filteredRecords)
@@ -309,7 +289,6 @@ namespace _2SemesterEksamensProjekt.ViewModels
                     FilteredTimeRecords.Add(records);
                 }
             }
-            //OnPropertyChanged(nameof(TotalHours));
         }
 
         public void ClearFilter()
@@ -327,10 +306,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
             if (ShowDialog(out string fileName) == true)
             {
                 
-                _csvExportService.ExportTimeRecords(FilteredTimeRecords, fileName, "TimerName", "CompanyId", "ProjectId", "TopicId",
-    "ElapsedTime",
-    "StartTime",
-    "Note");
+                _csvExportService.ExportTimeRecords(FilteredTimeRecords, fileName, "TimerName", "CompanyId", "ProjectId", "TopicId","ElapsedTime","StartTime","Note");
             }
         }
 
@@ -361,7 +337,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
                 : null;
         }
 
-        protected virtual bool? ShowDialog(out string fileName) //Til ExportToCsv metoden, så den kan unit testes 
+        protected virtual bool? ShowDialog(out string fileName) 
         {
             var dialog = new Microsoft.Win32.SaveFileDialog
             {

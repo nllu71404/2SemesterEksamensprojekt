@@ -11,23 +11,31 @@ namespace _2SemesterEksamensProjekt.Commands
     {
         // Hjælpeklasse til at lave ICommand-implementeringer hurtigt
 
+       //--Fields--
         private readonly Action<object?> _execute;
         private readonly Func<object?, bool>? _canExecute;
 
+        //--Constructor--
         public RelayCommand(Action<object?> execute, Func<object?, bool>? canExecute = null)
         {
             _execute = execute ?? throw new ArgumentNullException(nameof(execute));
             _canExecute = canExecute;
         }
 
-        public bool CanExecute(object? parameter) => _canExecute?.Invoke(parameter) ?? true;
-
-        public void Execute(object? parameter) => _execute(parameter);
-
+        //--Events--
         public event EventHandler? CanExecuteChanged
         {
             add { CommandManager.RequerySuggested += value; }
             remove { CommandManager.RequerySuggested -= value; }
         }
+
+
+        //--Metoder--
+        public bool CanExecute(object? parameter) => _canExecute?.Invoke(parameter) ?? true;
+
+        public void Execute(object? parameter) => _execute(parameter);
+
+
+       
     }
 }

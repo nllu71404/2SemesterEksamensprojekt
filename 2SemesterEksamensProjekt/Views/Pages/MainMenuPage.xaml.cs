@@ -15,21 +15,17 @@ using System.Windows.Shapes;
 
 namespace _2SemesterEksamensProjekt.Views.Pages
 {
-    /// <summary>
-    /// Interaction logic for MainMenuPage.xaml
-    /// </summary>
+
     public partial class MainMenuPage : Page
     {
+
+        //--Constructor--
         public MainMenuPage()
         {
             InitializeComponent();
             DataContext = new ViewModels.MainMenuPageViewModel();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
     }
 
 

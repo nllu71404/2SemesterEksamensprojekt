@@ -12,6 +12,7 @@ namespace _2SemesterEksamensProjekt.Repository
 {
     public class TimeRecordRepository : BaseRepository, ITimeRecordRepository
     {
+        //--Metoder--
         public List<TimeRecord> GetAllTimeRecords()
         {
             return ExecuteSafe(conn =>
@@ -30,9 +31,9 @@ namespace _2SemesterEksamensProjekt.Repository
                         TimerName = reader.GetString(1),
                         ElapsedTime = reader.GetTimeSpan(2),
                         StartTime = reader.GetDateTime(3),
-                        CompanyId = reader.IsDBNull(4) ? null : reader.GetInt32(4),    // ← Check for NULL
-                        ProjectId = reader.IsDBNull(5) ? null : reader.GetInt32(5),    // ← Check for NULL
-                        TopicId = reader.IsDBNull(6) ? null : reader.GetInt32(6),      // ← Check for NULL
+                        CompanyId = reader.IsDBNull(4) ? null : reader.GetInt32(4),    
+                        ProjectId = reader.IsDBNull(5) ? null : reader.GetInt32(5),    
+                        TopicId = reader.IsDBNull(6) ? null : reader.GetInt32(6),      
                         Note = reader.IsDBNull(7) ? null : reader.GetString(7),
                         CompanyName = reader.IsDBNull(8) ? null : reader.GetString(8),
                         ProjectTitle = reader.IsDBNull(9) ? null : reader.GetString(9),
@@ -89,22 +90,17 @@ namespace _2SemesterEksamensProjekt.Repository
                 using var cmd = new SqlCommand("uspCreateTimeRecord", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                cmd.Parameters.Add("@TimerName", SqlDbType.NVarChar, 100).Value =
-                string.IsNullOrEmpty(timeRecord.TimerName) ? throw new ArgumentException("TimerName må ikke være tom") : timeRecord.TimerName;
+                cmd.Parameters.Add("@TimerName", SqlDbType.NVarChar, 100).Value = string.IsNullOrEmpty(timeRecord.TimerName) ? throw new ArgumentException("TimerName må ikke være tom") : timeRecord.TimerName;
 
                 cmd.Parameters.Add("@ElapsedTime", SqlDbType.Time).Value = timeRecord.ElapsedTime;
 
-                cmd.Parameters.Add("@StartTime", SqlDbType.DateTime).Value =
-                    timeRecord.StartTime != default ? timeRecord.StartTime : DateTime.Now;
+                cmd.Parameters.Add("@StartTime", SqlDbType.DateTime).Value = timeRecord.StartTime != default ? timeRecord.StartTime : DateTime.Now;
 
-                cmd.Parameters.Add("@ProjectId", SqlDbType.Int).Value =
-                        timeRecord.ProjectId.HasValue ? timeRecord.ProjectId.Value : DBNull.Value;
+                cmd.Parameters.Add("@ProjectId", SqlDbType.Int).Value = timeRecord.ProjectId.HasValue ? timeRecord.ProjectId.Value : DBNull.Value;
 
-                cmd.Parameters.Add("@TopicId", SqlDbType.Int).Value =
-                        timeRecord.TopicId.HasValue ? timeRecord.TopicId.Value : DBNull.Value;
+                cmd.Parameters.Add("@TopicId", SqlDbType.Int).Value = timeRecord.TopicId.HasValue ? timeRecord.TopicId.Value : DBNull.Value;
 
-                cmd.Parameters.Add("@Note", SqlDbType.NVarChar).Value =
-                     string.IsNullOrEmpty(timeRecord.Note) ? DBNull.Value : timeRecord.Note;
+                cmd.Parameters.Add("@Note", SqlDbType.NVarChar).Value = string.IsNullOrEmpty(timeRecord.Note) ? DBNull.Value : timeRecord.Note;
                 object result = cmd.ExecuteScalar();
                 return Convert.ToInt32(result);
 

@@ -17,13 +17,12 @@ using System.Windows.Shapes;
 
 namespace _2SemesterEksamensProjekt.Views.Pages
 {
-    /// <summary>
-    /// Interaction logic for ProjectPage.xaml
-    /// </summary>
     public partial class ProjectPage : Page
     {
+        //--Fields--
+        private ProjectPageViewModel projectPageViewModel;
 
-        public ProjectPageViewModel projectPageViewModel;
+        //--Constructor--
         public ProjectPage()
         {
             InitializeComponent();

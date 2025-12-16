@@ -6,21 +6,20 @@ using System.IO;
 using System.Threading.Tasks;
 using _2SemesterEksamensProjekt.Models;
 using System.Printing;
+using _2SemesterEksamensProjekt.Repository;
 
-namespace _2SemesterEksamensProjekt.Repository
+namespace _2SemesterEksamensProjekt.Services
 {
     public class CsvExportService : ICsvExportService
     {
 
-        private readonly ITimeRecordRepository _timeRecordRepo;
+        //--Parameterløs constructor--
+        public CsvExportService()
+        { 
 
-
-        public CsvExportService(ITimeRecordRepository timeRecordRepo)
-        {
-            _timeRecordRepo = timeRecordRepo;
-            
         }
 
+        //--Metoder--
         public void ExportTimeRecords<T>(IEnumerable<T> data, string filePath, params string[] selectedProperties)
         {
             if (!data.Any())
@@ -36,7 +35,7 @@ namespace _2SemesterEksamensProjekt.Repository
             var noteProp = type.GetProperty("Note");
 
 
-            // Helper til at konvertere timer
+            // Metode der konverterer timer 
             TimeSpan ToTimeSpan(object v)
             {
                 if (v is TimeSpan ts) return ts;
@@ -45,7 +44,7 @@ namespace _2SemesterEksamensProjekt.Repository
                 throw new Exception("Unknown time format");
             }
 
-            // --- TOTALS (unikke summer) ---
+            // Sum for hver unik virksomhed, projekt og emne 
             var byCompany = data
                 .GroupBy(x => companyNameProp.GetValue(x)?.ToString())
                 .Select(g => new
@@ -73,11 +72,11 @@ namespace _2SemesterEksamensProjekt.Repository
                 })
                 .ToList();
 
-            // --- CSV ---
+            // --- CSV filen ---
             var sb = new StringBuilder();
 
-            // 1) Original data
-            sb.AppendLine("DATA");
+            // 1) Alle TimeRecords
+            sb.AppendLine("TIMERECORDS");
             sb.AppendLine("Date;Timer Name;Company;Project;Topic;Note;Hours");
 
             foreach (var item in data)
@@ -94,21 +93,21 @@ namespace _2SemesterEksamensProjekt.Repository
                 sb.AppendLine($"{startTime};{timerName};{company};{project};{topic};{note};{hours:hh\\:mm}");
             }
 
-            // Company totals
+            // 2) Summer for virksomheder
             sb.AppendLine();
             sb.AppendLine("COMPANY TOTALS");
             sb.AppendLine("Company;Total Hours");
             foreach (var c in byCompany)
                 sb.AppendLine($"{c.Company};{c.Total:hh\\:mm}");
 
-            // Project totals
+            // 3) Summer for projekter
             sb.AppendLine();
             sb.AppendLine("PROJECT TOTALS");
             sb.AppendLine("Project;Total Hours");
             foreach (var p in byProject)
                 sb.AppendLine($"{p.Project};{p.Total:hh\\:mm}");
 
-            // Topic totals
+            // 4) Summer for emner
             sb.AppendLine();
             sb.AppendLine("TOPIC TOTALS");
             sb.AppendLine("Topic;Total Hours");

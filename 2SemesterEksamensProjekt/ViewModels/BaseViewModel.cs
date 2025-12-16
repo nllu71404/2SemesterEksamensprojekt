@@ -10,8 +10,10 @@ namespace _2SemesterEksamensProjekt.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
+        //--Events--
         public event PropertyChangedEventHandler? PropertyChanged;
 
+        //--Metoder--
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

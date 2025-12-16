@@ -13,7 +13,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
 {
     public class ProjectPageViewModel : BaseViewModel
     {
-        // Fields
+        // --Fields--
         private readonly IProjectRepository _projectRepo;
         private readonly ICompanyRepository _companyRepo;
 
@@ -22,7 +22,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
         private string? _title;
         private string? _description;
 
-        // Properties
+        // --Properties--
         public ObservableCollection<Company> Companies { get; } = new();
         public ObservableCollection<Project> Projects { get; } = new();
 
@@ -53,18 +53,18 @@ namespace _2SemesterEksamensProjekt.ViewModels
             set => SetProperty(ref _description, value);
         }
 
-        // Properties - commands
+        // Command Properties 
         public RelayCommand CreateProjectCommand { get; }
         public RelayCommand DeleteSelectedProjectCommand { get; }
-        public RelayCommand EditSelectedProjectCommand { get; } // klargør redigering af valgt projekt
+        public RelayCommand EditSelectedProjectCommand { get; } 
 
-        public RelayCommand SaveSelectedProjectCommand { get; } // gemmer ændringer til valgt projekt
+        public RelayCommand SaveSelectedProjectCommand { get; } 
 
-        // Constructor
+        // --Constructor--
         public ProjectPageViewModel(ICompanyRepository companyRepo, IProjectRepository projectRepo)
         {
-            _companyRepo = companyRepo;   // ✔ korrekt
-            _projectRepo = projectRepo;   // ✔ korrekt
+            _companyRepo = companyRepo;   
+            _projectRepo = projectRepo;   
 
             CreateProjectCommand = new RelayCommand(_ => CreateProject());
             EditSelectedProjectCommand = new RelayCommand(_ => EditSelectedProject());
@@ -75,7 +75,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
                 Companies.Add(c);
         }
         
-        // Metoder
+        // --Metoder--
         public void CreateProject()
         {
             if (SelectedCompany is null)
@@ -145,11 +145,11 @@ namespace _2SemesterEksamensProjekt.ViewModels
             SelectedProject.Title = Title!;
             SelectedProject.Description = Description;
 
-            var keepId = SelectedProject.ProjectId;   // <- husk hvilket projekt der var valgt
+            var keepId = SelectedProject.ProjectId;   
             _projectRepo.UpdateProject(SelectedProject);
 
-            LoadProjectsForSelectedCompany();         // <- reload
-            SelectedProject = Projects.FirstOrDefault(p => p.ProjectId == keepId); // <- genvælg
+            LoadProjectsForSelectedCompany();         
+            SelectedProject = Projects.FirstOrDefault(p => p.ProjectId == keepId);
 
             Title = string.Empty;
             Description = string.Empty;
@@ -168,13 +168,12 @@ namespace _2SemesterEksamensProjekt.ViewModels
                 Projects.Add(p);
         }
 
-        // TEST: Override metode for at vise beskeder (kan tilpasses i tests)
+       
         protected virtual void ShowMessage(string msg)
         {
             MessageBox.Show(msg);
         }
 
-        // TEST: Override metode for bekræftelses-popup (kan tilpasses i tests)
         protected virtual MessageBoxResult ShowConfirmation(string message)
         {
             return MessageBox.Show(

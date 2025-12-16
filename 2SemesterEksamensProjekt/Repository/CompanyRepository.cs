@@ -12,6 +12,7 @@ namespace _2SemesterEksamensProjekt.Repository
 {
     public class CompanyRepository : BaseRepository, ICompanyRepository
     {
+        //--Metoder--
         public List<Company> GetAllCompanies()
         {
             return ExecuteSafe(conn =>
@@ -19,7 +20,7 @@ namespace _2SemesterEksamensProjekt.Repository
                 var companies = new List<Company>();
 
                 using var cmd = new SqlCommand(
-                    "SELECT CompanyId, CompanyName FROM dbo.vwSelectAllCompanies;", conn);
+                    "SELECT * FROM dbo.vwSelectAllCompanies;", conn);
                 using var reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {

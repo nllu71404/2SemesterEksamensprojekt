@@ -21,11 +21,16 @@ namespace _2SemesterEksamensProjekt.ViewModels
 {
     public class TimerPageViewModel : BaseViewModel
     {
+        //--Fields--
+        
         //Viser tiden der tæller ned
         private readonly DispatcherTimer _dispatcherTimer;
 
+        //--Properties--
 
-        //ObservableCollection som midlertidig liste med kørende timers 
+        //Auto-properties
+
+        //Midlertidig liste med kørende timers 
         public ObservableCollection<Timer> Timers { get; set; }
         public string TimerName { get; set; }
         public TimeSpan ElapsedTime { get; set; }
@@ -40,12 +45,10 @@ namespace _2SemesterEksamensProjekt.ViewModels
         public RelayCommand SubtractManualTimeCommand { get; }
 
 
-
+        //--Constructor--
         public TimerPageViewModel()
         {
-
             Timers = new ObservableCollection<Timer>();
-
             _dispatcherTimer = new DispatcherTimer
             {
                 Interval = TimeSpan.FromSeconds(1)
@@ -54,7 +57,6 @@ namespace _2SemesterEksamensProjekt.ViewModels
             _dispatcherTimer.Tick += DispatcherTimer_Tick;
             _dispatcherTimer.Start();
 
-            //Commands
             CreateTimerCommand = new RelayCommand(CreateTimer, CanCreateTimer);
             StartTimerCommand = new RelayCommand(StartTimer);
             StopTimerCommand = new RelayCommand(StopTimer);
@@ -64,12 +66,13 @@ namespace _2SemesterEksamensProjekt.ViewModels
             SubtractManualTimeCommand = new RelayCommand(SubtractManualTime);
         }
 
-        private bool CanCreateTimer(object parameter)
+        //--Metoder--
+        public bool CanCreateTimer(object parameter)
         {
             return !string.IsNullOrWhiteSpace(TimerName);
         }
 
-        private void CreateTimer(object parameter)
+        public void CreateTimer(object parameter)
         {
             if (string.IsNullOrWhiteSpace(TimerName))
                 return;
@@ -86,7 +89,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
             OnPropertyChanged(nameof(TimerName));
         }
 
-        private void StartTimer(object parameter)
+        public void StartTimer(object parameter)
         {
             if (parameter is Timer timer && !timer.IsRunning)
             {
@@ -95,14 +98,14 @@ namespace _2SemesterEksamensProjekt.ViewModels
             }
         }
 
-        private void StopTimer(object parameter)
+        public void StopTimer(object parameter)
         {
             if (parameter is Timer timer && timer.IsRunning)
             {
                 timer.IsRunning = false;
             }
         }
-        private void AddManualTime(object parameter)
+        public void AddManualTime(object parameter)
         {
             if (parameter is Timer timer)
             {

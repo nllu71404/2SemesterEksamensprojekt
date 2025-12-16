@@ -16,11 +16,10 @@ using _2SemesterEksamensProjekt.ViewModels;
 
 namespace _2SemesterEksamensProjekt.Views.Pages
 {
-    /// <summary>
-    /// Interaction logic for TimerPage.xaml
-    /// </summary>
+  
     public partial class TimerPage : Page
     {
+        //--Constructor--
         public TimerPage()
         {
             InitializeComponent();

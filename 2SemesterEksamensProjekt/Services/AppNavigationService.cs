@@ -10,7 +10,11 @@ namespace _2SemesterEksamensProjekt.Services
 {
     public static class AppNavigationService
     {
+        //--Fields--
         private static Frame? _frame;
+
+
+        //--Metoder--
 
         // Kaldes én gang fra MainWindow, efter InitializeComponent
         public static void Initialize(Frame frame)
@@ -24,7 +28,7 @@ namespace _2SemesterEksamensProjekt.Services
             _frame?.Navigate(page);
         }
 
-        // Valgfrit: hvis du nogensinde vil bruge historik-tilbage
+        // Tager dig tilbage til den side, du lige har været på
         public static void GoBack()
         {
             if (_frame != null && _frame.CanGoBack)

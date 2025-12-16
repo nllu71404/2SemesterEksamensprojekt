@@ -12,6 +12,7 @@ namespace _2SemesterEksamensProjekt.Repository
 {
     public class TopicRepository : BaseRepository, ITopicRepository
     {
+        //--Metoder--
         public List<Topic> GetAllTopics()
         {
             return ExecuteSafe(conn =>
@@ -19,7 +20,7 @@ namespace _2SemesterEksamensProjekt.Repository
                 var topics = new List<Topic>();
 
                 using var cmd = new SqlCommand(
-                    "SELECT TopicId, TopicDescription FROM dbo.vwSelectAllTopics;", conn);
+                    "SELECT * FROM dbo.vwSelectAllTopics;", conn);
                 using var reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {

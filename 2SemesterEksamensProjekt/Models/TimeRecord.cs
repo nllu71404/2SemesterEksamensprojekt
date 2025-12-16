@@ -13,10 +13,26 @@ namespace _2SemesterEksamensProjekt.Models
     {
 
 
-        //Fields
-        public int TimerId { get; set; }
-
+        //--Fields--
         private string _timerName;
+        private TimeSpan _elapsedTime;
+        private bool _isRunning;
+        private string? _note;
+        private int _manualHours;
+        private int _manualMinutes;
+
+        //--Auto-Properties--
+        public int TimerId { get; set; }
+        public DateTime StartTime { get; set; }
+        public int? CompanyId { get; set; }
+        public string? CompanyName { get; set; }
+        public int? ProjectId { get; set; }
+        public string? ProjectTitle { get; set; }
+        public int? TopicId { get; set; }
+        public string? TopicDescription { get; set; }
+
+        
+        //--Properties--
         public string TimerName
         {
             get => _timerName;
@@ -28,8 +44,7 @@ namespace _2SemesterEksamensProjekt.Models
             }
         }
 
-
-        private TimeSpan _elapsedTime;
+        
         public TimeSpan ElapsedTime
         {
             get => _elapsedTime;
@@ -42,7 +57,7 @@ namespace _2SemesterEksamensProjekt.Models
             }
         }
 
-        private bool _isRunning;
+        
         public bool IsRunning
         {
             get => _isRunning;
@@ -54,16 +69,7 @@ namespace _2SemesterEksamensProjekt.Models
             }
         }
 
-        public DateTime StartTime { get; set; }
-        public int? CompanyId { get; set; }
-        public string? CompanyName { get; set; }
-        public int? ProjectId { get; set; }
-        public string? ProjectTitle { get; set; }
-        public int? TopicId { get; set; }
-        public string? TopicDescription { get; set; }
-
-
-        private string? _note;
+        
         public string? Note
         {
             get => _note;
@@ -73,7 +79,7 @@ namespace _2SemesterEksamensProjekt.Models
                 OnPropertyChanged();
             }
         }
-        private int _manualHours;
+       
         public int ManualHours
         {
             get => _manualHours;
@@ -83,7 +89,7 @@ namespace _2SemesterEksamensProjekt.Models
                 OnPropertyChanged();
             }
         }
-        private int _manualMinutes;
+       
         public int ManualMinutes
         {
             get => _manualMinutes;
@@ -94,26 +100,24 @@ namespace _2SemesterEksamensProjekt.Models
             }
         }
 
-        //Default properties til visning
         public string DisplayTime =>
             $"{(int)ElapsedTime.TotalHours:00}:{ElapsedTime.Minutes:00}:{ElapsedTime.Seconds:00}";
 
         public string DisplayInfo =>
             IsRunning ? "Kører ..." : $"Total id: {DisplayTime}";
 
-        public TimeRecord(string timername)
-        {
-            TimerName = timername;
-            ElapsedTime = TimeSpan.Zero;
-            IsRunning = false;
 
-        }
-        public TimeRecord() //parameterløs constructor
-        {
-
-        }
-
+        //--Events--
         public event PropertyChangedEventHandler PropertyChanged;
+
+        //--Parameterløs constructor--
+        public TimeRecord() 
+        {
+
+        }
+
+
+        //--Metoder--
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

@@ -17,19 +17,17 @@ using _2SemesterEksamensProjekt.ViewModels;
 
 namespace _2SemesterEksamensProjekt.Views.Pages
 {
-    /// <summary>
-    /// Interaction logic for CompanyPage.xaml
-    /// </summary>
+  
     public partial class CompanyPage : Page
     {
-        public CompanyPageViewModel companyViewModel;
-        //public CompanyRepository _companyRepository;
-
+        //--Fields--
+        private CompanyPageViewModel companyViewModel;
+      
+        //--Constructor--
         public CompanyPage()
         {
             InitializeComponent();
-
-            var companyRepository = new CompanyRepository(); //Så repository ikke sender null
+            var companyRepository = new CompanyRepository(); 
             companyViewModel = new CompanyPageViewModel(companyRepository);
             DataContext = companyViewModel;
         }

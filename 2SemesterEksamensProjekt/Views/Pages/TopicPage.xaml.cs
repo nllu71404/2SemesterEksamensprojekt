@@ -17,19 +17,17 @@ using _2SemesterEksamensProjekt.ViewModels;
 
 namespace _2SemesterEksamensProjekt.Views.Pages
 {
-    /// <summary>
-    /// Interaction logic for TopicPage.xaml
-    /// </summary>
+ 
     public partial class TopicPage : Page
     {
-
-        public TopicPageViewModel topicViewModel;
+        //--Fields--
+        private TopicPageViewModel topicViewModel;
         
+        //--Constructor--
         public TopicPage()
         {
             InitializeComponent();
-
-            var topicrepository = new TopicRepository(); //Så repository ikke sender null
+            var topicrepository = new TopicRepository(); 
             topicViewModel = new TopicPageViewModel(topicrepository);
             DataContext =topicViewModel;
         }
