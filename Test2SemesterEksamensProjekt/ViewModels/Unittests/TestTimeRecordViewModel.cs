@@ -1,6 +1,7 @@
 using _2SemesterEksamensProjekt.Models;
 using _2SemesterEksamensProjekt.Repository;
 using Moq;
+using System.Collections.ObjectModel;
 using System.Windows;
 using Test2SemesterEksamensProjekt.ViewModels.TestableViewModels;
 
@@ -29,6 +30,9 @@ public class TestTimeRecordViewModel
         companyRepositoryMock = new Mock<ICompanyRepository>();
         projectRepositoryMock = new Mock<IProjectRepository>();
         topicRepositoryMock = new Mock<ITopicRepository>();
+
+        // Opretter observable collection til eksisterende tidsregistreringer
+        var timeRecords = new ObservableCollection<TimeRecord>();
 
         // Opretter et TimeRecord som skal gemmes
         timeRecord = new TimeRecord
@@ -71,6 +75,7 @@ public class TestTimeRecordViewModel
         testingViewModel = new TestableTimeRecordViewModel(
             timeRecord,
             timeRecordRepositoryMock.Object,
+            timeRecords,                        
             companyRepositoryMock.Object,
             projectRepositoryMock.Object,
             topicRepositoryMock.Object
