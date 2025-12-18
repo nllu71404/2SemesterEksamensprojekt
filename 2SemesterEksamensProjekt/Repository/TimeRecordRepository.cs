@@ -90,7 +90,7 @@ namespace _2SemesterEksamensProjekt.Repository
                 using var cmd = new SqlCommand("uspCreateTimeRecord", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                cmd.Parameters.Add("@TimerName", SqlDbType.NVarChar, 100).Value = string.IsNullOrEmpty(timeRecord.TimerName) ? throw new ArgumentException("TimerName må ikke være tom") : timeRecord.TimerName;
+                cmd.Parameters.Add("@TimerName", SqlDbType.NVarChar, 100).Value = string.IsNullOrEmpty(timeRecord.TimerName) ? DBNull.Value : timeRecord.TimerName;
 
                 cmd.Parameters.Add("@ElapsedTime", SqlDbType.Time).Value = timeRecord.ElapsedTime;
 

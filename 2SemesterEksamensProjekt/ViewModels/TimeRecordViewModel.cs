@@ -72,8 +72,6 @@ namespace _2SemesterEksamensProjekt.ViewModels
 
         public string TimerName => _timeRecord.TimerName;
         public string ElapsedTimeDisplay => _timeRecord.DisplayTime;
-
-        
         
         public string? Note
         {
