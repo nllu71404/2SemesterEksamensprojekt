@@ -3,6 +3,7 @@ using _2SemesterEksamensProjekt.Repository;
 using _2SemesterEksamensProjekt.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,12 +19,19 @@ namespace Test2SemesterEksamensProjekt.ViewModels.TestableViewModels
         public bool SaveWasCalled { get; private set; }
 
         public TestableTimeRecordViewModel(
-            TimeRecord timeRecord,
-            ITimeRecordRepository timeRecordRepository,
-            ICompanyRepository companyRepository,
-            IProjectRepository projectRepository,
-            ITopicRepository topicRepository)
-            : base(timeRecord, timeRecordRepository, companyRepository, projectRepository, topicRepository)
+        TimeRecord timeRecord,
+        ITimeRecordRepository timeRecordRepository,
+        ObservableCollection<TimeRecord> timeRecords,
+        ICompanyRepository companyRepository,
+        IProjectRepository projectRepository,
+        ITopicRepository topicRepository)
+        : base(
+            timeRecord,
+            timeRecordRepository,
+            timeRecords,
+            companyRepository,
+            projectRepository,
+            topicRepository)
         {
         }
 
