@@ -96,7 +96,6 @@ namespace _2SemesterEksamensProjekt.ViewModels
         public TimeRecordViewModel(TimeRecord timeRecord, ITimeRecordRepository timeRecordRepo, ObservableCollection<TimeRecord> timers,
             ICompanyRepository companyRepo, IProjectRepository projectRepo, ITopicRepository topicRepo)
         {
-
             _timeRecord = timeRecord ?? throw new ArgumentNullException(nameof(timeRecord));
 
             // Når modellen ændrer sig -> opdater viewmodel
@@ -107,7 +106,6 @@ namespace _2SemesterEksamensProjekt.ViewModels
 
                 if (e.PropertyName == nameof(TimeRecord.TimerName))
                     OnPropertyChanged(nameof(TimerName));
-               
             };
 
             _timeRecordRepo = timeRecordRepo;
@@ -124,7 +122,6 @@ namespace _2SemesterEksamensProjekt.ViewModels
             LoadAllTopics();
 
             SaveTimeRecordCommand = new RelayCommand(_ => SaveTimeRecord());
-           
         }
 
         //--Metoder--
