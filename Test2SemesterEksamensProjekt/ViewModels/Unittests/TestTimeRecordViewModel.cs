@@ -118,7 +118,7 @@ public class TestTimeRecordViewModel
         // Arrange
         // Brugeren har valgt virksomhed, projekt og emne
         testingViewModel.SelectedCompany = testingViewModel.Companies[0];
-        testingViewModel.SelectedProject = new Project { ProjectId = 10, CompanyId = 1 };
+        testingViewModel.SelectedProject = testingViewModel.Projects[0];
         testingViewModel.SelectedTopic = testingViewModel.Topics[0];
 
         // Brugeren afviser bekræftelsesdialogen
