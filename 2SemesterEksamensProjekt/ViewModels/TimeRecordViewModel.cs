@@ -217,7 +217,7 @@ namespace _2SemesterEksamensProjekt.ViewModels
         {
             return MessageBox.Show(
                 message,
-                "Bekræft sletning",
+                "",
                 MessageBoxButton.YesNo,
                 MessageBoxImage.Warning
             );
