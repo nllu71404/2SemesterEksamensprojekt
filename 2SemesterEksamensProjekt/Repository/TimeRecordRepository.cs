@@ -96,9 +96,9 @@ namespace _2SemesterEksamensProjekt.Repository
 
                 cmd.Parameters.Add("@StartTime", SqlDbType.DateTime).Value = timeRecord.StartTime != default ? timeRecord.StartTime : DateTime.Now;
 
-                cmd.Parameters.Add("@ProjectId", SqlDbType.Int).Value = timeRecord.ProjectId.HasValue ? timeRecord.ProjectId.Value : DBNull.Value;
+                cmd.Parameters.Add("@ProjectId", SqlDbType.Int).Value = timeRecord.ProjectId;
 
-                cmd.Parameters.Add("@TopicId", SqlDbType.Int).Value = timeRecord.TopicId.HasValue ? timeRecord.TopicId.Value : DBNull.Value;
+                cmd.Parameters.Add("@TopicId", SqlDbType.Int).Value = timeRecord.TopicId; 
 
                 cmd.Parameters.Add("@Note", SqlDbType.NVarChar).Value = string.IsNullOrEmpty(timeRecord.Note) ? DBNull.Value : timeRecord.Note;
                 object result = cmd.ExecuteScalar();
